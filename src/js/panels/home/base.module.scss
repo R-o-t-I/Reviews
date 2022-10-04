@@ -1,0 +1,53 @@
+
+.allBlockReviews {
+  display: flex;
+  flex-direction: column;
+  margin: 10px;
+}
+
+.blockReviews {
+  background: var(--background_content);
+  box-shadow: 5px 5px 5px var(--shadow_content_block);
+  margin: 6px;
+  padding: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.simpleCellReview {
+  margin-left: -16px !important;
+  margin-right: -6px !important;
+}
+
+.textReview {
+  margin-top: 6px;
+}
+
+.blockButtonReview {
+  display: flex;
+}
+
+.buttonReview {
+  display: flex;
+  background: var(--placeholder_icon_background);
+  border-radius: 16px;
+  padding: 4px 8px;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  color: var(--text_secondary);
+  margin-right: 12px;
+}
+
+.countButton {
+  margin-left: 4px;
+}
+
+.tabs {
+  margin: 0px 16px;
+  border-radius: 16px;
+  background-color: var(--background_content);
+  box-shadow: 5px 5px 5px var(--shadow_content_block);
+  overflow: hidden;
+  padding: 6px 6px;
+}

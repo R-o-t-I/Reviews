@@ -1,0 +1,80 @@
+:root {
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+body[scheme="vkcom_light"] {
+  --background_panel: #f4f8fc !important;
+  --background_content_block: #FFFFFF !important;
+  --shadow_content_block: rgba(0, 0, 0, 0.03);
+}
+
+body[scheme="vkcom_dark"] {
+  --background_panel: #141414 !important;
+  --background_content_block: #303030 !important;
+  --shadow_content_block: rgba(0, 0, 0, 0.03);
+}
+
+body[scheme="bright_light"] {
+  --background_panel: #f4f8fc !important;
+  --background_content_block: #FFFFFF !important;
+  --shadow_content_block: rgba(0, 0, 0, 0.03);
+}
+
+body[scheme="space_gray"] {
+  --background_panel: #141414 !important;
+  --background_content_block: #303030 !important;
+  --shadow_content_block: rgba(0, 0, 0, 0.03);
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
+.tabbarStyle {
+  border-radius: 16px 16px 0px 0px;
+  overflow: hidden;
+  border-top: solid var(--thin-border) var(--input_border);
+}
+
+.vkuiPanel__in,
+.vkuiSplitLayout {
+  background: var(--background_panel) !important;
+}
+
+.vkuiGroup--card>.vkuiGroup__inner {
+  background: var(--background_panel) !important;
+}
+
+.vkuiGroup--card>.vkuiGroup__inner::after {
+  content: none;
+}
+
+.vkui,
+.vkui>body,
+.vkui__root,
+.vkui__portal-root {
+  background: var(--background_panel) !important;
+}
+
+.vkuiPanelHeader--vkcom.vkuiPanelHeader--sizeX-regular:not(.vkuiModalPageHeader__in) .vkuiPanelHeader__in {
+  border: none !important;
+  box-shadow: none;
+}
+
+.vkuiPanelHeader__in {
+  background: var(--background_panel);
+}
+
+.vkuiPanelHeader--vkcom.vkuiPanelHeader--sizeX-regular:not(.vkuiModalPageHeader__in)::after {
+  background: var(--background_panel);
+}
+
+.vkuiAvatar__badge--shadow:before {
+  box-shadow: none;
+}

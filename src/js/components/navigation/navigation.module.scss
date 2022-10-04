@@ -1,0 +1,18 @@
+.splitCol {
+  margin-left: 8px;
+}
+
+.menuDesktop {
+  background-color: var(--background_content_block);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 5px 5px 5px var(--shadow_content_block);
+}
+
+.vkuiSimpleCell:hover {
+  border-radius: 16px !important;
+}
+
+.activeViewCell {
+  background-color: var(--button_secondary_background);
+}

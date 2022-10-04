@@ -1,0 +1,69 @@
+.blockHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  align-content: center;
+}
+
+.nameUser {
+  margin-top: 4px;
+}
+
+.descriptionUser {
+  margin-top: 4px;
+}
+
+.listReviews {
+  margin: 0px;
+}
+
+.blockReview {
+  background: var(--background_content);
+  box-shadow: 5px 5px 5px var(--shadow_content_block);
+  padding: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  margin: 16px;
+}
+
+.simpleCellReviews {
+  margin-left: -16px !important;
+  margin-right: -6px !important;
+}
+
+.headerList {
+  font-weight: 600;
+  margin: 16px 32px -8px 32px;
+}
+
+.blockButtonReview {
+  display: flex;
+}
+
+.buttonReview {
+  display: flex;
+  background: var(--placeholder_icon_background);
+  border-radius: 16px;
+  padding: 4px 8px;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  color: var(--text_secondary);
+  margin-right: 12px;
+}
+
+.countButton {
+  margin-left: 4px;
+}
+
+.moderations {
+  margin-left: auto;
+  display: flex;
+  background: orange;
+  border-radius: 16px;
+  padding: 4px 8px;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  color: #FFF;
+}
