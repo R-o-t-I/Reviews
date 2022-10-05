@@ -78,3 +78,7 @@ body[scheme="space_gray"] {
 .vkuiAvatar__badge--shadow:before {
   box-shadow: none;
 }
+
+.vkuiActionSheetItem--sizeY-compact {
+  min-height: 48px;
+}

@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
+import bridge from "@vkontakte/vk-bridge";
 
 import {
   PanelHeader,
@@ -14,17 +15,22 @@ import {
   Spacing,
   Separator,
   Tappable,
+  ActionSheet,
+  ActionSheetItem,
+  Alert,
 } from "@vkontakte/vkui";
+
 import {
   Icon28ClockOutline,
+  Icon28DeleteOutline,
   Icon28DoneOutline,
   Icon28FireOutline,
   Icon28MoreHorizontal,
   Icon28ShareOutline,
   Icon28StoryOutline,
 } from "@vkontakte/icons";
+
 import style from "./base.module.scss";
-import bridge from "@vkontakte/vk-bridge";
 import { set } from "../../reducers/mainReducer";
 
 let isInfoUser = false;
@@ -50,6 +56,51 @@ function ProfilePanel({ router }) {
     router.toPopout();
   }
 
+  async function openMore(e) {
+    router.toPopout(
+      <ActionSheet
+        onClose={() => router.toBack()}
+        iosCloseItem={
+          <ActionSheetItem autoclose mode="cancel">
+            Отменить
+          </ActionSheetItem>
+        }
+        toggleRef={e.currentTarget}
+      >
+        <ActionSheetItem
+          onClick={() => openAlertDeletion()}
+          mode="destructive"
+          before={<Icon28DeleteOutline />}
+        >
+          <div className={style.actionDestructive}>Удалить мечту</div>
+        </ActionSheetItem>
+      </ActionSheet>
+    );
+  }
+
+  function openAlertDeletion(item, index) {
+    router.toPopout(
+      <Alert
+        actions={[
+          {
+            title: "Нет",
+            autoclose: true,
+            mode: "cancel",
+          },
+          {
+            title: "Да",
+            autoclose: true,
+            mode: "destructive",
+            //action: () => deleteReviews(item, index)
+          },
+        ]}
+        onClose={() => router.toBack()}
+        header="Удалить мечту"
+        text="Вы действительно хотите удалить мечту?"
+      />
+    );
+  }
+
   return (
     <>
       <PanelHeader separator={false}>Профиль</PanelHeader>
@@ -69,7 +120,7 @@ function ProfilePanel({ router }) {
             description="05.10.2022 в 12:23"
             className={style.simpleCellReviews}
             after={
-              <IconButton>
+              <IconButton onClick={(e) => openMore(e)}>
                 <Icon28MoreHorizontal />
               </IconButton>
             }
@@ -108,7 +159,7 @@ function ProfilePanel({ router }) {
             description="05.10.2022 в 12:23"
             className={style.simpleCellReviews}
             after={
-              <IconButton>
+              <IconButton onClick={(e) => openMore(e)}>
                 <Icon28MoreHorizontal />
               </IconButton>
             }

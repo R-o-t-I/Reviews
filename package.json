@@ -21,7 +21,7 @@
     "@reduxjs/toolkit": "^1.8.1",
     "@reyzitwo/react-router-vkminiapps": "^1.0.0",
     "@vkontakte/icons": "^1.16.1",
-    "@vkontakte/vk-bridge": "^2.4.1",
+    "@vkontakte/vk-bridge": "^2.7.0",
     "@vkontakte/vkui": "^4.37.4",
     "core-js": "^2.6.11",
     "eruda": "^2.4.1",
