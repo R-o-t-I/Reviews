@@ -1,0 +1,13 @@
+.container {
+  border-radius: 16px;
+  background-color: var(--background_content);
+  box-shadow: 5px 5px 5px var(--shadow_content_block);
+  overflow: hidden;
+  padding: 16px;
+  margin: 16px;
+}
+
+.simpleCellReviews {
+  margin-left: -16px !important;
+  margin-right: -6px !important;
+}

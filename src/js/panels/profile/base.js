@@ -26,6 +26,7 @@ import {
   Icon28DoneOutline,
   Icon28FireOutline,
   Icon28MoreHorizontal,
+  Icon28PincodeLockOutline,
   Icon28ShareOutline,
   Icon28StoryOutline,
 } from "@vkontakte/icons";
@@ -105,6 +106,11 @@ function ProfilePanel({ router }) {
     <>
       <PanelHeader separator={false}>Профиль</PanelHeader>
       <div className={style.blockHeader}>
+        <div className={style.blockButtonHeaderLeft}>
+          <IconButton>
+            <Icon28PincodeLockOutline />
+          </IconButton>
+        </div>
         <Avatar size={96} src={mainStorage.infoUser.photo_200} />
         <Title className={style.nameUser} level="2" weight="medium">
           {mainStorage.infoUser.name}

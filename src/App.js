@@ -31,6 +31,7 @@ import HomeBotInfoModal from "./js/components/modals/HomeBotInfoModal";
 const HomePanel = lazy(() => import("./js/panels/home/base"));
 const AddPanel = lazy(() => import("./js/panels/add/base"));
 const ProfilePanel = lazy(() => import("./js/panels/profile/base"));
+const AdminPanel = lazy(() => import("./js/panels/profile/admin"));
 
 const App = withAdaptivity(
   ({ viewWidth, router }) => {
@@ -133,6 +134,11 @@ const App = withAdaptivity(
                   <Panel id="base">
                     <Suspense fallback={<ScreenSpinner />}>
                       <ProfilePanel />
+                    </Suspense>
+                  </Panel>
+                  <Panel id="admin">
+                    <Suspense fallback={<ScreenSpinner />}>
+                      <AdminPanel />
                     </Suspense>
                   </Panel>
                 </View>
