@@ -33,6 +33,8 @@ import {
 function HomePanel({ router }) {
   const [selected, setSelected] = React.useState("new");
 
+  const getReviews = async () => {};
+
   async function openMore(e) {
     router.toPopout(
       <ActionSheet
