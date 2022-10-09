@@ -18,6 +18,7 @@ import {
   withAdaptivity,
 } from "@vkontakte/vkui";
 import bridge from "@vkontakte/vk-bridge";
+import axios from 'axios';
 
 import { set } from "./js/reducers/mainReducer";
 
