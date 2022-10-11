@@ -7,7 +7,8 @@ export const mainReducer = createSlice({
         isDesktop: false,
         theme: "light",
         hasHeader: false,
-        infoUser: { name: "Загрузка..."}
+        infoUser: { name: "Загрузка..."},
+        home: []
     },
     reducers: {
         set: (state, action) => {

@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import bridge from "@vkontakte/vk-bridge";
 
@@ -32,17 +33,25 @@ import {
   Icon28StoryOutline,
 } from "@vkontakte/icons";
 
+import { set } from "../../reducers/mainReducer";
+
 import axios from 'axios';
 
 function HomePanel({ router }) {
+  const dispatch = useDispatch();
+  const mainStorage = useSelector((state) => state.main);
   const [selected, setSelected] = React.useState("new");
-  const [data, setDate] = useState([]);
+  const [data, setData] = useState([]);
+
 
   useEffect(() => {
-    if(data.length === 0) {
+    if(mainStorage.home.length === 0) {
       axios.get('getList').then((res) => {
-        setDate(res.data);
+        setData(res.data);
+        dispatch(set({key: "home", value: res.data}));
       });
+    } else {
+      setData(mainStorage.home);
     }
   });
 
@@ -77,6 +86,24 @@ function HomePanel({ router }) {
       background_type: "image",
       url: "https://sun9-65.userapi.com/c850136/v850136098/1b77eb/0YK6suXkY24.jpg",
     });
+  }
+
+  async function setLike(item, index) {
+    console.log(item);
+    const {data} = await axios.post('like', {
+      id: item.id
+    });
+    if(data.info === 'Лайк успешно поставен!') {
+      let arrayCopy = [...data];
+      arrayCopy[index].likes += 1;
+      arrayCopy[index].isLike = true;
+      setData(arrayCopy);
+    } else {
+      let arrayCopy = [...data];
+      arrayCopy[index].likes += 1;
+      arrayCopy[index].isLike = true;
+      setData(arrayCopy);
+    }
   }
 
   return (
@@ -133,7 +160,7 @@ function HomePanel({ router }) {
               </Spacing>
 
               <div className={style.blockButtonReview}>
-                <Tappable className={style.buttonReview}>
+                <Tappable className={style.buttonReview} onClick={() => setLike(item, index)}>
                   {item.isLike ? <Icon28FireOutline fill='#FF0000'/> : <Icon28FireOutline/>}
                   <div className={style.countButton}>{item.likes}</div>
                 </Tappable>
