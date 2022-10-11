@@ -8,12 +8,49 @@ import {
   Link,
   PanelHeader,
   Textarea,
+  ScreenSpinner,
+    Alert,
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
 import {} from "@vkontakte/icons";
 
+import axios from "axios";
+
 function AddPanel({ router }) {
+  const [text, setText] = useState("");
+  const [checked, setChecked] = useState(false);
+
+  function create() {
+    if (text.length > 0) {
+      router.toPopout(<ScreenSpinner />);
+      axios.post('create', {
+        text: text,
+        isAnon: checked
+      }).then((res) => {
+        setText("");
+        setChecked(false);
+        router.toPopout();
+      });
+    } else {
+        router.toPopout(
+            <Alert
+            actions={[
+                {
+                title: "Ок",
+                autoclose: true,
+                mode: "cancel",
+                },
+            ]}
+            onClose={() => router.toPopout()}
+            >
+            <h2>Ошибка</h2>
+            <p>Введите текст</p>
+            </Alert>
+        );
+    }
+  }
+
   return (
     <>
       <PanelHeader separator={false}>Добавить мечту</PanelHeader>
@@ -24,11 +61,11 @@ function AddPanel({ router }) {
           (анонимность по Вашему желанию)
         </div>
         <FormItem top="Мечта">
-          <Textarea placeholder="Я мечтаю стать известным" />
+          <Textarea placeholder="Я мечтаю стать известным" value={text} onChange={(e) => setText(e.target.value)}/>
         </FormItem>
-        <Checkbox>Оставить анонимно</Checkbox>
+        <Checkbox checked={checked} onClick={() => setChecked(!checked)}>Оставить анонимно</Checkbox>
         <FormItem>
-          <Button size="l" stretched>
+          <Button size="l" stretched onClick={() => create()}>
             Отправить
           </Button>
         </FormItem>

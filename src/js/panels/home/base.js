@@ -41,19 +41,24 @@ function HomePanel({ router }) {
   const dispatch = useDispatch();
   const mainStorage = useSelector((state) => state.main);
   const [selected, setSelected] = React.useState("new");
-  const [data, setData] = useState([]);
+  const [info, setInfo] = useState([]);
 
 
   useEffect(() => {
     if(mainStorage.home.length === 0) {
       axios.get('getList').then((res) => {
-        setData(res.data);
+        setInfo(res.data);
         dispatch(set({key: "home", value: res.data}));
       });
     } else {
-      setData(mainStorage.home);
+      setInfo(mainStorage.home);
     }
   });
+
+  function report(item) {
+    axios.post('report', {id: item.id});
+    router.toPopout();
+  }
 
 
   async function openMore(e, item) {
@@ -67,10 +72,12 @@ function HomePanel({ router }) {
         }
         toggleRef={e.currentTarget}
       >
-        <ActionSheetItem before={<Icon28Profile />}>
-          Открыть профиль ВКонтакте
-        </ActionSheetItem>
-        <ActionSheetItem mode="destructive" before={<Icon28ReportOutline />}>
+        {item.vk_id !== 0 && (
+          <ActionSheetItem before={<Icon28Profile />}>
+            Открыть профиль ВКонтакте
+          </ActionSheetItem>
+        )}
+        <ActionSheetItem mode="destructive" before={<Icon28ReportOutline />} onClick={() => report(item)}>
           <div className={style.actionDestructive}>Пожаловаться</div>
         </ActionSheetItem>
       </ActionSheet>
@@ -94,15 +101,9 @@ function HomePanel({ router }) {
       id: item.id
     });
     if(data.info === 'Лайк успешно поставен!') {
-      let arrayCopy = [...data];
-      arrayCopy[index].likes += 1;
-      arrayCopy[index].isLike = true;
-      setData(arrayCopy);
+      return 'like';
     } else {
-      let arrayCopy = [...data];
-      arrayCopy[index].likes += 1;
-      arrayCopy[index].isLike = true;
-      setData(arrayCopy);
+      return 'dislike';
     }
   }
 
@@ -131,7 +132,7 @@ function HomePanel({ router }) {
       </div>
       {selected === "new" && (
         <div className={style.allBlockReviews}>
-          {data.map((item, index) =>
+          {info.map((item, index) =>
             <div className={style.blockReviews}>
               <SimpleCell
                 description="04.09.2022 в 23:36"
