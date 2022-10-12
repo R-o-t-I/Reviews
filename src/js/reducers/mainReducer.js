@@ -1,20 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const mainReducer = createSlice({
-    name: "main",
-    initialState: {
-        platform: "",
-        isDesktop: false,
-        theme: "light",
-        hasHeader: false,
-        infoUser: { name: "Загрузка..."},
-        home: []
+  name: "main",
+  initialState: {
+    platform: "",
+    isDesktop: false,
+    theme: "light",
+    hasHeader: false,
+    infoUser: { name: "Загрузка..." },
+    home: [],
+  },
+  reducers: {
+    set: (state, action) => {
+      state[action.payload.key] = action.payload.value;
     },
-    reducers: {
-        set: (state, action) => {
-            state[action.payload.key] = action.payload.value;
-        },
-    },
+  },
 });
 
 export const { set } = mainReducer.actions;

@@ -9,45 +9,67 @@ import {
   PanelHeader,
   Textarea,
   ScreenSpinner,
-    Alert,
+  Alert,
+  Snackbar,
+  Avatar,
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
-import {} from "@vkontakte/icons";
+import { Icon28InfoOutline } from "@vkontakte/icons";
 
 import axios from "axios";
 
 function AddPanel({ router }) {
   const [text, setText] = useState("");
   const [checked, setChecked] = useState(false);
+  const [snackbar, setSnackbar] = useState(null);
 
   function create() {
     if (text.length > 0) {
       router.toPopout(<ScreenSpinner />);
-      axios.post('create', {
-        text: text,
-        isAnon: checked
-      }).then((res) => {
-        setText("");
-        setChecked(false);
-        router.toPopout();
-      });
+      axios
+        .post("create", {
+          text: text,
+          isAnon: checked,
+        })
+        .then((res) => {
+          setText("");
+          setChecked(false);
+          router.toPopout(
+            setSnackbar(
+              <Snackbar
+                onClose={() => setSnackbar(null)}
+                before={
+                  <Avatar
+                    size={35}
+                    style={{ background: "var(--field_valid_border)" }}
+                  >
+                    <Icon28InfoOutline fill="#fff" width={20} height={20} />
+                  </Avatar>
+                }
+                action="Хорошо"
+              >
+                Мечта отправлена на модерацию
+              </Snackbar>
+            )
+          );
+        });
     } else {
-        router.toPopout(
-            <Alert
-            actions={[
-                {
-                title: "Ок",
-                autoclose: true,
-                mode: "cancel",
-                },
-            ]}
-            onClose={() => router.toPopout()}
-            >
-            <h2>Ошибка</h2>
-            <p>Введите текст</p>
-            </Alert>
-        );
+      router.toPopout(
+        setSnackbar(
+          <Snackbar
+            onClose={() => setSnackbar(null)}
+            before={
+              <Avatar size={35} style={{ background: "var(--destructive)" }}>
+                <Icon28InfoOutline fill="#fff" width={20} height={20} />
+              </Avatar>
+            }
+            action="Хорошо"
+          >
+            Ошибка, введите текст
+          </Snackbar>
+        )
+      );
     }
   }
 
@@ -61,9 +83,15 @@ function AddPanel({ router }) {
           (анонимность по Вашему желанию)
         </div>
         <FormItem top="Мечта">
-          <Textarea placeholder="Я мечтаю стать известным" value={text} onChange={(e) => setText(e.target.value)}/>
+          <Textarea
+            placeholder="Я мечтаю стать известным"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
         </FormItem>
-        <Checkbox checked={checked} onClick={() => setChecked(!checked)}>Оставить анонимно</Checkbox>
+        <Checkbox checked={checked} onClick={() => setChecked(!checked)}>
+          Оставить анонимно
+        </Checkbox>
         <FormItem>
           <Button size="l" stretched onClick={() => create()}>
             Отправить
@@ -77,6 +105,7 @@ function AddPanel({ router }) {
           ❤️ вас
         </div>
       </div>
+      {snackbar}
     </>
   );
 }

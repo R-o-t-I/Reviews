@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import bridge from "@vkontakte/vk-bridge";
@@ -35,7 +35,7 @@ import {
 
 import { set } from "../../reducers/mainReducer";
 
-import axios from 'axios';
+import axios from "axios";
 
 function HomePanel({ router }) {
   const dispatch = useDispatch();
@@ -43,23 +43,16 @@ function HomePanel({ router }) {
   const [selected, setSelected] = React.useState("new");
   const [info, setInfo] = useState([]);
 
-
   useEffect(() => {
-    if(mainStorage.home.length === 0) {
-      axios.get('getList').then((res) => {
+    if (mainStorage.home.length === 0) {
+      axios.get("getList").then((res) => {
         setInfo(res.data);
-        dispatch(set({key: "home", value: res.data}));
+        dispatch(set({ key: "home", value: res.data }));
       });
     } else {
       setInfo(mainStorage.home);
     }
   });
-
-  function report(item) {
-    axios.post('report', {id: item.id});
-    router.toPopout();
-  }
-
 
   async function openMore(e, item) {
     router.toPopout(
@@ -73,11 +66,20 @@ function HomePanel({ router }) {
         toggleRef={e.currentTarget}
       >
         {item.vk_id !== 0 && (
-          <ActionSheetItem before={<Icon28Profile />}>
+          <ActionSheetItem
+            href={`https://vk.com/id${item.vk_id}`}
+            target="_blank"
+            before={<Icon28Profile />}
+          >
             Открыть профиль ВКонтакте
           </ActionSheetItem>
         )}
-        <ActionSheetItem mode="destructive" before={<Icon28ReportOutline />} onClick={() => report(item)}>
+        <ActionSheetItem
+          mode="destructive"
+          before={<Icon28ReportOutline />}
+          onClick={() => router.toModal("report")}
+          autoclose
+        >
           <div className={style.actionDestructive}>Пожаловаться</div>
         </ActionSheetItem>
       </ActionSheet>
@@ -97,13 +99,13 @@ function HomePanel({ router }) {
 
   async function setLike(item, index) {
     console.log(item);
-    const {data} = await axios.post('like', {
-      id: item.id
+    const { data } = await axios.post("like", {
+      id: item.id,
     });
-    if(data.info === 'Лайк успешно поставен!') {
-      return 'like';
+    if (data.info === "Лайк успешно поставен!") {
+      return "like";
     } else {
-      return 'dislike';
+      return "dislike";
     }
   }
 
@@ -132,13 +134,13 @@ function HomePanel({ router }) {
       </div>
       {selected === "new" && (
         <div className={style.allBlockReviews}>
-          {info.map((item, index) =>
+          {info.map((item, index) => (
             <div className={style.blockReviews}>
               <SimpleCell
                 description="04.09.2022 в 23:36"
                 before={
                   <Avatar
-                    badge={<Icon28LogoVkColor width={20} height={20}/>}
+                    badge={<Icon28LogoVkColor width={20} height={20} />}
                     size={48}
                     src={item.photo_url}
                   />
@@ -147,39 +149,48 @@ function HomePanel({ router }) {
                 className={style.simpleCellReview}
                 after={
                   <IconButton onClick={(e) => openMore(e, item)}>
-                    <Icon28MoreHorizontal/>
+                    <Icon28MoreHorizontal />
                   </IconButton>
                 }
               >
                 {item.first_name} {item.last_name}
               </SimpleCell>
-              <div className={style.textReview}>
-                {item.text}
-              </div>
+              <div className={style.textReview}>{item.text}</div>
               <Spacing size={32}>
-                <Separator wide/>
+                <Separator wide />
               </Spacing>
 
               <div className={style.blockButtonReview}>
-                <Tappable className={style.buttonReview} onClick={() => setLike(item, index)}>
-                  {item.isLike ? <Icon28FireOutline fill='#FF0000'/> : <Icon28FireOutline/>}
+                <Tappable
+                  className={style.buttonReview}
+                  onClick={() => setLike(item, index)}
+                >
+                  {item.isLike ? (
+                    <Icon16Fire
+                      width={28}
+                      height={28}
+                      fill="var(--destructive)"
+                    />
+                  ) : (
+                    <Icon28FireOutline />
+                  )}
                   <div className={style.countButton}>{item.likes}</div>
                 </Tappable>
                 <Tappable
                   onClick={() => shareStory()}
                   className={style.buttonReview}
                 >
-                  <Icon28StoryOutline/>
+                  <Icon28StoryOutline />
                 </Tappable>
                 <Tappable
                   onClick={() => shareWallPost()}
                   className={style.buttonReview}
                 >
-                  <Icon28ShareOutline/>
+                  <Icon28ShareOutline />
                 </Tappable>
               </div>
             </div>
-          )}
+          ))}
         </div>
       )}
 
