@@ -16,6 +16,7 @@ import {
   TabsItem,
   ActionSheet,
   ActionSheetItem,
+  Placeholder
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
@@ -36,6 +37,8 @@ import {
 import { set } from "../../reducers/mainReducer";
 
 import axios from 'axios';
+
+// var info = [];
 
 function HomePanel({ router }) {
   const dispatch = useDispatch();
@@ -96,15 +99,24 @@ function HomePanel({ router }) {
   }
 
   async function setLike(item, index) {
-    console.log(item);
     const {data} = await axios.post('like', {
       id: item.id
     });
-    if(data.info === 'Лайк успешно поставен!') {
-      return 'like';
-    } else {
-      return 'dislike';
-    }
+
+    setInfo(data);
+  }
+
+  function checkIsLike(item) {
+    let isLike = false;
+    console.log(item);
+    console.log(info);
+    isLike = info.find((i) => {
+      if(i.id === item.id) {
+        return i.isLike
+      }
+    })
+    console.log(isLike);
+    return isLike;
   }
 
   return (
@@ -132,6 +144,9 @@ function HomePanel({ router }) {
       </div>
       {selected === "new" && (
         <div className={style.allBlockReviews}>
+          {info.length === 0 && (
+            <Placeholder>Заглушка загрузки или ничего нет</Placeholder>
+          )}
           {info.map((item, index) =>
             <div className={style.blockReviews}>
               <SimpleCell
@@ -162,7 +177,7 @@ function HomePanel({ router }) {
 
               <div className={style.blockButtonReview}>
                 <Tappable className={style.buttonReview} onClick={() => setLike(item, index)}>
-                  {item.isLike ? <Icon28FireOutline fill='#FF0000'/> : <Icon28FireOutline/>}
+                  {checkIsLike(item) ? <Icon28FireOutline fill='#FF0000'/> : <Icon28FireOutline/>}
                   <div className={style.countButton}>{item.likes}</div>
                 </Tappable>
                 <Tappable
