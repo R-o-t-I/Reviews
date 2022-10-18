@@ -18,15 +18,14 @@ import {
   withAdaptivity,
 } from "@vkontakte/vkui";
 import bridge from "@vkontakte/vk-bridge";
-import axios from 'axios';
+import axios from "axios";
 
 import { set } from "./js/reducers/mainReducer";
 
 import DesktopNavigation from "./js/components/navigation/desktop";
 import MobailNavigation from "./js/components/navigation/mobail";
 
-import HomeBotsListModal from "./js/components/modals/HomeBotsListModal";
-import HomeBotInfoModal from "./js/components/modals/HomeBotInfoModal";
+import ReportModal from "./js/components/modals/ReportModal";
 
 const HomePanel = lazy(() => import("./js/panels/home/base"));
 const AddPanel = lazy(() => import("./js/panels/add/base"));
@@ -62,8 +61,7 @@ const App = withAdaptivity(
 
     const modals = (
       <ModalRoot activeModal={router.modal} onClose={() => router.toBack()}>
-        <HomeBotsListModal nav="botsList" />
-        <HomeBotInfoModal nav="botInfo" />
+        <ReportModal nav="report" />
       </ModalRoot>
     );
 

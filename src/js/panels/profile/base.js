@@ -107,7 +107,7 @@ function ProfilePanel({ router }) {
       <PanelHeader separator={false}>Профиль</PanelHeader>
       <div className={style.blockHeader}>
         <div className={style.blockButtonHeaderLeft}>
-          <IconButton>
+          <IconButton onClick={() => router.toPanel("admin")}>
             <Icon28PincodeLockOutline />
           </IconButton>
         </div>
