@@ -45,22 +45,32 @@ function HomePanel({ router }) {
   const mainStorage = useSelector((state) => state.main);
   const [selected, setSelected] = React.useState("new");
   const [info, setInfo] = useState([]);
+  const [info2, setInfo2] = useState([]);
 
 
   useEffect(() => {
     if(mainStorage.home.length === 0) {
       axios.get('getList').then((res) => {
         setInfo(res.data);
+        setInfo2(res.data);
         dispatch(set({key: "home", value: res.data}));
       });
     } else {
       setInfo(mainStorage.home);
+      setInfo2(mainStorage.home);
     }
   });
 
   function report(item) {
     axios.post('report', {id: item.id});
     router.toPopout();
+  }
+
+  function openProfile(id) {
+    const link = document.createElement('a');
+    link.href = "https://vk.com/id" + id;
+    link.target = "_black";
+    link.click();
   }
 
 
@@ -76,7 +86,7 @@ function HomePanel({ router }) {
         toggleRef={e.currentTarget}
       >
         {item.vk_id !== 0 && (
-          <ActionSheetItem before={<Icon28Profile />}>
+          <ActionSheetItem before={<Icon28Profile />} onClick={() => openProfile(item.vk_id)}>
             Открыть профиль ВКонтакте
           </ActionSheetItem>
         )}
@@ -103,20 +113,19 @@ function HomePanel({ router }) {
       id: item.id
     });
 
-    setInfo(data);
+    setInfo2(data);
   }
 
   function checkIsLike(item) {
-    let isLike = false;
-    console.log(item);
-    console.log(info);
-    isLike = info.find((i) => {
-      if(i.id === item.id) {
+    let isLike = false,
+      likes = 0;
+    isLike = info2.find((i) => {
+      if (i.id === item.id) {
+        likes = i.likes;
         return i.isLike
       }
-    })
-    console.log(isLike);
-    return isLike;
+    });
+    return {isLike, likes};
   }
 
   return (
@@ -177,8 +186,8 @@ function HomePanel({ router }) {
 
               <div className={style.blockButtonReview}>
                 <Tappable className={style.buttonReview} onClick={() => setLike(item, index)}>
-                  {checkIsLike(item) ? <Icon28FireOutline fill='#FF0000'/> : <Icon28FireOutline/>}
-                  <div className={style.countButton}>{item.likes}</div>
+                  {checkIsLike(item).isLike ? <Icon28FireOutline fill='#FF0000'/> : <Icon28FireOutline/>}
+                  <div className={style.countButton}>{checkIsLike(item).likes}</div>
                 </Tappable>
                 <Tappable
                   onClick={() => shareStory()}
