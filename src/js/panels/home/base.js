@@ -49,7 +49,7 @@ function HomePanel({ router }) {
 
 
   useEffect(() => {
-    if(mainStorage.home.length === 0) {
+    if (mainStorage.home.length === 0) {
       axios.get('getList').then((res) => {
         setInfo(res.data);
         setInfo2(res.data);
@@ -60,6 +60,29 @@ function HomePanel({ router }) {
       setInfo2(mainStorage.home);
     }
   });
+
+  function timeConverterDaily(UNIX_timestamp) {
+    let a = new Date(UNIX_timestamp * 1000),
+      months = [
+        "января",
+        "февраля",
+        "марта",
+        "апреля",
+        "мая",
+        "июня",
+        "июля",
+        "августа",
+        "сентября",
+        "октября",
+        "ноября",
+        "декабря",
+      ],
+      month = months[a.getMonth()],
+      year = a.getFullYear(),
+      date = a.getDate(),
+      time = date + " " + month + " 2022"
+    return time;
+  }
 
   function report(item) {
     axios.post('report', {id: item.id});
@@ -159,7 +182,7 @@ function HomePanel({ router }) {
           {info.map((item, index) =>
             <div className={style.blockReviews}>
               <SimpleCell
-                description="04.09.2022 в 23:36"
+                description={timeConverterDaily(item.timestamp)}
                 before={
                   <Avatar
                     badge={<Icon28LogoVkColor width={20} height={20}/>}
