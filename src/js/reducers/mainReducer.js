@@ -9,6 +9,7 @@ export const mainReducer = createSlice({
     hasHeader: false,
     infoUser: { name: "Загрузка..." },
     home: [],
+    profile: [],
   },
   reducers: {
     set: (state, action) => {

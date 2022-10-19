@@ -136,19 +136,8 @@ function HomePanel({ router }) {
       id: item.id
     });
 
-    setInfo2(data);
-  }
-
-  function checkIsLike(item) {
-    let isLike = false,
-      likes = 0;
-    isLike = info2.find((i) => {
-      if (i.id === item.id) {
-        likes = i.likes;
-        return i.isLike
-      }
-    });
-    return {isLike, likes};
+    setInfo(data);
+    dispatch(set({key: 'home', value: data}));
   }
 
   return (
@@ -209,8 +198,8 @@ function HomePanel({ router }) {
 
               <div className={style.blockButtonReview}>
                 <Tappable className={style.buttonReview} onClick={() => setLike(item, index)}>
-                  {checkIsLike(item).isLike ? <Icon28FireOutline fill='#FF0000'/> : <Icon28FireOutline/>}
-                  <div className={style.countButton}>{checkIsLike(item).likes}</div>
+                  {item.isLike ? <Icon28FireOutline fill='#FF0000'/> : <Icon28FireOutline/>}
+                  <div className={style.countButton}>{item.likes}</div>
                 </Tappable>
                 <Tappable
                   onClick={() => shareStory()}
