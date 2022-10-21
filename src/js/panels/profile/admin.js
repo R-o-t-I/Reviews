@@ -1,5 +1,6 @@
 import React from "react";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
+import { useSelector } from "react-redux";
 
 import {
   Avatar,
@@ -7,18 +8,32 @@ import {
   ButtonGroup,
   List,
   PanelHeader,
+  PanelHeaderBack,
   Separator,
   SimpleCell,
   Spacing,
   Textarea,
+  VKCOM,
 } from "@vkontakte/vkui";
 
 import style from "./admin.module.scss";
 
 function AdminPanel({ router }) {
+  const platform = useSelector((state) => state.main.platform);
+
   return (
     <>
-      <PanelHeader separator={false}>Админ панель</PanelHeader>
+      <PanelHeader
+        before={
+          <PanelHeaderBack
+            label={platform === VKCOM && <div>Назад</div>}
+            onClick={() => router.toBack()}
+          />
+        }
+        separator={false}
+      >
+        Админ панель
+      </PanelHeader>
       <div className={style.container}>
         <SimpleCell disabled className={style.simpleCellReviews} after="2">
           Мечт на модерации:

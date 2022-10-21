@@ -60,13 +60,40 @@
 .moderations {
   margin-left: auto;
   display: flex;
-  background: orange;
+  background: var(--dynamic_orange);
   border-radius: 16px;
   padding: 4px 8px;
   align-content: center;
   justify-content: center;
   align-items: center;
   color: #FFF;
+  box-shadow: 5px 5px 5px var(--shadow_content_block);
+}
+
+.moderationsNegative {
+  margin-left: auto;
+  display: flex;
+  background: var(--dynamic_red);
+  border-radius: 16px;
+  padding: 4px 8px;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  color: #FFF;
+  box-shadow: 5px 5px 5px var(--shadow_content_block);
+}
+
+.moderationsPositive {
+  margin-left: auto;
+  display: flex;
+  background: var(--dynamic_green);
+  border-radius: 16px;
+  padding: 4px 8px;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  color: #FFF;
+  box-shadow: 5px 5px 5px var(--shadow_content_block);
 }
 
 .actionDestructive {

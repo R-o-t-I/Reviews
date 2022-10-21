@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import bridge from "@vkontakte/vk-bridge";
-import axios from 'axios';
+import axios from "axios";
 
 import {
   PanelHeader,
@@ -19,7 +19,8 @@ import {
   ActionSheet,
   ActionSheetItem,
   Alert,
-  Placeholder
+  Placeholder,
+  Button,
 } from "@vkontakte/vkui";
 
 import {
@@ -31,6 +32,7 @@ import {
   Icon28PincodeLockOutline,
   Icon28ShareOutline,
   Icon28StoryOutline,
+  Icon56Stars3Outline,
 } from "@vkontakte/icons";
 
 import style from "./base.module.scss";
@@ -52,15 +54,12 @@ function ProfilePanel({ router }) {
     }
   }, []);
 
-
   async function getInfo() {
-    router.toPopout(<ScreenSpinner/>);
-    const {data} = await axios.get('profile');
+    router.toPopout(<ScreenSpinner />);
+    const { data } = await axios.get("profile");
     setInfo(data.dreams);
-    dispatch(set({key: 'profile', value: data.dreams}));
+    dispatch(set({ key: "profile", value: data.dreams }));
   }
-
-
 
   async function getInfoUser() {
     router.toPopout(<ScreenSpinner />);
@@ -74,10 +73,10 @@ function ProfilePanel({ router }) {
   }
 
   async function deleteDream(id) {
-    const {data} = await axios.post('delete', {id: id});
+    const { data } = await axios.post("delete", { id: id });
 
     setInfo(data);
-    dispatch(set({key: 'profile', value: data}));
+    dispatch(set({ key: "profile", value: data }));
   }
 
   async function openMore(e, id) {
@@ -115,7 +114,7 @@ function ProfilePanel({ router }) {
             title: "Да",
             autoclose: true,
             mode: "destructive",
-            action: () => deleteDream(id)
+            action: () => deleteDream(id),
           },
         ]}
         onClose={() => router.toBack()}
@@ -141,18 +140,33 @@ function ProfilePanel({ router }) {
         <Text className={style.descriptionUser}>У Вас {info.length} мечта</Text>
       </div>
       <div className={style.headerList}>Ваши мечты:</div>
-      {!info.length && <Placeholder>Ничего нет. Здесь нужна заглушка.</Placeholder>}
+      {!info.length && (
+        <div className={style.blockReview}>
+          <Placeholder
+            icon={<Icon56Stars3Outline />}
+            header="У Вас нет мечт"
+            action={
+              <Button size="m" onClick={() => router.toView("add")}>
+                Оставить мечту
+              </Button>
+            }
+          >
+            Вы еще не оставляли свою мечту. Не стесняйтесь, сделайте это прямо
+            сейчас, можно анонимно
+          </Placeholder>
+        </div>
+      )}
       <div className={style.listReviews}>
-        {info.map((item, index) =>
+        {info.map((item, index) => (
           <div className={style.blockReview}>
             <SimpleCell
               disabled
-              before={<Avatar src={mainStorage.infoUser.photo_200} size={48}/>}
+              before={<Avatar src={mainStorage.infoUser.photo_200} size={48} />}
               description={item.timestamp}
               className={style.simpleCellReviews}
               after={
                 <IconButton onClick={(e) => openMore(e, item.id)}>
-                  <Icon28MoreHorizontal/>
+                  <Icon28MoreHorizontal />
                 </IconButton>
               }
             >
@@ -160,25 +174,37 @@ function ProfilePanel({ router }) {
             </SimpleCell>
             <div>{item.text}</div>
             <Spacing size={32}>
-              <Separator wide/>
+              <Separator wide />
             </Spacing>
             <div className={style.blockButtonReview}>
               <Tappable className={style.buttonReview} disabled>
-                <Icon28FireOutline/>
+                <Icon28FireOutline />
                 <div className={style.countButton}>{item.likes}</div>
               </Tappable>
               <Tappable className={style.buttonReview} disabled>
-                <Icon28StoryOutline/>
+                <Icon28StoryOutline />
               </Tappable>
               <Tappable className={style.buttonReview} disabled>
-                <Icon28ShareOutline/>
+                <Icon28ShareOutline />
               </Tappable>
-              {item.status === -1 && <div className={style.moderations1}><Icon28ClockOutline/></div>}
-              {item.status && <div className={style.moderations2}><Icon28ClockOutline/></div>}
-              {!item.status && <div className={style.moderations3}><Icon28ClockOutline/></div>}
+              {item.status === -1 && (
+                <div className={style.moderationsNegative}>
+                  <Icon28ClockOutline />
+                </div>
+              )}
+              {item.status === 1 && (
+                <div className={style.moderationsPositive}>
+                  <Icon28ClockOutline />
+                </div>
+              )}
+              {item.status === 0 && (
+                <div className={style.moderations}>
+                  <Icon28ClockOutline />
+                </div>
+              )}
             </div>
           </div>
-        )}
+        ))}
       </div>
     </>
   );

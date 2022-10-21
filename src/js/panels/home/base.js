@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import bridge from "@vkontakte/vk-bridge";
@@ -16,7 +16,7 @@ import {
   TabsItem,
   ActionSheet,
   ActionSheetItem,
-  Placeholder
+  Placeholder,
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
@@ -36,7 +36,7 @@ import {
 
 import { set } from "../../reducers/mainReducer";
 
-import axios from 'axios';
+import axios from "axios";
 
 // var info = [];
 
@@ -47,13 +47,12 @@ function HomePanel({ router }) {
   const [info, setInfo] = useState([]);
   const [info2, setInfo2] = useState([]);
 
-
   useEffect(() => {
     if (mainStorage.home.length === 0) {
-      axios.get('getList').then((res) => {
+      axios.get("getList").then((res) => {
         setInfo(res.data);
         setInfo2(res.data);
-        dispatch(set({key: "home", value: res.data}));
+        dispatch(set({ key: "home", value: res.data }));
       });
     } else {
       setInfo(mainStorage.home);
@@ -80,22 +79,21 @@ function HomePanel({ router }) {
       month = months[a.getMonth()],
       year = a.getFullYear(),
       date = a.getDate(),
-      time = date + " " + month + " 2022"
+      time = date + " " + month + " 2022";
     return time;
   }
 
   function report(item) {
-    axios.post('report', {id: item.id});
+    axios.post("report", { id: item.id });
     router.toPopout();
   }
 
   function openProfile(id) {
-    const link = document.createElement('a');
+    const link = document.createElement("a");
     link.href = "https://vk.com/id" + id;
     link.target = "_black";
     link.click();
   }
-
 
   async function openMore(e, item) {
     router.toPopout(
@@ -109,19 +107,26 @@ function HomePanel({ router }) {
         toggleRef={e.currentTarget}
       >
         {item.vk_id !== 0 && (
-          <ActionSheetItem before={<Icon28Profile />} onClick={() => openProfile(item.vk_id)}>
+          <ActionSheetItem
+            before={<Icon28Profile />}
+            onClick={() => openProfile(item.vk_id)}
+          >
             Открыть профиль ВКонтакте
           </ActionSheetItem>
         )}
-        <ActionSheetItem mode="destructive" before={<Icon28ReportOutline />} onClick={() => report(item)}>
+        <ActionSheetItem
+          mode="destructive"
+          before={<Icon28ReportOutline />}
+          onClick={() => report(item)}
+        >
           <div className={style.actionDestructive}>Пожаловаться</div>
         </ActionSheetItem>
       </ActionSheet>
     );
   }
 
-  function shareWallPost() {
-    bridge.send("VKWebAppShowWallPostBox", { message: "Hello!" });
+  function shareWallPost(item, index) {
+    bridge.send("VKWebAppShowWallPostBox", { message: `${item.text}` });
   }
 
   function shareStory() {
@@ -132,12 +137,12 @@ function HomePanel({ router }) {
   }
 
   async function setLike(item, index) {
-    const {data} = await axios.post('like', {
-      id: item.id
+    const { data } = await axios.post("like", {
+      id: item.id,
     });
 
     setInfo(data);
-    dispatch(set({key: 'home', value: data}));
+    dispatch(set({ key: "home", value: data }));
   }
 
   return (
@@ -166,15 +171,17 @@ function HomePanel({ router }) {
       {selected === "new" && (
         <div className={style.allBlockReviews}>
           {info.length === 0 && (
-            <Placeholder>Заглушка загрузки или ничего нет</Placeholder>
+            <div className={style.blockReviews}>
+              <Placeholder>Загружаем мечты...</Placeholder>
+            </div>
           )}
-          {info.map((item, index) =>
+          {info.map((item, index) => (
             <div className={style.blockReviews}>
               <SimpleCell
                 description={timeConverterDaily(item.timestamp)}
                 before={
                   <Avatar
-                    badge={<Icon28LogoVkColor width={20} height={20}/>}
+                    badge={<Icon28LogoVkColor width={20} height={20} />}
                     size={48}
                     src={item.photo_url}
                   />
@@ -183,39 +190,44 @@ function HomePanel({ router }) {
                 className={style.simpleCellReview}
                 after={
                   <IconButton onClick={(e) => openMore(e, item)}>
-                    <Icon28MoreHorizontal/>
+                    <Icon28MoreHorizontal />
                   </IconButton>
                 }
               >
                 {item.first_name} {item.last_name}
               </SimpleCell>
-              <div className={style.textReview}>
-                {item.text}
-              </div>
+              <div className={style.textReview}>{item.text}</div>
               <Spacing size={32}>
-                <Separator wide/>
+                <Separator wide />
               </Spacing>
 
               <div className={style.blockButtonReview}>
-                <Tappable className={style.buttonReview} onClick={() => setLike(item, index)}>
-                  {item.isLike ? <Icon28FireOutline fill='#FF0000'/> : <Icon28FireOutline/>}
+                <Tappable
+                  className={style.buttonReview}
+                  onClick={() => setLike(item, index)}
+                >
+                  {item.isLike ? (
+                    <Icon28FireOutline fill="#FF0000" />
+                  ) : (
+                    <Icon28FireOutline />
+                  )}
                   <div className={style.countButton}>{item.likes}</div>
                 </Tappable>
                 <Tappable
                   onClick={() => shareStory()}
                   className={style.buttonReview}
                 >
-                  <Icon28StoryOutline/>
+                  <Icon28StoryOutline />
                 </Tappable>
                 <Tappable
                   onClick={() => shareWallPost()}
                   className={style.buttonReview}
                 >
-                  <Icon28ShareOutline/>
+                  <Icon28ShareOutline />
                 </Tappable>
               </div>
             </div>
-          )}
+          ))}
         </div>
       )}
 
