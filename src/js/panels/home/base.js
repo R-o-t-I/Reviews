@@ -49,16 +49,20 @@ function HomePanel({ router }) {
 
   useEffect(() => {
     if (mainStorage.home.length === 0) {
-      axios.get("getList").then((res) => {
-        setInfo(res.data);
-        setInfo2(res.data);
-        dispatch(set({ key: "home", value: res.data }));
-      });
+      getList('new');
     } else {
-      setInfo(mainStorage.home);
-      setInfo2(mainStorage.home);
-    }
+        setInfo(mainStorage.home);
+        setInfo2(mainStorage.home);
+      }
   });
+
+  function getList(type) {
+    axios.get("getList?type=" + type).then((res) => {
+      setInfo(res.data);
+      setInfo2(res.data);
+      dispatch(set({key: "home", value: res.data}));
+    });
+  }
 
   function timeConverterDaily(UNIX_timestamp) {
     let a = new Date(UNIX_timestamp * 1000),
@@ -136,6 +140,14 @@ function HomePanel({ router }) {
     });
   }
 
+  function reverseList(type) {
+    if(type === 'likes') {
+      setInfo(info.sort((a, b) => b.likes - a.likes));
+    } else {
+      setInfo(info2);
+    }
+  }
+
   async function setLike(item, index) {
     const { data } = await axios.post("like", {
       id: item.id,
@@ -160,7 +172,10 @@ function HomePanel({ router }) {
             </TabsItem>
             <TabsItem
               selected={selected === "top"}
-              onClick={() => setSelected("top")}
+              onClick={() => {
+                setSelected("top");
+                reverseList('likes');
+              }}
               before={<Icon28FireOutline width={20} height={20} />}
             >
               Популярные

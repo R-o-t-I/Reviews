@@ -37,22 +37,9 @@ function AddPanel({ router }) {
       })
         .then((res) => {
           //---------------------------\\
-          let profile_copy = [mainStorage.profile];
-          let object = {
-            "id": res.data.id,
-            "vk_id": mainStorage.infoUser.id,
-            "text": text,
-            "first_name": mainStorage.infoUser.first_name,
-            "last_name": mainStorage.infoUser.last_name,
-            "photo_url": mainStorage.infoUser.photo_200,
-            "timestamp": new Date().getFullYear(),
-            "status": 0,
-            "isAnon": 0,
-            "isLike": false,
-            "likes": 0
-          }
+          let profile_copy = [...mainStorage.profile];
 
-          profile_copy.push(object);
+          profile_copy.push(res.data.object);
 
           dispatch(set({ key: "profile", value: profile_copy }));
 
