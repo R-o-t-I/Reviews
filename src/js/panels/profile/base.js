@@ -77,10 +77,10 @@ function ProfilePanel({ router }) {
     let copy_home = [...mainStorage.home];
 
     setInfo(data);
-    mainStorage.home.find(item => {
+    mainStorage.home.find((item) => {
       if (item.id === id) {
         copy_home.splice(copy_home.indexOf(item), 1);
-        dispatch(set({key: "home", value: copy_home}));
+        dispatch(set({ key: "home", value: copy_home }));
       }
     });
 
@@ -145,7 +145,18 @@ function ProfilePanel({ router }) {
         <Title className={style.nameUser} level="2" weight="medium">
           {mainStorage.infoUser.name}
         </Title>
-        <Text className={style.descriptionUser}>У Вас {info.length} мечта</Text>
+        <Text className={style.descriptionUser}>
+          У Вас {info.length}
+          {
+            [" мечта", " мечты", " мечт"][
+              info.length % 100 > 4 && info.length % 100 < 20
+                ? 2
+                : [2, 0, 1, 1, 1, 2][
+                    info.length % 10 < 5 ? info.length % 10 : 5
+                  ]
+            ]
+          }
+        </Text>
       </div>
       <div className={style.headerList}>Ваши мечты:</div>
       {!info.length && (
