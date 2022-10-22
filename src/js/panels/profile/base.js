@@ -74,8 +74,16 @@ function ProfilePanel({ router }) {
 
   async function deleteDream(id) {
     const { data } = await axios.post("delete", { id: id });
+    let copy_home = [...mainStorage.home];
 
     setInfo(data);
+    mainStorage.home.find(item => {
+      if (item.id === id) {
+        copy_home.splice(copy_home.indexOf(item), 1);
+        dispatch(set({key: "home", value: copy_home}));
+      }
+    });
+
     dispatch(set({ key: "profile", value: data }));
   }
 
