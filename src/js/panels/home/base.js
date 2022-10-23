@@ -148,8 +148,8 @@ function HomePanel({ router }) {
     }
   }
 
-  async function setLike(item, index) {
-    const { data } = await axios.post("like", {
+  async function setLike(item, type) {
+    const { data } = await axios.post("like?type=" + type, {
       id: item.id,
     });
 
