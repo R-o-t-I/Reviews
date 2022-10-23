@@ -1,6 +1,8 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import { useSelector } from "react-redux";
+
+import axios from 'axios';
 
 import {
   Avatar,
@@ -20,6 +22,35 @@ import style from "./admin.module.scss";
 
 function AdminPanel({ router }) {
   const platform = useSelector((state) => state.main.platform);
+  const [info, setInfo] = React.useState([]);
+
+
+  useEffect(() => {
+    if (platform === VKCOM) {
+      document.title = "Админка";
+    }
+    getModerationList();
+  }, []);
+
+  async function getModerationList() {
+    const {data} = await axios.get('getModerationList');
+    setInfo(data);
+  }
+
+  async function acceptDream(item) {
+    await axios.post('acceptDream', {
+      id: item.id,
+      text: item.text
+    });
+    getModerationList();
+  }
+
+  async function denyDream(id) {
+    await axios.post('denyDream', {
+      id: id
+    });
+    getModerationList();
+  }
 
   return (
     <>
@@ -35,12 +66,13 @@ function AdminPanel({ router }) {
         Админ панель
       </PanelHeader>
       <div className={style.container}>
-        <SimpleCell disabled className={style.simpleCellReviews} after="2">
+        <SimpleCell disabled className={style.simpleCellReviews} after={info.length}>
           Мечт на модерации:
         </SimpleCell>
         <Spacing>
           <Separator wide />
         </Spacing>
+        {info.map((item, index) =>
         <List style={{ marginTop: 12 }}>
           <SimpleCell
             disabled
@@ -53,19 +85,21 @@ function AdminPanel({ router }) {
             description="05.10.2022 в 12:23"
             className={style.simpleCellReviews}
           >
-            Анонимно
+            {item.first_name} {item.last_name}
           </SimpleCell>
-          <Textarea style={{ marginTop: 12 }} value="Моя мечта бла бла бла" />
-          Мечту можно редактировать
+          <Textarea style={{ marginTop: 12 }} defaultValue={item.text} onChange={(e) => {
+            item.text = e.target.value;
+          }}/>
           <ButtonGroup stretched style={{ marginTop: 16 }}>
-            <Button size="m" stretched appearance="positive">
+            <Button size="m" stretched appearance="positive" onClick={() => acceptDream(item)}>
               Принять
             </Button>
-            <Button size="m" stretched appearance="negative">
+            <Button size="m" stretched appearance="negative" onClick={() => denyDream(item.id)}>
               Отклонить
             </Button>
           </ButtonGroup>
         </List>
+          )}
       </div>
     </>
   );

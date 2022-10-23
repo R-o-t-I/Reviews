@@ -44,6 +44,7 @@ function ProfilePanel({ router }) {
   const mainStorage = useSelector((state) => state.main);
   const dispatch = useDispatch();
   const [info, setInfo] = React.useState([]);
+  const [isAdmin, setIsAdmin] = React.useState(false);
 
   useEffect(() => {
     if (!isInfoUser) {
@@ -58,7 +59,9 @@ function ProfilePanel({ router }) {
     router.toPopout(<ScreenSpinner />);
     const { data } = await axios.get("profile");
     setInfo(data.dreams);
+    setIsAdmin(data.admin);
     dispatch(set({ key: "profile", value: data.dreams }));
+    dispatch(set({ key: "isAdmin", value: data.admin }));
   }
 
   async function getInfoUser() {
@@ -136,11 +139,13 @@ function ProfilePanel({ router }) {
     <>
       <PanelHeader separator={false}>Профиль</PanelHeader>
       <div className={style.blockHeader}>
-        <div className={style.blockButtonHeaderLeft}>
-          <IconButton onClick={() => router.toPanel("admin")}>
-            <Icon28PincodeLockOutline />
-          </IconButton>
-        </div>
+        {mainStorage.isAdmin === 1 &&
+          <div className={style.blockButtonHeaderLeft}>
+            <IconButton onClick={() => router.toPanel("admin")}>
+              <Icon28PincodeLockOutline/>
+            </IconButton>
+          </div>
+        }
         <Avatar size={96} src={mainStorage.infoUser.photo_200} />
         <Title className={style.nameUser} level="2" weight="medium">
           {mainStorage.infoUser.name}

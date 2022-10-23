@@ -141,10 +141,15 @@ function HomePanel({ router }) {
   }
 
   function reverseList(type) {
+    let new_info = [...info];
     if(type === 'likes') {
-      setInfo(info.sort((a, b) => b.likes - a.likes));
+      setInfo(new_info.sort((a, b) => b.likes - a.likes));
+      setInfo2(new_info.sort((a, b) => b.likes - a.likes));
+      dispatch(set({ key: 'home', value: new_info.sort((a, b) => b.likes - a.likes) }));
     } else {
-      setInfo(info2);
+      setInfo(new_info.sort((a, b) => b.id - a.id));
+      setInfo2(new_info.sort((a, b) => b.id - a.id));
+      dispatch(set({ key: 'home', value: new_info.sort((a, b) => b.id - a.id) }));
     }
   }
 
@@ -164,16 +169,19 @@ function HomePanel({ router }) {
         <Tabs mode="accent">
           <HorizontalScroll arrowSize="m">
             <TabsItem
-              selected={selected === "new"}
-              onClick={() => setSelected("new")}
+              selected={mainStorage.home_tab === "new"}
+              onClick={() => {
+                dispatch(set({ key: 'home_tab', value: 'new' }));
+                reverseList('new');
+              }}
               before={<Icon28CalendarOutline width={20} height={20} />}
             >
               Новые
             </TabsItem>
             <TabsItem
-              selected={selected === "top"}
+              selected={mainStorage.home_tab === 'likes'}
               onClick={() => {
-                setSelected("top");
+                dispatch(set({ key: 'home_tab', value: 'likes' }));
                 reverseList('likes');
               }}
               before={<Icon28FireOutline width={20} height={20} />}
@@ -183,7 +191,6 @@ function HomePanel({ router }) {
           </HorizontalScroll>
         </Tabs>
       </div>
-      {selected === "new" && (
         <div className={style.allBlockReviews}>
           {info.length === 0 && (
             <div className={style.blockReviews}>
@@ -244,9 +251,6 @@ function HomePanel({ router }) {
             </div>
           ))}
         </div>
-      )}
-
-      {selected === "top" && <div></div>}
     </>
   );
 }
