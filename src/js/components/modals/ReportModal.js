@@ -20,9 +20,11 @@ import axios from "axios";
 
 function ReportModal({ nav, router }) {
   const platform = useSelector((state) => state.main.platform);
+  const mainStorage = useSelector((state) => state.main);
+  const [text, setText] = useState('');
 
   function report() {
-    axios.post("report");
+    axios.post('report', {id: mainStorage.report_id, text: text});
     router.toPopout();
     router.toBack();
   }
@@ -57,7 +59,7 @@ function ReportModal({ nav, router }) {
         </Button>
       }
     >
-      <Textarea placeholder="Ваша жалоба" />
+      <Textarea placeholder="Ваша жалоба" value={text} onChange={(e) => setText(e.target.value)}/>
     </ModalCard>
   );
 }

@@ -139,6 +139,29 @@ function ProfilePanel({ router }) {
     );
   }
 
+  function timeConverterDaily(UNIX_timestamp) {
+    let a = new Date(UNIX_timestamp),
+      months = [
+        "января",
+        "февраля",
+        "марта",
+        "апреля",
+        "мая",
+        "июня",
+        "июля",
+        "августа",
+        "сентября",
+        "октября",
+        "ноября",
+        "декабря",
+      ],
+      month = months[a.getMonth()],
+      year = a.getFullYear(),
+      date = a.getDate(),
+      time = date + " " + month + " 2022";
+    return time;
+  }
+
   return (
     <>
       <PanelHeader separator={false}>Профиль</PanelHeader>
@@ -189,8 +212,8 @@ function ProfilePanel({ router }) {
           <div className={style.blockReview}>
             <SimpleCell
               disabled
-              before={<Avatar src={mainStorage.infoUser.photo_200} size={48} />}
-              description={item.timestamp}
+              before={<Avatar src={item.photo_url} size={48} />}
+              description={timeConverterDaily(item.timestamp)}
               className={style.simpleCellReviews}
               after={
                 <IconButton onClick={(e) => openMore(e, item.id)}>

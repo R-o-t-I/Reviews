@@ -38,8 +38,6 @@ import { set } from "../../reducers/mainReducer";
 
 import axios from "axios";
 
-// var info = [];
-
 function HomePanel({ router }) {
   const dispatch = useDispatch();
   const mainStorage = useSelector((state) => state.main);
@@ -65,7 +63,7 @@ function HomePanel({ router }) {
   }
 
   function timeConverterDaily(UNIX_timestamp) {
-    let a = new Date(UNIX_timestamp * 1000),
+    let a = new Date(UNIX_timestamp),
       months = [
         "января",
         "февраля",
@@ -88,7 +86,8 @@ function HomePanel({ router }) {
   }
 
   function report(item) {
-    axios.post("report", { id: item.id });
+    //axios.post("report", { id: item.id });
+    dispatch(set({ key: 'report_id', value: item.id }));
     router.toModal("report");
   }
 
@@ -121,9 +120,9 @@ function HomePanel({ router }) {
         <ActionSheetItem
           mode="destructive"
           before={<Icon28ReportOutline />}
-          onClick={mainStorage.isAdmin === 1 && (() => report(item))}
-          href="https://vk.me/skyreglis"
-          target="_blank"
+          onClick={() => report(item)}
+          //href="https://vk.me/skyreglis"
+          //target="_blank"
           autoclose
         >
           <div className={style.actionDestructive}>Пожаловаться</div>
@@ -172,7 +171,6 @@ function HomePanel({ router }) {
   return (
     <>
       <PanelHeader separator={false}>Главная</PanelHeader>
-      {mainStorage.isAdmin === 1 && (
         <div className={style.tabs}>
           <Tabs mode="accent">
             <HorizontalScroll arrowSize="m">
@@ -199,7 +197,6 @@ function HomePanel({ router }) {
             </HorizontalScroll>
           </Tabs>
         </div>
-      )}
       <div className={style.allBlockReviews}>
         {info.length === 0 && (
           <div className={style.blockReviews}>

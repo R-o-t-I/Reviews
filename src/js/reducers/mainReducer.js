@@ -11,7 +11,8 @@ export const mainReducer = createSlice({
     home: [],
     home_tab: 'new',
     profile: [],
-    isAdmin: false
+    isAdmin: false,
+    report_id: 0
   },
   reducers: {
     set: (state, action) => {
