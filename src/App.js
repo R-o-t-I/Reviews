@@ -47,14 +47,34 @@ const App = withAdaptivity(
     dispatch(set({ key: "hasHeader", value: mainStorage.isDesktop !== true }));
 
     useEffect(() => {
+      let theme = "bright_light",
+        theme_bar = "",
+        color = "#f4f8fc";
       bridge.subscribe(({ detail: { type, data } }) => {
         if (type === "VKWebAppUpdateConfig") {
-          dispatch(
-            set({
-              key: "theme",
-              value: data.scheme === "space_gray" ? "dark" : "light",
-            })
-          );
+          switch (data.scheme) {
+            case "bright_light":
+              theme = "light";
+              theme_bar = "dark";
+              color = "#f4f8fc";
+              break;
+            case "space_gray":
+              theme = "dark";
+              theme_bar = "light";
+              color = "#141414";
+              break;
+            case "vkcom_dark":
+              theme = "dark";
+              break;
+            case "vkcom_light":
+              theme = "light";
+              break;
+          }
+          dispatch(set({ key: "theme", value: theme }));
+          bridge.send("VKWebAppSetViewSettings", {
+            status_bar_style: theme_bar,
+            action_bar_color: color,
+          });
         }
       });
     }, []);

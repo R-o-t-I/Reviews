@@ -9,6 +9,7 @@ import {
   Button,
   ButtonGroup,
   HorizontalScroll,
+  Link,
   List,
   PanelHeader,
   PanelHeaderBack,
@@ -40,6 +41,7 @@ function AdminPanel({ router }) {
       document.title = "Админка";
     }
     getModerationList();
+    getReportsList();
   }, []);
 
   async function getModerationList() {
@@ -183,7 +185,7 @@ function AdminPanel({ router }) {
                 <SimpleCell
                   disabled
                   className={style.simpleCellReviews}
-                  after={info.length}
+                  after={report.length}
                 >
                   Жалоб на модерации:
                 </SimpleCell>
@@ -191,7 +193,44 @@ function AdminPanel({ router }) {
                   <Separator wide />
                 </Spacing>
                 {report.map((item, index) => (
-                  <></>
+                  <List style={{ marginTop: 12 }}>
+                    <SimpleCell
+                      disabled
+                      before={
+                        <Avatar
+                          badge={<Avatar src="" size={20} />}
+                          src=""
+                          size={48}
+                        />
+                      }
+                      description="05.10.2022 в 12:23"
+                      className={style.simpleCellReviews}
+                      multiline
+                    >
+                      <Link>first_name1 last_name1</Link> жалуется на мечту{" "}
+                      <Link>first_name2 last_name2</Link>
+                    </SimpleCell>
+                    <div>Текст жалобы:</div>
+                    <div>text report</div>
+                    <div>Текст мечты:</div>
+                    <div>text dreams</div>
+                    <ButtonGroup stretched style={{ marginTop: 16 }}>
+                      <Button size="m" stretched appearance="positive">
+                        Удалить мечту
+                      </Button>
+                      <Button
+                        size="m"
+                        stretched
+                        appearance="accent"
+                        mode="secondary"
+                      >
+                        Отклонить жалобу
+                      </Button>
+                      <Button size="m" stretched appearance="negative">
+                        Заблокировать
+                      </Button>
+                    </ButtonGroup>
+                  </List>
                 ))}
               </>
             )}
