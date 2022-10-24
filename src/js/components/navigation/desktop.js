@@ -20,6 +20,7 @@ import style from "./navigation.module.scss";
 
 function DesktopNavigation({ router }) {
   const hasHeader = useSelector((state) => state.main.hasHeader);
+  const mainStorage = useSelector((state) => state.main);
 
   return (
     <SplitCol fixed width="240px" maxWidth="240px" className={style.splitCol}>
@@ -62,7 +63,7 @@ function DesktopNavigation({ router }) {
           </List>
         </Group>
 
-        <ThemeControllers />
+        {mainStorage.isAdmin === 1 && <ThemeControllers />}
       </Panel>
     </SplitCol>
   );

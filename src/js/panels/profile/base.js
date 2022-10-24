@@ -21,9 +21,13 @@ import {
   Alert,
   Placeholder,
   Button,
+  Div,
 } from "@vkontakte/vkui";
 
+import { Dropdown } from "@vkontakte/vkui/dist/unstable";
+
 import {
+  Icon28CancelOutline,
   Icon28ClockOutline,
   Icon28DeleteOutline,
   Icon28DoneOutline,
@@ -139,13 +143,13 @@ function ProfilePanel({ router }) {
     <>
       <PanelHeader separator={false}>Профиль</PanelHeader>
       <div className={style.blockHeader}>
-        {mainStorage.isAdmin === 1 &&
+        {mainStorage.isAdmin === 1 && (
           <div className={style.blockButtonHeaderLeft}>
             <IconButton onClick={() => router.toPanel("admin")}>
-              <Icon28PincodeLockOutline/>
+              <Icon28PincodeLockOutline />
             </IconButton>
           </div>
-        }
+        )}
         <Avatar size={96} src={mainStorage.infoUser.photo_200} />
         <Title className={style.nameUser} level="2" weight="medium">
           {mainStorage.infoUser.name}
@@ -205,26 +209,60 @@ function ProfilePanel({ router }) {
                 <Icon28FireOutline />
                 <div className={style.countButton}>{item.likes}</div>
               </Tappable>
-              <Tappable className={style.buttonReview} disabled>
-                <Icon28StoryOutline />
-              </Tappable>
-              <Tappable className={style.buttonReview} disabled>
-                <Icon28ShareOutline />
-              </Tappable>
+              {mainStorage.isAdmin === 1 && (
+                <>
+                  <Tappable className={style.buttonReview} disabled>
+                    <Icon28StoryOutline />
+                  </Tappable>
+                  <Tappable className={style.buttonReview} disabled>
+                    <Icon28ShareOutline />
+                  </Tappable>
+                </>
+              )}
               {item.status === -1 && (
-                <div className={style.moderationsNegative}>
-                  <Icon28ClockOutline />
-                </div>
+                <Dropdown
+                  action="hover"
+                  placement="bottom-end"
+                  content={
+                    <Div>
+                      <Text>Мечта отклонена</Text>
+                    </Div>
+                  }
+                >
+                  <div className={style.moderationsNegative}>
+                    <Icon28CancelOutline />
+                  </div>
+                </Dropdown>
               )}
               {item.status === 1 && (
-                <div className={style.moderationsPositive}>
-                  <Icon28ClockOutline />
-                </div>
+                <Dropdown
+                  action="hover"
+                  placement="bottom-end"
+                  content={
+                    <Div>
+                      <Text>Мечта принята</Text>
+                    </Div>
+                  }
+                >
+                  <div className={style.moderationsPositive}>
+                    <Icon28DoneOutline />
+                  </div>
+                </Dropdown>
               )}
               {item.status === 0 && (
-                <div className={style.moderations}>
-                  <Icon28ClockOutline />
-                </div>
+                <Dropdown
+                  action="hover"
+                  placement="bottom-end"
+                  content={
+                    <Div>
+                      <Text>Мечта на рассмотрении</Text>
+                    </Div>
+                  }
+                >
+                  <div className={style.moderations}>
+                    <Icon28ClockOutline />
+                  </div>
+                </Dropdown>
               )}
             </div>
           </div>
