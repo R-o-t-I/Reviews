@@ -162,6 +162,10 @@ function ProfilePanel({ router }) {
     return time;
   }
 
+  function shareWallPost(item, index) {
+    bridge.send("VKWebAppShowWallPostBox", { message: `${item.text}` });
+  }
+
   return (
     <>
       <PanelHeader separator={false}>Профиль</PanelHeader>
@@ -233,15 +237,16 @@ function ProfilePanel({ router }) {
                 <div className={style.countButton}>{item.likes}</div>
               </Tappable>
               {mainStorage.isAdmin === 1 && (
-                <>
-                  <Tappable className={style.buttonReview} disabled>
-                    <Icon28StoryOutline />
-                  </Tappable>
-                  <Tappable className={style.buttonReview} disabled>
-                    <Icon28ShareOutline />
-                  </Tappable>
-                </>
+                <Tappable className={style.buttonReview} disabled>
+                  <Icon28StoryOutline />
+                </Tappable>
               )}
+              <Tappable
+                onClick={() => shareWallPost(item)}
+                className={style.buttonReview}
+              >
+                <Icon28ShareOutline />
+              </Tappable>
               {item.status === -1 && (
                 <Dropdown
                   action="hover"

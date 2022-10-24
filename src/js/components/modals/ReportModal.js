@@ -14,17 +14,20 @@ import {
   Avatar,
 } from "@vkontakte/vkui";
 
-import { Icon24DismissDark } from "@vkontakte/icons";
+import { Icon24DismissDark, Icon28DoneOutline } from "@vkontakte/icons";
+
+import style from "./report.module.scss";
 
 import axios from "axios";
 
 function ReportModal({ nav, router }) {
   const platform = useSelector((state) => state.main.platform);
   const mainStorage = useSelector((state) => state.main);
-  const [text, setText] = useState('');
+  const [text, setText] = useState("");
+  const [snackbar, setSnackbar] = useState(null);
 
   function report() {
-    axios.post('report', {id: mainStorage.report_id, text: text});
+    axios.post("report", { id: mainStorage.report_id, text: text });
     router.toPopout();
     router.toBack();
   }
@@ -59,7 +62,17 @@ function ReportModal({ nav, router }) {
         </Button>
       }
     >
-      <Textarea placeholder="Ваша жалоба" value={text} onChange={(e) => setText(e.target.value)}/>
+      <div className={style.textTop}>
+        <div>Опишите жалобу</div>
+        <div style={{ marginLeft: "auto" }}>{text.length}/500</div>
+      </div>
+      <Textarea
+        placeholder="Ваша жалоба"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        maxLength={500}
+      />
+      {snackbar}
     </ModalCard>
   );
 }

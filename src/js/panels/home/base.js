@@ -42,6 +42,7 @@ function HomePanel({ router }) {
   const dispatch = useDispatch();
   const mainStorage = useSelector((state) => state.main);
   const [selected, setSelected] = React.useState("new");
+  const [snackbar, setSnackbar] = useState(null);
   const [info, setInfo] = useState([]);
   const [info2, setInfo2] = useState([]);
 
@@ -87,7 +88,7 @@ function HomePanel({ router }) {
 
   function report(item) {
     //axios.post("report", { id: item.id });
-    dispatch(set({ key: 'report_id', value: item.id }));
+    dispatch(set({ key: "report_id", value: item.id }));
     router.toModal("report");
   }
 
@@ -171,32 +172,32 @@ function HomePanel({ router }) {
   return (
     <>
       <PanelHeader separator={false}>Главная</PanelHeader>
-        <div className={style.tabs}>
-          <Tabs mode="accent">
-            <HorizontalScroll arrowSize="m">
-              <TabsItem
-                selected={mainStorage.home_tab === "new"}
-                onClick={() => {
-                  dispatch(set({ key: "home_tab", value: "new" }));
-                  reverseList("new");
-                }}
-                before={<Icon28CalendarOutline width={20} height={20} />}
-              >
-                Новые
-              </TabsItem>
-              <TabsItem
-                selected={mainStorage.home_tab === "likes"}
-                onClick={() => {
-                  dispatch(set({ key: "home_tab", value: "likes" }));
-                  reverseList("likes");
-                }}
-                before={<Icon28FireOutline width={20} height={20} />}
-              >
-                Популярные
-              </TabsItem>
-            </HorizontalScroll>
-          </Tabs>
-        </div>
+      <div className={style.tabs}>
+        <Tabs mode="accent">
+          <HorizontalScroll arrowSize="m">
+            <TabsItem
+              selected={mainStorage.home_tab === "new"}
+              onClick={() => {
+                dispatch(set({ key: "home_tab", value: "new" }));
+                reverseList("new");
+              }}
+              before={<Icon28CalendarOutline width={20} height={20} />}
+            >
+              Новые
+            </TabsItem>
+            <TabsItem
+              selected={mainStorage.home_tab === "likes"}
+              onClick={() => {
+                dispatch(set({ key: "home_tab", value: "likes" }));
+                reverseList("likes");
+              }}
+              before={<Icon28FireOutline width={20} height={20} />}
+            >
+              Популярные
+            </TabsItem>
+          </HorizontalScroll>
+        </Tabs>
+      </div>
       <div className={style.allBlockReviews}>
         {info.length === 0 && (
           <div className={style.blockReviews}>
@@ -259,6 +260,7 @@ function HomePanel({ router }) {
           </div>
         ))}
       </div>
+      {snackbar}
     </>
   );
 }

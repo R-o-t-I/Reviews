@@ -18,8 +18,8 @@ import style from "./base.module.scss";
 import { Icon28InfoOutline } from "@vkontakte/icons";
 
 import axios from "axios";
-import {set} from "../../reducers/mainReducer";
-import {useDispatch, useSelector} from "react-redux";
+import { set } from "../../reducers/mainReducer";
+import { useDispatch, useSelector } from "react-redux";
 
 function AddPanel({ router }) {
   const dispatch = useDispatch();
@@ -31,10 +31,11 @@ function AddPanel({ router }) {
   function create() {
     if (text.length > 0) {
       router.toPopout(<ScreenSpinner />);
-      axios.post("create", {
-        text: text,
-        isAnon: checked,
-      })
+      axios
+        .post("create", {
+          text: text,
+          isAnon: checked,
+        })
         .then((res) => {
           //---------------------------\\
           let profile_copy = [...mainStorage.profile];
@@ -93,11 +94,19 @@ function AddPanel({ router }) {
           Расскажите нам о ней, чтобы узнать о чём мечтают другие люди
           (анонимность по Вашему желанию)
         </div>
-        <FormItem top="Мечта">
+        <FormItem
+          top={
+            <div style={{ display: "flex" }}>
+              <div>Мечта</div>
+              <div style={{ marginLeft: "auto" }}>{text.length}/1000</div>
+            </div>
+          }
+        >
           <Textarea
             placeholder="Я мечтаю стать известным"
             value={text}
             onChange={(e) => setText(e.target.value)}
+            maxLength={1000}
           />
         </FormItem>
         <Checkbox checked={checked} onClick={() => setChecked(!checked)}>
