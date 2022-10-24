@@ -11,3 +11,12 @@
   margin-left: -16px !important;
   margin-right: -6px !important;
 }
+
+.tabs {
+  margin: 0px 16px;
+  border-radius: 16px;
+  background-color: var(--background_content);
+  box-shadow: 5px 5px 5px var(--shadow_content_block);
+  overflow: hidden;
+  padding: 6px 6px;
+}

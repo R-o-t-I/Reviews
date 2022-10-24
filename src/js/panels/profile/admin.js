@@ -1,29 +1,39 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import { useSelector } from "react-redux";
 
-import axios from 'axios';
+import axios from "axios";
 
 import {
   Avatar,
   Button,
   ButtonGroup,
+  HorizontalScroll,
   List,
   PanelHeader,
   PanelHeaderBack,
+  Placeholder,
   Separator,
   SimpleCell,
   Spacing,
+  Tabs,
+  TabsItem,
   Textarea,
   VKCOM,
 } from "@vkontakte/vkui";
 
 import style from "./admin.module.scss";
+import {
+  Icon28ArticleOutline,
+  Icon28ReportOutline,
+  Icon56ThumbsUpOutline,
+} from "@vkontakte/icons";
 
 function AdminPanel({ router }) {
   const platform = useSelector((state) => state.main.platform);
+  const [selected, setSelected] = React.useState("dreams");
   const [info, setInfo] = React.useState([]);
-
+  const [report, setReport] = React.useState([]);
 
   useEffect(() => {
     if (platform === VKCOM) {
@@ -33,23 +43,28 @@ function AdminPanel({ router }) {
   }, []);
 
   async function getModerationList() {
-    const {data} = await axios.get('getModerationList');
+    const { data } = await axios.get("getModerationList");
     setInfo(data);
   }
 
   async function acceptDream(item) {
-    await axios.post('acceptDream', {
+    await axios.post("acceptDream", {
       id: item.id,
-      text: item.text
+      text: item.text,
     });
     getModerationList();
   }
 
   async function denyDream(id) {
-    await axios.post('denyDream', {
-      id: id
+    await axios.post("denyDream", {
+      id: id,
     });
     getModerationList();
+  }
+
+  async function getReportsList() {
+    const { data } = await axios.get("getReportsList");
+    setReport(data);
   }
 
   return (
@@ -65,41 +80,123 @@ function AdminPanel({ router }) {
       >
         Админ панель
       </PanelHeader>
+      <div className={style.tabs}>
+        <Tabs mode="accent">
+          <HorizontalScroll arrowSize="m">
+            <TabsItem
+              selected={selected === "dreams"}
+              onClick={() => setSelected("dreams")}
+              before={<Icon28ArticleOutline width={20} height={20} />}
+            >
+              Мечты
+            </TabsItem>
+            <TabsItem
+              selected={selected === "reports"}
+              onClick={() => setSelected("reports")}
+              before={<Icon28ReportOutline width={20} height={20} />}
+            >
+              Жалобы
+            </TabsItem>
+          </HorizontalScroll>
+        </Tabs>
+      </div>
       <div className={style.container}>
-        <SimpleCell disabled className={style.simpleCellReviews} after={info.length}>
-          Мечт на модерации:
-        </SimpleCell>
-        <Spacing>
-          <Separator wide />
-        </Spacing>
-        {info.map((item, index) =>
-        <List style={{ marginTop: 12 }}>
-          <SimpleCell
-            disabled
-            before={
-              <Avatar
-                src="https://cdn-icons-png.flaticon.com/512/4123/4123763.png"
-                size={48}
-              />
-            }
-            description="05.10.2022 в 12:23"
-            className={style.simpleCellReviews}
-          >
-            {item.first_name} {item.last_name}
-          </SimpleCell>
-          <Textarea style={{ marginTop: 12 }} defaultValue={item.text} onChange={(e) => {
-            item.text = e.target.value;
-          }}/>
-          <ButtonGroup stretched style={{ marginTop: 16 }}>
-            <Button size="m" stretched appearance="positive" onClick={() => acceptDream(item)}>
-              Принять
-            </Button>
-            <Button size="m" stretched appearance="negative" onClick={() => denyDream(item.id)}>
-              Отклонить
-            </Button>
-          </ButtonGroup>
-        </List>
-          )}
+        {selected === "dreams" && (
+          <>
+            {info.length === 0 ? (
+              <Placeholder
+                icon={<Icon56ThumbsUpOutline />}
+                header="Новых мечт нет"
+              >
+                Отличная работа, мы все рассмотрели
+              </Placeholder>
+            ) : (
+              <>
+                <SimpleCell
+                  disabled
+                  className={style.simpleCellReviews}
+                  after={info.length}
+                >
+                  Мечт на модерации:
+                </SimpleCell>
+                <Spacing>
+                  <Separator wide />
+                </Spacing>
+
+                {info.map((item, index) => (
+                  <List style={{ marginTop: 12 }}>
+                    <SimpleCell
+                      disabled
+                      before={
+                        <Avatar
+                          src="https://cdn-icons-png.flaticon.com/512/4123/4123763.png"
+                          size={48}
+                        />
+                      }
+                      description="05.10.2022 в 12:23"
+                      className={style.simpleCellReviews}
+                    >
+                      {item.first_name} {item.last_name}
+                    </SimpleCell>
+                    <Textarea
+                      style={{ marginTop: 12 }}
+                      defaultValue={item.text}
+                      onChange={(e) => {
+                        item.text = e.target.value;
+                      }}
+                    />
+                    <ButtonGroup stretched style={{ marginTop: 16 }}>
+                      <Button
+                        size="m"
+                        stretched
+                        appearance="positive"
+                        onClick={() => acceptDream(item)}
+                      >
+                        Принять
+                      </Button>
+                      <Button
+                        size="m"
+                        stretched
+                        appearance="negative"
+                        onClick={() => denyDream(item.id)}
+                      >
+                        Отклонить
+                      </Button>
+                    </ButtonGroup>
+                  </List>
+                ))}
+              </>
+            )}
+          </>
+        )}
+        {selected === "reports" && (
+          <>
+            {report.length === 0 ? (
+              <Placeholder
+                icon={<Icon56ThumbsUpOutline />}
+                header="Новых жалоб нет"
+              >
+                Отличная работа, мы все рассмотрели
+              </Placeholder>
+            ) : (
+              <>
+                <SimpleCell
+                  disabled
+                  className={style.simpleCellReviews}
+                  after={info.length}
+                >
+                  Жалоб на модерации:
+                </SimpleCell>
+                <Spacing>
+                  <Separator wide />
+                </Spacing>
+                {report.map((item, index) => (
+                  <></>
+                ))}
+              </>
+            )}
+          </>
+        )}
       </div>
     </>
   );
