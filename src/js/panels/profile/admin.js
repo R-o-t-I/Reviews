@@ -69,6 +69,27 @@ function AdminPanel({ router }) {
     setReport(data);
   }
 
+  function deleteDream(id) {
+    axios.post("denyDream", {
+      id: id,
+    });
+    getModerationList();
+  }
+
+  function denyReport(id) {
+    axios.post("denyReport", {
+      id: id,
+    });
+    getModerationList();
+  }
+
+  function ban(item) {
+    axios.post("banUser", {
+      id: item.user_id,
+    });
+    getModerationList();
+  }
+
   return (
     <>
       <PanelHeader
@@ -207,15 +228,15 @@ function AdminPanel({ router }) {
                       className={style.simpleCellReviews}
                       multiline
                     >
-                      <Link>first_name1 last_name1</Link> жалуется на мечту{" "}
-                      <Link>first_name2 last_name2</Link>
+                      <Link>{item.vk_id}</Link> жалуется на мечту{" "}
+                      <Link>{item.first_name} {item.last_name}</Link>
                     </SimpleCell>
                     <div>Текст жалобы:</div>
-                    <div>text report</div>
+                    <div>{item.text}</div>
                     <div>Текст мечты:</div>
-                    <div>text dreams</div>
+                    <div>{item.text_dream}</div>
                     <ButtonGroup stretched style={{ marginTop: 16 }}>
-                      <Button size="m" stretched appearance="positive">
+                      <Button size="m" stretched appearance="positive" onClick={() => deleteDream(item.dream_id)}>
                         Удалить мечту
                       </Button>
                       <Button
@@ -223,10 +244,11 @@ function AdminPanel({ router }) {
                         stretched
                         appearance="accent"
                         mode="secondary"
+                        onClick={() => denyReport(item.id)}
                       >
                         Отклонить жалобу
                       </Button>
-                      <Button size="m" stretched appearance="negative">
+                      <Button size="m" stretched appearance="negative" onClick={() => ban(item)}>
                         Заблокировать
                       </Button>
                     </ButtonGroup>
