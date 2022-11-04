@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import bridge from "@vkontakte/vk-bridge";
@@ -23,6 +23,7 @@ import {
   Button,
   Div,
   VKCOM,
+  Snackbar,
 } from "@vkontakte/vkui";
 
 import { Dropdown } from "@vkontakte/vkui/dist/unstable";
@@ -53,6 +54,7 @@ function ProfilePanel({ router }) {
   const dispatch = useDispatch();
   const [info, setInfo] = React.useState([]);
   const [isAdmin, setIsAdmin] = React.useState(false);
+  const [snackbar, setSnackbar] = useState(null);
 
   useEffect(() => {
     if (!isInfoUser) {
@@ -96,6 +98,27 @@ function ProfilePanel({ router }) {
     });
 
     dispatch(set({ key: "profile", value: data }));
+    setTimeout(
+      () =>
+        router.toPopout(
+          <Snackbar
+            onClose={() => router.toBack()}
+            before={
+              <Avatar
+                size={35}
+                style={{
+                  background: "var(--field_valid_border)",
+                }}
+              >
+                <Icon28DoneOutline fill="#fff" width={20} height={20} />
+              </Avatar>
+            }
+          >
+            Мечта удалена
+          </Snackbar>
+        ),
+      1000
+    );
   }
 
   async function openMore(e, id) {
@@ -328,6 +351,7 @@ function ProfilePanel({ router }) {
           </div>
         ))}
       </div>
+      {snackbar}
     </>
   );
 }
