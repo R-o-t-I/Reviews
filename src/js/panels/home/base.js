@@ -133,7 +133,9 @@ function HomePanel({ router }) {
   }
 
   function shareWallPost(item, index) {
-    bridge.send("VKWebAppShowWallPostBox", { message: `${item.text}` });
+    bridge.send("VKWebAppShowWallPostBox", {
+      message: `Пользователь ${item.first_name} ${item.last_name} оставил мечту: "${item.text}"\n\nБольше мечтаний в приложении: vk.com/app51456689`,
+    });
   }
 
   function shareStory() {

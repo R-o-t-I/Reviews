@@ -27,6 +27,7 @@ function DesktopNavigation({ router }) {
       <Panel id="menuDesktop">
         {hasHeader && <PanelHeader />}
         <Group>
+          <div style={{ marginTop: 40 }} />
           <List className={style.menuDesktop}>
             <Cell
               onClick={() => router.toView("home")}

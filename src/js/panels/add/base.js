@@ -91,8 +91,8 @@ function AddPanel({ router }) {
       <div className={style.blockAdd}>
         <div className={style.title}>А какая у Вас мечта?</div>
         <div className={style.descriptions}>
-          Расскажите нам о ней, чтобы узнать о чём мечтают другие люди
-          (анонимность по Вашему желанию)
+          Расскажите нам о ней, чтобы узнать, о чём мечтают другие люди
+          (анонимность по Вашему желанию).
         </div>
         <FormItem
           top={
@@ -118,11 +118,11 @@ function AddPanel({ router }) {
           </Button>
         </FormItem>
         <div className={style.footer}>
-          Каждая мечта сбывается, главное не переставать верить в неё,{" "}
+          Каждая мечта сбывается, главное, не переставать верить в неё,{" "}
           <Link href="https://vk.com/skyreglis" target="_blank">
             команда SkyReglis Studio
           </Link>{" "}
-          ❤️ вас
+          ❤️ Вас
         </div>
       </div>
       {snackbar}

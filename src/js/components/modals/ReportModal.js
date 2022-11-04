@@ -35,26 +35,7 @@ function ReportModal({ nav, router }) {
   return (
     <ModalCard
       nav={nav}
-      header={
-        <ModalPageHeader
-          right={
-            <Fragment>
-              {platform === ANDROID && (
-                <PanelHeaderButton onClick={() => router.toBack()}>
-                  <Icon24DismissDark />
-                </PanelHeaderButton>
-              )}
-              {platform === IOS && (
-                <PanelHeaderButton onClick={() => router.toBack()}>
-                  <Icon24DismissDark />
-                </PanelHeaderButton>
-              )}
-            </Fragment>
-          }
-        >
-          Жалоба на мечту
-        </ModalPageHeader>
-      }
+      header={<ModalPageHeader>Жалоба на мечту</ModalPageHeader>}
       onClose={() => router.toBack()}
       actions={
         <Button size="l" mode="primary" onClick={() => report()}>

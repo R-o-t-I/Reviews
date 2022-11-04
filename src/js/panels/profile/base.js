@@ -163,7 +163,9 @@ function ProfilePanel({ router }) {
   }
 
   function shareWallPost(item, index) {
-    bridge.send("VKWebAppShowWallPostBox", { message: `${item.text}` });
+    bridge.send("VKWebAppShowWallPostBox", {
+      message: `Пользователь ${item.first_name} ${item.last_name} оставил мечту: "${item.text}"\n\nБольше мечтаний в приложении: vk.com/app51456689`,
+    });
   }
 
   return (
@@ -207,7 +209,7 @@ function ProfilePanel({ router }) {
             }
           >
             Вы еще не оставляли свою мечту. Не стесняйтесь, сделайте это прямо
-            сейчас, можно анонимно
+            сейчас, можно анонимно.
           </Placeholder>
         </div>
       )}

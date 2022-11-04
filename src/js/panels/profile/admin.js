@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import { useSelector } from "react-redux";
 
@@ -16,6 +16,7 @@ import {
   Placeholder,
   Separator,
   SimpleCell,
+  Snackbar,
   Spacing,
   Tabs,
   TabsItem,
@@ -26,6 +27,7 @@ import {
 import style from "./admin.module.scss";
 import {
   Icon28ArticleOutline,
+  Icon28DoneOutline,
   Icon28ReportOutline,
   Icon56ThumbsUpOutline,
 } from "@vkontakte/icons";
@@ -33,6 +35,7 @@ import {
 function AdminPanel({ router }) {
   const platform = useSelector((state) => state.main.platform);
   const [selected, setSelected] = React.useState("dreams");
+  const [snackbar, setSnackbar] = useState(null);
   const [info, setInfo] = React.useState([]);
   const [report, setReport] = React.useState([]);
 
@@ -55,6 +58,23 @@ function AdminPanel({ router }) {
       text: item.text,
     });
     getModerationList();
+    router.toPopout(
+      setSnackbar(
+        <Snackbar
+          onClose={() => setSnackbar(null)}
+          before={
+            <Avatar
+              size={35}
+              style={{ background: "var(--field_valid_border)" }}
+            >
+              <Icon28DoneOutline fill="#fff" width={20} height={20} />
+            </Avatar>
+          }
+        >
+          Мечта с id: {item.id} одобрена
+        </Snackbar>
+      )
+    );
   }
 
   async function denyDream(id) {
@@ -62,6 +82,20 @@ function AdminPanel({ router }) {
       id: id,
     });
     getModerationList();
+    router.toPopout(
+      setSnackbar(
+        <Snackbar
+          onClose={() => setSnackbar(null)}
+          before={
+            <Avatar size={35} style={{ background: "var(--destructive)" }}>
+              <Icon28DoneOutline fill="#fff" width={20} height={20} />
+            </Avatar>
+          }
+        >
+          Мечта с id: {id} отклонена
+        </Snackbar>
+      )
+    );
   }
 
   async function getReportsList() {
@@ -74,6 +108,23 @@ function AdminPanel({ router }) {
       id: id,
     });
     getModerationList();
+    router.toPopout(
+      setSnackbar(
+        <Snackbar
+          onClose={() => setSnackbar(null)}
+          before={
+            <Avatar
+              size={35}
+              style={{ background: "var(--field_valid_border)" }}
+            >
+              <Icon28DoneOutline fill="#fff" width={20} height={20} />
+            </Avatar>
+          }
+        >
+          Жалоба с id: {id} принята. Мечта удалена
+        </Snackbar>
+      )
+    );
   }
 
   function denyReport(id) {
@@ -81,6 +132,23 @@ function AdminPanel({ router }) {
       id: id,
     });
     getModerationList();
+    router.toPopout(
+      setSnackbar(
+        <Snackbar
+          onClose={() => setSnackbar(null)}
+          before={
+            <Avatar
+              size={35}
+              style={{ background: "var(--field_valid_border)" }}
+            >
+              <Icon28DoneOutline fill="#fff" width={20} height={20} />
+            </Avatar>
+          }
+        >
+          Жалоба с id: {id} отклонена
+        </Snackbar>
+      )
+    );
   }
 
   function ban(item) {
@@ -88,6 +156,23 @@ function AdminPanel({ router }) {
       id: item.user_id,
     });
     getModerationList();
+    router.toPopout(
+      setSnackbar(
+        <Snackbar
+          onClose={() => setSnackbar(null)}
+          before={
+            <Avatar
+              size={35}
+              style={{ background: "var(--field_valid_border)" }}
+            >
+              <Icon28DoneOutline fill="#fff" width={20} height={20} />
+            </Avatar>
+          }
+        >
+          Мечта удалена. Пользователь с id: {item.user_id} заблокирован
+        </Snackbar>
+      )
+    );
   }
 
   return (
@@ -131,7 +216,7 @@ function AdminPanel({ router }) {
                 icon={<Icon56ThumbsUpOutline />}
                 header="Новых мечт нет"
               >
-                Отличная работа, мы все рассмотрели
+                Отличная работа, мы все рассмотрели.
               </Placeholder>
             ) : (
               <>
@@ -199,7 +284,7 @@ function AdminPanel({ router }) {
                 icon={<Icon56ThumbsUpOutline />}
                 header="Новых жалоб нет"
               >
-                Отличная работа, мы все рассмотрели
+                Отличная работа, мы все рассмотрели.
               </Placeholder>
             ) : (
               <>
@@ -229,14 +314,21 @@ function AdminPanel({ router }) {
                       multiline
                     >
                       <Link>{item.vk_id}</Link> жалуется на мечту{" "}
-                      <Link>{item.first_name} {item.last_name}</Link>
+                      <Link>
+                        {item.first_name} {item.last_name}
+                      </Link>
                     </SimpleCell>
                     <div>Текст жалобы:</div>
                     <div>{item.text}</div>
                     <div>Текст мечты:</div>
                     <div>{item.text_dream}</div>
                     <ButtonGroup stretched style={{ marginTop: 16 }}>
-                      <Button size="m" stretched appearance="positive" onClick={() => deleteDream(item.dream_id)}>
+                      <Button
+                        size="m"
+                        stretched
+                        appearance="positive"
+                        onClick={() => deleteDream(item.dream_id)}
+                      >
                         Удалить мечту
                       </Button>
                       <Button
@@ -248,7 +340,12 @@ function AdminPanel({ router }) {
                       >
                         Отклонить жалобу
                       </Button>
-                      <Button size="m" stretched appearance="negative" onClick={() => ban(item)}>
+                      <Button
+                        size="m"
+                        stretched
+                        appearance="negative"
+                        onClick={() => ban(item)}
+                      >
                         Заблокировать
                       </Button>
                     </ButtonGroup>
@@ -259,6 +356,7 @@ function AdminPanel({ router }) {
           </>
         )}
       </div>
+      {snackbar}
     </>
   );
 }
