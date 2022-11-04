@@ -1,16 +1,28 @@
 .cardSimpleCell {
   margin: 22px 16px 16px 16px;
   padding: 12px 0px;
+  background: var(
+    --background_content,
+    var(--vkui--color_background_modal)
+  ) !important;
 }
 
 .cardTextComment {
   margin: 22px 16px 16px 16px;
   padding: 16px;
+  background: var(
+    --background_content,
+    var(--vkui--color_background_modal)
+  ) !important;
 }
 
 .cardTextContact {
   margin: 22px 16px 16px 16px;
   padding: 16px;
+  background: var(
+    --background_content,
+    var(--vkui--color_background_modal)
+  ) !important;
 }
 
 .headerCard {
@@ -18,7 +30,7 @@
   z-index: 2;
   top: -11px;
   left: 28px;
-  background: var(--background_content_block);
+  background: var(--background_content, var(--vkui--color_background_modal));
   padding: 0px 4px;
   color: var(--text_secondary);
 }
