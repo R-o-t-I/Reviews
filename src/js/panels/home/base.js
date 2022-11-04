@@ -17,6 +17,7 @@ import {
   ActionSheet,
   ActionSheetItem,
   Placeholder,
+  VKCOM,
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
@@ -43,6 +44,7 @@ import axios from "axios";
 function HomePanel({ router }) {
   const dispatch = useDispatch();
   const mainStorage = useSelector((state) => state.main);
+  const platform = useSelector((state) => state.main.platform);
   const [selected, setSelected] = React.useState("new");
   const [snackbar, setSnackbar] = useState(null);
   const [info, setInfo] = useState([]);
@@ -290,6 +292,9 @@ function HomePanel({ router }) {
                   className={style.buttonReviewRight}
                 >
                   <Icon28StarsOutline />
+                  {platform === VKCOM && (
+                    <div className={style.textButtonHelped}>Мечта сбылась</div>
+                  )}
                 </Tappable>
               )}
             </div>

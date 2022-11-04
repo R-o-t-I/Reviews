@@ -41,13 +41,13 @@
 .buttonReviewRight {
   display: flex;
   margin-left: auto;
-  background: var(--placeholder_icon_background);
+  background: #447bba20;
   border-radius: 16px;
   padding: 4px 8px;
   align-content: center;
   justify-content: center;
   align-items: center;
-  color: var(--text_secondary);
+  color: var(--accent);
 }
 
 .countButton {
@@ -65,4 +65,8 @@
 
 .actionDestructive {
   color: var(--destructive);
+}
+
+.textButtonHelped {
+  margin-left: 8px;
 }

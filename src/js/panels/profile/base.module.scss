@@ -58,7 +58,7 @@
 }
 
 .moderations {
-  margin-left: auto;
+  margin-left: 12px;
   display: flex;
   background: var(--dynamic_orange);
   border-radius: 16px;
@@ -66,12 +66,12 @@
   align-content: center;
   justify-content: center;
   align-items: center;
-  color: #FFF;
+  color: #fff;
   box-shadow: 5px 5px 5px var(--shadow_content_block);
 }
 
 .moderationsNegative {
-  margin-left: auto;
+  margin-left: 12px;
   display: flex;
   background: var(--dynamic_red);
   border-radius: 16px;
@@ -79,12 +79,12 @@
   align-content: center;
   justify-content: center;
   align-items: center;
-  color: #FFF;
+  color: #fff;
   box-shadow: 5px 5px 5px var(--shadow_content_block);
 }
 
 .moderationsPositive {
-  margin-left: auto;
+  margin-left: 12px;
   display: flex;
   background: var(--dynamic_green);
   border-radius: 16px;
@@ -92,7 +92,7 @@
   align-content: center;
   justify-content: center;
   align-items: center;
-  color: #FFF;
+  color: #fff;
   box-shadow: 5px 5px 5px var(--shadow_content_block);
 }
 
@@ -110,4 +110,26 @@
   overflow: hidden;
   padding: 4px;
   color: var(--accent);
+}
+
+.buttonHelped {
+  margin-left: auto;
+  display: flex;
+  background: #447bba20;
+  border-radius: 16px;
+  padding: 4px 8px;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  color: var(--accent);
+  box-shadow: 5px 5px 5px var(--shadow_content_block);
+}
+
+.buttonReviewRight {
+  display: flex;
+  margin-left: auto;
+}
+
+.textButtonHelped {
+  margin-left: 8px;
 }

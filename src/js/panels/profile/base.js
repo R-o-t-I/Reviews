@@ -22,6 +22,7 @@ import {
   Placeholder,
   Button,
   Div,
+  VKCOM,
 } from "@vkontakte/vkui";
 
 import { Dropdown } from "@vkontakte/vkui/dist/unstable";
@@ -32,6 +33,7 @@ import {
   Icon28DeleteOutline,
   Icon28DoneOutline,
   Icon28FireOutline,
+  Icon28MagicWandOutline,
   Icon28MoreHorizontal,
   Icon28PincodeLockOutline,
   Icon28ShareOutline,
@@ -47,6 +49,7 @@ let isInfoUser = false;
 
 function ProfilePanel({ router }) {
   const mainStorage = useSelector((state) => state.main);
+  const platform = useSelector((state) => state.main.platform);
   const dispatch = useDispatch();
   const [info, setInfo] = React.useState([]);
   const [isAdmin, setIsAdmin] = React.useState(false);
@@ -261,51 +264,63 @@ function ProfilePanel({ router }) {
               >
                 <Icon28ShareOutline />
               </Tappable>
-              {item.status === -1 && (
-                <Dropdown
-                  action="hover"
-                  placement="bottom-end"
-                  content={
-                    <Div>
-                      <Text>Мечта отклонена</Text>
-                    </Div>
-                  }
-                >
-                  <div className={style.moderationsNegative}>
-                    <Icon28CancelOutline />
-                  </div>
-                </Dropdown>
-              )}
-              {item.status === 1 && (
-                <Dropdown
-                  action="hover"
-                  placement="bottom-end"
-                  content={
-                    <Div>
-                      <Text>Мечта принята</Text>
-                    </Div>
-                  }
-                >
-                  <div className={style.moderationsPositive}>
-                    <Icon28DoneOutline />
-                  </div>
-                </Dropdown>
-              )}
-              {item.status === 0 && (
-                <Dropdown
-                  action="hover"
-                  placement="bottom-end"
-                  content={
-                    <Div>
-                      <Text>Мечта на рассмотрении</Text>
-                    </Div>
-                  }
-                >
-                  <div className={style.moderations}>
-                    <Icon28ClockOutline />
-                  </div>
-                </Dropdown>
-              )}
+              <div className={style.buttonReviewRight}>
+                {mainStorage.isAdmin === 1 && (
+                  <Tappable className={style.buttonHelped}>
+                    <Icon28MagicWandOutline />
+                    {platform === VKCOM && (
+                      <div className={style.textButtonHelped}>
+                        Хотят помочь!
+                      </div>
+                    )}
+                  </Tappable>
+                )}
+                {item.status === -1 && (
+                  <Dropdown
+                    action="hover"
+                    placement="bottom-end"
+                    content={
+                      <Div>
+                        <Text>Мечта отклонена</Text>
+                      </Div>
+                    }
+                  >
+                    <div className={style.moderationsNegative}>
+                      <Icon28CancelOutline />
+                    </div>
+                  </Dropdown>
+                )}
+                {item.status === 1 && (
+                  <Dropdown
+                    action="hover"
+                    placement="bottom-end"
+                    content={
+                      <Div>
+                        <Text>Мечта принята</Text>
+                      </Div>
+                    }
+                  >
+                    <div className={style.moderationsPositive}>
+                      <Icon28DoneOutline />
+                    </div>
+                  </Dropdown>
+                )}
+                {item.status === 0 && (
+                  <Dropdown
+                    action="hover"
+                    placement="bottom-end"
+                    content={
+                      <Div>
+                        <Text>Мечта на рассмотрении</Text>
+                      </Div>
+                    }
+                  >
+                    <div className={style.moderations}>
+                      <Icon28ClockOutline />
+                    </div>
+                  </Dropdown>
+                )}
+              </div>
             </div>
           </div>
         ))}

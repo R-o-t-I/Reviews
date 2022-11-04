@@ -44,18 +44,31 @@ function HelperModal({ nav, router }) {
             </Fragment>
           }
         >
-          Помочь
+          Мечта сбылась
         </ModalPageHeader>
       }
       onClose={() => router.toBack()}
       settlingHeight={100}
     >
-      <Card mode="outline" className={style.cardSimpleCell}>
-        <SimpleCell disabled subtitle="" before={<Avatar size={48} />}>
-          Name Name
-        </SimpleCell>
-      </Card>
-      <div className={style.cardTextComment}>text</div>
+      <div style={{ position: "relative" }}>
+        <div className={style.headerCard}>Помог:</div>
+        <Card mode="outline" className={style.cardSimpleCell}>
+          <SimpleCell
+            multiline
+            disabled
+            subtitle="Помог 4 ноября 2022"
+            before={<Avatar size={48} />}
+          >
+            Name Name
+          </SimpleCell>
+        </Card>
+      </div>
+      <div style={{ position: "relative" }}>
+        <div className={style.headerCard}>Комментарий мечтателя:</div>
+        <Card mode="outline" className={style.cardTextComment}>
+          <div>text</div>
+        </Card>
+      </div>
     </ModalPage>
   );
 }
