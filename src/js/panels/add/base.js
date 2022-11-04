@@ -106,7 +106,7 @@ function AddPanel({ router }) {
             placeholder="Я мечтаю стать известным"
             value={text}
             onChange={(e) => setText(e.target.value)}
-            maxLength={1000}
+            maxLength="1000"
           />
         </FormItem>
         <Checkbox checked={checked} onClick={() => setChecked(!checked)}>

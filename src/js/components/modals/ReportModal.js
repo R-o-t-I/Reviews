@@ -51,7 +51,7 @@ function ReportModal({ nav, router }) {
         placeholder="Ваша жалоба"
         value={text}
         onChange={(e) => setText(e.target.value)}
-        maxLength={500}
+        maxLength="500"
       />
       {snackbar}
     </ModalCard>
