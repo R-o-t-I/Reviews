@@ -35,6 +35,7 @@ import {
   Icon28MoreHorizontal,
   Icon28PincodeLockOutline,
   Icon28ShareOutline,
+  Icon28StarsOutline,
   Icon28StoryOutline,
   Icon56Stars3Outline,
 } from "@vkontakte/icons";
@@ -106,9 +107,17 @@ function ProfilePanel({ router }) {
         toggleRef={e.currentTarget}
       >
         <ActionSheetItem
+          autoclose
+          onClick={() => router.toModal("comeTrue")}
+          before={<Icon28StarsOutline />}
+        >
+          Мечта сбылась
+        </ActionSheetItem>
+        <ActionSheetItem
           onClick={() => openAlertDeletion(id)}
           mode="destructive"
           before={<Icon28DeleteOutline />}
+          autoclose
         >
           <div className={style.actionDestructive}>Удалить мечту</div>
         </ActionSheetItem>
@@ -217,6 +226,7 @@ function ProfilePanel({ router }) {
         {info.map((item, index) => (
           <div className={style.blockReview}>
             <SimpleCell
+              multiline
               disabled
               before={<Avatar src={item.photo_url} size={48} />}
               description={timeConverterDaily(item.timestamp)}

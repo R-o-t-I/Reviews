@@ -35,7 +35,7 @@ function ReportModal({ nav, router }) {
   return (
     <ModalCard
       nav={nav}
-      header={<ModalPageHeader>Жалоба на мечту</ModalPageHeader>}
+      header={<ModalPageHeader>Жалоба</ModalPageHeader>}
       onClose={() => router.toBack()}
       actions={
         <Button size="l" mode="primary" onClick={() => report()}>

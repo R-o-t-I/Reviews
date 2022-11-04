@@ -27,10 +27,12 @@ import {
   Icon28CalendarOutline,
   Icon28FireOutline,
   Icon28LogoVkColor,
+  Icon28MagicWandOutline,
   Icon28MoreHorizontal,
   Icon28Profile,
   Icon28ReportOutline,
   Icon28ShareOutline,
+  Icon28StarsOutline,
   Icon28StoryOutline,
 } from "@vkontakte/icons";
 
@@ -118,12 +120,13 @@ function HomePanel({ router }) {
             Открыть профиль ВКонтакте
           </ActionSheetItem>
         )}
+        <ActionSheetItem before={<Icon28MagicWandOutline />} autoclose>
+          Помочь с мечтой
+        </ActionSheetItem>
         <ActionSheetItem
           mode="destructive"
           before={<Icon28ReportOutline />}
           onClick={() => report(item)}
-          //href="https://vk.me/skyreglis"
-          //target="_blank"
           autoclose
         >
           <div className={style.actionDestructive}>Пожаловаться</div>
@@ -197,6 +200,16 @@ function HomePanel({ router }) {
             >
               Популярные
             </TabsItem>
+            <TabsItem
+              selected={mainStorage.home_tab === "comeTrue"}
+              onClick={() => {
+                dispatch(set({ key: "home_tab", value: "comeTrue" }));
+                reverseList("comeTrue");
+              }}
+              before={<Icon28StarsOutline width={20} height={20} />}
+            >
+              Сбывшиеся
+            </TabsItem>
           </HorizontalScroll>
         </Tabs>
       </div>
@@ -209,6 +222,7 @@ function HomePanel({ router }) {
         {info.map((item, index) => (
           <div className={style.blockReviews}>
             <SimpleCell
+              multiline
               description={timeConverterDaily(item.timestamp)}
               before={
                 <Avatar

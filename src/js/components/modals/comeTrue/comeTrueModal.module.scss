@@ -1,0 +1,119 @@
+.modal {
+  .copy {
+    position: relative;
+    margin: 12px 12px 0px 12px;
+
+    .header {
+      padding: 16px 12px;
+
+      display: flex;
+      justify-content: space-between;
+
+      :global {
+        .Title {
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+
+          color: #000000;
+        }
+      }
+
+      svg {
+        color: var(--accent);
+      }
+    }
+
+    .mini {
+      position: absolute;
+      top: 65px;
+      left: calc(50% - 95px);
+
+      display: flex;
+      align-items: center;
+
+      color: #ffffff;
+
+      z-index: 100;
+
+      .arrow {
+        width: 0;
+        height: 0;
+
+        position: absolute;
+        top: -9px;
+        left: calc(50% - 20px);
+
+        border-left: 10px solid transparent;
+        border-right: 10px solid transparent;
+        border-bottom: 10px solid #3a3a3c;
+      }
+
+      .copyItem {
+        border-top-left-radius: 8px;
+        border-bottom-left-radius: 8px;
+
+        background-color: #3a3a3c;
+      }
+
+      .shareItem {
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+
+        background-color: #1c1c1e;
+      }
+
+      :global {
+        .Caption {
+          padding: 7px 16px;
+        }
+      }
+    }
+  }
+
+  .recent {
+    margin: 12px;
+
+    :global {
+      .Subhead {
+        color: #6d7885;
+      }
+    }
+
+    .list {
+      padding: 10px 0;
+
+      display: flex;
+
+      overflow-x: auto;
+
+      color: #818c99;
+
+      .item {
+        margin-right: 12px;
+
+        display: flex;
+        align-items: center;
+
+        :global {
+          .Caption {
+            margin: 0 8px;
+
+            white-space: nowrap;
+          }
+        }
+      }
+    }
+  }
+
+  :global {
+    .FormItem {
+      padding-left: 12;
+      padding-right: 12;
+    }
+
+    .ModalCard__actions {
+      margin-top: 0;
+    }
+  }
+}

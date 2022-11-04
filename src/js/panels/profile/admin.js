@@ -221,6 +221,7 @@ function AdminPanel({ router }) {
             ) : (
               <>
                 <SimpleCell
+                  multiline
                   disabled
                   className={style.simpleCellReviews}
                   after={info.length}
@@ -234,6 +235,7 @@ function AdminPanel({ router }) {
                 {info.map((item, index) => (
                   <List style={{ marginTop: 12 }}>
                     <SimpleCell
+                      multiline
                       disabled
                       before={
                         <Avatar
@@ -289,6 +291,7 @@ function AdminPanel({ router }) {
             ) : (
               <>
                 <SimpleCell
+                  multiline
                   disabled
                   className={style.simpleCellReviews}
                   after={report.length}
@@ -301,6 +304,7 @@ function AdminPanel({ router }) {
                 {report.map((item, index) => (
                   <List style={{ marginTop: 12 }}>
                     <SimpleCell
+                      multiline
                       disabled
                       before={
                         <Avatar
@@ -311,7 +315,6 @@ function AdminPanel({ router }) {
                       }
                       description="05.10.2022 в 12:23"
                       className={style.simpleCellReviews}
-                      multiline
                     >
                       <Link>{item.vk_id}</Link> жалуется на мечту{" "}
                       <Link>
