@@ -1,4 +1,3 @@
-
 .allBlockReviews {
   display: flex;
   flex-direction: column;
@@ -37,6 +36,18 @@
   align-items: center;
   color: var(--text_secondary);
   margin-right: 12px;
+}
+
+.buttonReviewRight {
+  display: flex;
+  margin-left: auto;
+  background: var(--placeholder_icon_background);
+  border-radius: 16px;
+  padding: 4px 8px;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  color: var(--text_secondary);
 }
 
 .countButton {

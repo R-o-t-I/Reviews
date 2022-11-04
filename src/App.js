@@ -27,6 +27,8 @@ import MobailNavigation from "./js/components/navigation/mobail";
 
 import ReportModal from "./js/components/modals/report/ReportModal";
 import ComeTrueModal from "./js/components/modals/comeTrue/ComeTrueModal";
+import HelpedModal from "./js/components/modals/helped/HelpedModal";
+import HelperModal from "./js/components/modals/helper/HelperModal";
 
 const HomePanel = lazy(() => import("./js/panels/home/base"));
 const AddPanel = lazy(() => import("./js/panels/add/base"));
@@ -84,6 +86,8 @@ const App = withAdaptivity(
       <ModalRoot activeModal={router.modal} onClose={() => router.toBack()}>
         <ReportModal nav="report" />
         <ComeTrueModal nav="comeTrue" />
+        <HelpedModal nav="helped" />
+        <HelperModal nav="helper" />
       </ModalRoot>
     );
 

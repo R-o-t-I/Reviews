@@ -59,7 +59,7 @@ const randomTeam = [
   },
 ];
 
-function AddCountryModal({ nav, router }) {
+function ComeTrueModal({ nav, router }) {
   const platform = useSelector((state) => state.main.platform);
 
   return (
@@ -150,4 +150,4 @@ function AddCountryModal({ nav, router }) {
   );
 }
 
-export default withRouter(AddCountryModal);
+export default withRouter(ComeTrueModal);

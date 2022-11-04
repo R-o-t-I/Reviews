@@ -120,9 +120,15 @@ function HomePanel({ router }) {
             Открыть профиль ВКонтакте
           </ActionSheetItem>
         )}
-        <ActionSheetItem before={<Icon28MagicWandOutline />} autoclose>
-          Помочь с мечтой
-        </ActionSheetItem>
+        {mainStorage.isAdmin === 1 && (
+          <ActionSheetItem
+            before={<Icon28MagicWandOutline />}
+            onClick={() => router.toModal("helped")}
+            autoclose
+          >
+            Помочь с мечтой
+          </ActionSheetItem>
+        )}
         <ActionSheetItem
           mode="destructive"
           before={<Icon28ReportOutline />}
@@ -204,16 +210,18 @@ function HomePanel({ router }) {
             >
               Популярные
             </TabsItem>
-            <TabsItem
-              selected={mainStorage.home_tab === "comeTrue"}
-              onClick={() => {
-                dispatch(set({ key: "home_tab", value: "comeTrue" }));
-                reverseList("comeTrue");
-              }}
-              before={<Icon28StarsOutline width={20} height={20} />}
-            >
-              Сбывшиеся
-            </TabsItem>
+            {mainStorage.isAdmin === 1 && (
+              <TabsItem
+                selected={mainStorage.home_tab === "comeTrue"}
+                onClick={() => {
+                  dispatch(set({ key: "home_tab", value: "comeTrue" }));
+                  reverseList("comeTrue");
+                }}
+                before={<Icon28StarsOutline width={20} height={20} />}
+              >
+                Сбывшиеся
+              </TabsItem>
+            )}
           </HorizontalScroll>
         </Tabs>
       </div>
@@ -276,6 +284,14 @@ function HomePanel({ router }) {
               >
                 <Icon28ShareOutline />
               </Tappable>
+              {mainStorage.isAdmin === 1 && (
+                <Tappable
+                  onClick={() => router.toModal("helper")}
+                  className={style.buttonReviewRight}
+                >
+                  <Icon28StarsOutline />
+                </Tappable>
+              )}
             </div>
           </div>
         ))}

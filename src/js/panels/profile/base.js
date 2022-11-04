@@ -106,13 +106,15 @@ function ProfilePanel({ router }) {
         }
         toggleRef={e.currentTarget}
       >
-        <ActionSheetItem
-          autoclose
-          onClick={() => router.toModal("comeTrue")}
-          before={<Icon28StarsOutline />}
-        >
-          Мечта сбылась
-        </ActionSheetItem>
+        {mainStorage.isAdmin === 1 && (
+          <ActionSheetItem
+            autoclose
+            onClick={() => router.toModal("comeTrue")}
+            before={<Icon28StarsOutline />}
+          >
+            Мечта сбылась
+          </ActionSheetItem>
+        )}
         <ActionSheetItem
           onClick={() => openAlertDeletion(id)}
           mode="destructive"
