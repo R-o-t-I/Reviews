@@ -266,7 +266,10 @@ function ProfilePanel({ router }) {
               </Tappable>
               <div className={style.buttonReviewRight}>
                 {mainStorage.isAdmin === 1 && (
-                  <Tappable className={style.buttonHelped}>
+                  <Tappable
+                    className={style.buttonHelped}
+                    onClick={() => router.toModal("infoHelper")}
+                  >
                     <Icon28MagicWandOutline />
                     {platform === VKCOM && (
                       <div className={style.textButtonHelped}>

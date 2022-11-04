@@ -29,6 +29,7 @@ import ReportModal from "./js/components/modals/report/ReportModal";
 import ComeTrueModal from "./js/components/modals/comeTrue/ComeTrueModal";
 import HelpedModal from "./js/components/modals/helped/HelpedModal";
 import HelperModal from "./js/components/modals/helper/HelperModal";
+import InfoHelperModal from "./js/components/modals/infoHelper/InfoHelperModal";
 
 const HomePanel = lazy(() => import("./js/panels/home/base"));
 const AddPanel = lazy(() => import("./js/panels/add/base"));
@@ -88,6 +89,7 @@ const App = withAdaptivity(
         <ComeTrueModal nav="comeTrue" />
         <HelpedModal nav="helped" />
         <HelperModal nav="helper" />
+        <InfoHelperModal nav="infoHelper" />
       </ModalRoot>
     );
 
