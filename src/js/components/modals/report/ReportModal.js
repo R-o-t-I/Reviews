@@ -12,9 +12,10 @@ import {
   Textarea,
   Snackbar,
   Avatar,
+  Alert
 } from "@vkontakte/vkui";
 
-import { Icon24DismissDark, Icon28DoneOutline } from "@vkontakte/icons";
+import {Icon24DismissDark, Icon28DoneOutline, Icon28ErrorOutline} from "@vkontakte/icons";
 
 import style from "./report.module.scss";
 
@@ -26,10 +27,28 @@ function ReportModal({ nav, router }) {
   const [text, setText] = useState("");
   const [snackbar, setSnackbar] = useState(null);
 
-  function report() {
-    axios.post("report", { id: mainStorage.report_id, text: text });
+  async function report() {
+    const {data} = await axios.post("report", { id: mainStorage.report_id, text: text });
     router.toPopout();
     router.toBack();
+    setTimeout(() => router.toPopout(
+      <Snackbar
+        onClose={() => router.toBack()}
+        before={
+          <Avatar
+            size={35}
+            style={{background: data.info === 'Вы уже отправляли жалобу!' ? "red" : "var(--field_valid_border)"}}
+          >
+            {data.info === 'Вы уже отправляли жалобу!' ?
+              <Icon28ErrorOutline fill="#fff" width={20} height={20}/>
+              :
+              <Icon28DoneOutline fill="#fff" width={20} height={20}/>
+            }
+          </Avatar>
+      }
+      >
+        {data.info}
+      </Snackbar>), 1000);
   }
 
   return (

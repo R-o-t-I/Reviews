@@ -171,6 +171,8 @@ function HomePanel({ router }) {
     });
 
     setInfo(data);
+    console.log(selected);
+    reverseList(selected);
     dispatch(set({ key: "home", value: data }));
   }
 
@@ -185,6 +187,7 @@ function HomePanel({ router }) {
               onClick={() => {
                 dispatch(set({ key: "home_tab", value: "new" }));
                 reverseList("new");
+                setSelected("new");
               }}
               before={<Icon28CalendarOutline width={20} height={20} />}
             >
@@ -195,6 +198,7 @@ function HomePanel({ router }) {
               onClick={() => {
                 dispatch(set({ key: "home_tab", value: "likes" }));
                 reverseList("likes");
+                setSelected("likes");
               }}
               before={<Icon28FireOutline width={20} height={20} />}
             >
@@ -249,7 +253,7 @@ function HomePanel({ router }) {
             <div className={style.blockButtonReview}>
               <Tappable
                 className={style.buttonReview}
-                onClick={() => setLike(item, index)}
+                onClick={() => setLike(item, selected)}
               >
                 {item.isLike ? (
                   <Icon28FireOutline fill="#FF0000" />
