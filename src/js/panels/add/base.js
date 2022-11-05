@@ -37,34 +37,38 @@ function AddPanel({ router }) {
           isAnon: checked,
         })
         .then((res) => {
-          //---------------------------\\
-          let profile_copy = [...mainStorage.profile];
+          if(res.data.status) {
+            //---------------------------\\
+            let profile_copy = [...mainStorage.profile];
 
-          profile_copy.push(res.data.object);
+            profile_copy.push(res.data.object);
 
-          dispatch(set({ key: "profile", value: profile_copy }));
+            dispatch(set({key: "profile", value: profile_copy}));
 
-          //---------------------------\\
-          setText("");
-          setChecked(false);
-          router.toPopout(
-            setSnackbar(
-              <Snackbar
-                onClose={() => setSnackbar(null)}
-                before={
-                  <Avatar
-                    size={35}
-                    style={{ background: "var(--field_valid_border)" }}
-                  >
-                    <Icon28InfoOutline fill="#fff" width={20} height={20} />
-                  </Avatar>
-                }
-                action="Хорошо"
-              >
-                Мечта отправлена на модерацию
-              </Snackbar>
-            )
-          );
+            //---------------------------\\
+            setText("");
+            setChecked(false);
+            router.toPopout(
+              setSnackbar(
+                <Snackbar
+                  onClose={() => setSnackbar(null)}
+                  before={
+                    <Avatar
+                      size={35}
+                      style={{background: "var(--field_valid_border)"}}
+                    >
+                      <Icon28InfoOutline fill="#fff" width={20} height={20}/>
+                    </Avatar>
+                  }
+                  action="Хорошо"
+                >
+                  Мечта отправлена на модерацию
+                </Snackbar>
+              )
+            );
+          } else {
+            router.toPopout(<Snackbar onClose={() => router.toPopout()}>{res.data.info}</Snackbar>);
+          }
         });
     } else {
       router.toPopout(

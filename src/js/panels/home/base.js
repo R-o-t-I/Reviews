@@ -18,6 +18,7 @@ import {
   ActionSheetItem,
   Placeholder,
   VKCOM,
+  Snackbar
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
@@ -61,9 +62,13 @@ function HomePanel({ router }) {
 
   function getList(type) {
     axios.get("getList?type=" + type).then((res) => {
-      setInfo(res.data);
-      setInfo2(res.data);
-      dispatch(set({ key: "home", value: res.data }));
+      if(res.data.status) {
+        setInfo(res.data);
+        setInfo2(res.data);
+        dispatch(set({key: "home", value: res.data}));
+      } else {
+        router.toPopout(<Snackbar onClose={() => router.toPopout()}>{res.data.info}</Snackbar>);
+      }
     });
   }
 
@@ -179,10 +184,15 @@ function HomePanel({ router }) {
       id: item.id,
     });
 
-    setInfo(data);
-    console.log(selected);
-    reverseList(selected);
-    dispatch(set({ key: "home", value: data }));
+    if(data.status) {
+
+      setInfo(data);
+      console.log(selected);
+      reverseList(selected);
+      dispatch(set({key: "home", value: data}));
+    } else {
+      router.toPopout(<Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>);
+    }
   }
 
   return (
@@ -293,9 +303,13 @@ function HomePanel({ router }) {
                     const {data} = await axios.post("getHelper", {
                       id: item.id
                     });
+                    if(data.status) {
 
-                    dispatch(set({ key: 'helper', value: data[0] }));
-                    router.toModal("helper");
+                      dispatch(set({key: 'helper', value: data[0]}));
+                      router.toModal("helper");
+                    } else {
+                      router.toPopout(<Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>)
+                    }
                   }}
                   className={style.buttonReviewRight}
                 >

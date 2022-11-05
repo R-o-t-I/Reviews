@@ -68,10 +68,14 @@ function ProfilePanel({ router }) {
   async function getInfo() {
     router.toPopout(<ScreenSpinner />);
     const { data } = await axios.get("profile");
-    setInfo(data.dreams);
-    setIsAdmin(data.admin);
-    dispatch(set({ key: "profile", value: data.dreams }));
-    dispatch(set({ key: "isAdmin", value: data.admin }));
+    if(data.status) {
+      setInfo(data.dreams);
+      setIsAdmin(data.admin);
+      dispatch(set({key: "profile", value: data.dreams}));
+      dispatch(set({key: "isAdmin", value: data.admin}));
+    } else {
+      router.toPopout(<Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>);
+    }
   }
 
   async function getInfoUser() {
@@ -87,38 +91,43 @@ function ProfilePanel({ router }) {
 
   async function deleteDream(id) {
     const { data } = await axios.post("delete", { id: id });
-    let copy_home = [...mainStorage.home];
 
-    setInfo(data);
-    mainStorage.home.find((item) => {
-      if (item.id === id) {
-        copy_home.splice(copy_home.indexOf(item), 1);
-        dispatch(set({ key: "home", value: copy_home }));
-      }
-    });
+    if(data.status) {
+      let copy_home = [...mainStorage.home];
 
-    dispatch(set({ key: "profile", value: data }));
-    setTimeout(
-      () =>
-        router.toPopout(
-          <Snackbar
-            onClose={() => router.toBack()}
-            before={
-              <Avatar
-                size={35}
-                style={{
-                  background: "var(--field_valid_border)",
-                }}
-              >
-                <Icon28DoneOutline fill="#fff" width={20} height={20} />
-              </Avatar>
-            }
-          >
-            Мечта удалена
-          </Snackbar>
-        ),
-      1000
-    );
+      setInfo(data);
+      mainStorage.home.find((item) => {
+        if (item.id === id) {
+          copy_home.splice(copy_home.indexOf(item), 1);
+          dispatch(set({key: "home", value: copy_home}));
+        }
+      });
+
+      dispatch(set({key: "profile", value: data}));
+      setTimeout(
+        () =>
+          router.toPopout(
+            <Snackbar
+              onClose={() => router.toBack()}
+              before={
+                <Avatar
+                  size={35}
+                  style={{
+                    background: "var(--field_valid_border)",
+                  }}
+                >
+                  <Icon28DoneOutline fill="#fff" width={20} height={20}/>
+                </Avatar>
+              }
+            >
+              Мечта удалена
+            </Snackbar>
+          ),
+        1000
+      );
+    } else {
+      router.toPopout(<Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>);
+    }
   }
 
   async function openMore(e, id) {
