@@ -12,7 +12,9 @@ export const mainReducer = createSlice({
     home_tab: 'new',
     profile: [],
     isAdmin: false,
-    report_id: 0
+    report_id: 0,
+    helper: {},
+    help: {}
   },
   reducers: {
     set: (state, action) => {

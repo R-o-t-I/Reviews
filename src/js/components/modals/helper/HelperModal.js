@@ -20,8 +20,34 @@ import { Icon24DismissDark } from "@vkontakte/icons";
 
 import style from "./helperModal.module.scss";
 
+
+
 function HelperModal({ nav, router }) {
   const platform = useSelector((state) => state.main.platform);
+  const mainStorage = useSelector((state) => state.main);
+
+  function timeConverterDaily(UNIX_timestamp) {
+    let a = new Date(UNIX_timestamp),
+      months = [
+        "января",
+        "февраля",
+        "марта",
+        "апреля",
+        "мая",
+        "июня",
+        "июля",
+        "августа",
+        "сентября",
+        "октября",
+        "ноября",
+        "декабря",
+      ],
+      month = months[a.getMonth()],
+      year = a.getFullYear(),
+      date = a.getDate(),
+      time = date + " " + month + " 2022";
+    return time;
+  }
 
   return (
     <ModalPage
@@ -56,17 +82,19 @@ function HelperModal({ nav, router }) {
           <SimpleCell
             multiline
             disabled
-            subtitle="Помог 4 ноября 2022"
-            before={<Avatar size={48} />}
+            subtitle={timeConverterDaily(mainStorage.helper.timestamp)}
+            before={<Avatar size={48} src={mainStorage.helper.photo_url}/>}
           >
-            Name Name
+            {mainStorage.helper.first_name} {mainStorage.helper.last_name}
           </SimpleCell>
         </Card>
       </div>
       <div style={{ position: "relative", paddingBottom: 30 }}>
         <div className={style.headerCard}>Комментарий мечтателя:</div>
         <Card mode="outline" className={style.cardTextComment}>
-          <div>text</div>
+          <div>
+            {mainStorage.helper.text}
+          </div>
         </Card>
       </div>
     </ModalPage>

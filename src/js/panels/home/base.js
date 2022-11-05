@@ -122,15 +122,16 @@ function HomePanel({ router }) {
             Открыть профиль ВКонтакте
           </ActionSheetItem>
         )}
-        {mainStorage.isAdmin === 1 && (
           <ActionSheetItem
             before={<Icon28MagicWandOutline />}
-            onClick={() => router.toModal("helped")}
+            onClick={() => {
+              router.toModal("helped");
+              dispatch(set({ key: 'help', value: item }));
+            }}
             autoclose
           >
             Помочь с мечтой
           </ActionSheetItem>
-        )}
         <ActionSheetItem
           mode="destructive"
           before={<Icon28ReportOutline />}
@@ -286,9 +287,16 @@ function HomePanel({ router }) {
               >
                 <Icon28ShareOutline />
               </Tappable>
-              {mainStorage.isAdmin === 1 && (
+              {item.isPerform && (
                 <Tappable
-                  onClick={() => router.toModal("helper")}
+                  onClick={ async () => {
+                    const {data} = await axios.post("getHelper", {
+                      id: item.id
+                    });
+
+                    dispatch(set({ key: 'helper', value: data[0] }));
+                    router.toModal("helper");
+                  }}
                   className={style.buttonReviewRight}
                 >
                   <Icon28StarsOutline />

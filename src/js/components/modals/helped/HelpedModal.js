@@ -11,14 +11,31 @@ import {
   Textarea,
   Checkbox,
   Button,
+  Snackbar
 } from "@vkontakte/vkui";
 
 import { Icon24DismissDark } from "@vkontakte/icons";
 
+import axios from "axios";
+
 import style from "./helpedModal.module.scss";
 
 function HelpedModal({ nav, router }) {
-  const platform = useSelector((state) => state.main.platform);
+  const platform = useSelector((state) => state.main.plarform);
+  const mainStorage = useSelector((state) => state.main);
+  const [checked, setChecked] = useState(false);
+  const [text, setText] = useState("");
+
+  async function send() {
+    const {data} = await axios.post("perform", {
+      id: mainStorage.help.id,
+      isPrivate: checked,
+      text: text
+    });
+    router.toPopout();
+    router.toBack();
+    setTimeout(() => router.toPopout(<Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>), 100);
+  }
 
   return (
     <ModalPage
@@ -47,16 +64,28 @@ function HelpedModal({ nav, router }) {
       onClose={() => router.toBack()}
       settlingHeight={100}
     >
-      <FormItem top="Как с Вами можно связаться?">
+      {!mainStorage.help.isSetPerform ? (
+        <>
+      {/*<FormItem top="Как с Вами можно связаться?">
         <Textarea placeholder="Введите ссылку на ВКонтакте или почту" />
-      </FormItem>
+      </FormItem>*/}
       <FormItem top="Ваш комментарий">
-        <Textarea placeholder="Введите комментарий" />
-        <Checkbox>Попросить не оставлять комментарий</Checkbox>
-        <Button size="m" stretched>
+        <Textarea placeholder="Введите комментарий" value={text} onChange={(e) => setText(e.target.value)}/>
+        <Checkbox onClick={() => setChecked(!checked)} checked={checked}>Попросить не оставлять комментарий</Checkbox>
+        <Button size="m" stretched onClick={() => send()}>
           Отправить
         </Button>
       </FormItem>
+      </>
+        ) :
+        (
+          <FormItem top="Ваш комментарий">
+            <Button size="m" stretched onClick={() => send()}>
+              Удалить запрос помощи (Тут нужно написать нормальный текст)
+            </Button>
+          </FormItem>
+        )
+      }
     </ModalPage>
   );
 }
