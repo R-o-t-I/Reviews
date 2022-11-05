@@ -68,7 +68,7 @@ function ProfilePanel({ router }) {
   async function getInfo() {
     router.toPopout(<ScreenSpinner />);
     const { data } = await axios.get("profile");
-    if(data.status) {
+    if(data.id >= 0) {
       setInfo(data.dreams);
       setIsAdmin(data.admin);
       dispatch(set({key: "profile", value: data.dreams}));
@@ -92,7 +92,7 @@ function ProfilePanel({ router }) {
   async function deleteDream(id) {
     const { data } = await axios.post("delete", { id: id });
 
-    if(data.status) {
+    if(data.length >= 0) {
       let copy_home = [...mainStorage.home];
 
       setInfo(data);

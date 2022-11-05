@@ -62,7 +62,7 @@ function HomePanel({ router }) {
 
   function getList(type) {
     axios.get("getList?type=" + type).then((res) => {
-      if(res.data.status) {
+      if(res.data.length >= 0) {
         setInfo(res.data);
         setInfo2(res.data);
         dispatch(set({key: "home", value: res.data}));
@@ -184,7 +184,7 @@ function HomePanel({ router }) {
       id: item.id,
     });
 
-    if(data.status) {
+    if(data.length >= 0) {
 
       setInfo(data);
       console.log(selected);
