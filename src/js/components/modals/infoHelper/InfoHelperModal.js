@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import {
   ModalPage,
@@ -15,15 +15,19 @@ import {
   Avatar,
   Card,
   IconButton,
+  Div
 } from "@vkontakte/vkui";
 
 import { Icon24DismissDark, Icon28CopyOutline } from "@vkontakte/icons";
+
+import {set} from "../../../reducers/mainReducer";
 
 import style from "./infoHelperModal.module.scss";
 
 function InfoHelperModal({ nav, router }) {
   const platform = useSelector((state) => state.main.platform);
   const mainStorage = useSelector((state) => state.main);
+  const dispatch = useDispatch();
 
   function timeConverterDaily(UNIX_timestamp) {
     let a = new Date(UNIX_timestamp),
@@ -112,6 +116,18 @@ function InfoHelperModal({ nav, router }) {
         <Card mode="outline" className={style.cardTextComment}>
           <div>{item.isPrivate ? 'Помощник просил не показывать комментарий всем' : 'Помощник разрешил показывать комментарий всем'}</div>
         </Card>
+        <Div>
+          <Button
+            stretched
+            size="m"
+            onClick={() => {
+              dispatch(set({ key: 'helperInfo', value: item }));
+              router.toModal("comeTrue");
+            }}
+          >
+            Помог
+          </Button>
+        </Div>
       </div>
         </>
       ))}

@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from "react";
-import { useSelector } from "react-redux";
+import React, {Fragment, useEffect, useState} from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import {
   ModalPage,
@@ -26,10 +26,38 @@ import {
 
 import { Icon24DismissDark } from "@vkontakte/icons";
 
+import axios from 'axios';
+
+import {set} from '../../../reducers/mainReducer';
+
 import style from "./comeTrueModal.module.scss";
 
 function ComeTrueModal({ nav, router }) {
   const platform = useSelector((state) => state.main.platform);
+  const mainStorage = useSelector((state) => state.main);
+  const dispatch = useDispatch();
+  const [info, setInfo] = useState({});
+  const [text, setText] = useState("");
+  const [isPrivate, setIsPrivate] = useState(false);
+
+  async function setPerform() {
+    const {data} = await axios.post('setPerform', {
+      id: mainStorage.helperInfo.id,
+      dream_id: mainStorage.helperInfo.dream_id,
+      user_id: info.vk_id,
+      text: text,
+      isPrivate: isPrivate
+    });
+    dispatch(set({ key: 'helperInfo', value: {} }));
+    router.toPopout();
+    router.toBack();
+  }
+
+  useEffect(() => {
+    if(mainStorage.helperInfo.id !== undefined) {
+      setInfo(mainStorage.helperInfo);
+    }
+  }, []);
 
   return (
     <ModalPage
@@ -40,12 +68,18 @@ function ComeTrueModal({ nav, router }) {
           right={
             <Fragment>
               {platform === ANDROID && (
-                <PanelHeaderButton onClick={() => router.toBack()}>
+                <PanelHeaderButton onClick={() => {
+                  dispatch(set({ key: 'helperInfo', value: {} }));
+                  router.toBack();
+                }}>
                   <Icon24DismissDark />
                 </PanelHeaderButton>
               )}
               {platform === IOS && (
-                <PanelHeaderButton onClick={() => router.toBack()}>
+                <PanelHeaderButton onClick={() => {
+                  dispatch(set({ key: 'helperInfo', value: {} }));
+                  router.toBack();
+                }}>
                   <Icon24DismissDark />
                 </PanelHeaderButton>
               )}
@@ -55,7 +89,10 @@ function ComeTrueModal({ nav, router }) {
           Мечта сбылась
         </ModalPageHeader>
       }
-      onClose={() => router.toBack()}
+      onClose={() => {
+        dispatch(set({ key: 'helperInfo', value: {} }));
+        router.toBack();
+      }}
       settlingHeight={100}
     >
       <FormLayout>
@@ -63,9 +100,18 @@ function ComeTrueModal({ nav, router }) {
           top="Кто помог Вам?"
           bottom="Если Вам никто не помогал в исполнении мечты, оставьте поле пустым"
         >
-          <Input placeholder="Введите ID или короткий адрес" />
+          <Input
+            placeholder="Введите ID или короткий адрес"
+            value={info.vk_id}
+            onChange={(e) => {
+              let copy_info = {...info};
+              copy_info.vk_id = e.target.value
+              setInfo(copy_info);
+            }}
+          />
         </FormItem>
       </FormLayout>
+      {/*
       <div className={style.recent}>
         <Subhead weight="regular">Недавние помощники</Subhead>
         <HorizontalScroll>
@@ -79,14 +125,15 @@ function ComeTrueModal({ nav, router }) {
           </div>
         </HorizontalScroll>
       </div>
+      */}
       <FormLayout>
         <FormItem top="Как это было?">
-          <Textarea placeholder="Опишите, в чем заключалась помощь" />
+          <Textarea placeholder="Опишите, в чем заключалась помощь" value={text} onChange={(e) => setText(e.target.value)}/>
           <Checkbox>Показывать комментарий всем</Checkbox>
         </FormItem>
       </FormLayout>
       <Div>
-        <Button stretched size="m">
+        <Button stretched size="m" onClick={() => setPerform()}>
           Готово
         </Button>
       </Div>

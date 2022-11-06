@@ -141,7 +141,6 @@ function ProfilePanel({ router }) {
         }
         toggleRef={e.currentTarget}
       >
-        {mainStorage.isAdmin === 1 && (
           <ActionSheetItem
             autoclose
             onClick={() => router.toModal("comeTrue")}
@@ -149,7 +148,6 @@ function ProfilePanel({ router }) {
           >
             Мечта сбылась
           </ActionSheetItem>
-        )}
         <ActionSheetItem
           onClick={() => openAlertDeletion(id)}
           mode="destructive"
