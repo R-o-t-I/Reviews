@@ -18,7 +18,7 @@ import {
   ActionSheetItem,
   Placeholder,
   VKCOM,
-  Snackbar
+  Snackbar,
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
@@ -62,12 +62,14 @@ function HomePanel({ router }) {
 
   function getList(type) {
     axios.get("getList?type=" + type).then((res) => {
-      if(res.data.length >= 0) {
+      if (res.data.length >= 0) {
         setInfo(res.data);
         setInfo2(res.data);
-        dispatch(set({key: "home", value: res.data}));
+        dispatch(set({ key: "home", value: res.data }));
       } else {
-        router.toPopout(<Snackbar onClose={() => router.toPopout()}>{res.data.info}</Snackbar>);
+        router.toPopout(
+          <Snackbar onClose={() => router.toPopout()}>{res.data.info}</Snackbar>
+        );
       }
     });
   }
@@ -127,21 +129,21 @@ function HomePanel({ router }) {
             Открыть профиль ВКонтакте
           </ActionSheetItem>
         )}
-          <ActionSheetItem
-            before={<Icon28MagicWandOutline />}
-            onClick={() => {
-              console.log(item);
-              if(!item.isSetPerform) {
-                dispatch(set({ key: 'help', value: item }));
-                router.toModal("helped");
-              } else {
-                Object.item.isSetPerform = false;
-              }
-            }}
-            autoclose
-          >
-            {!item.isSetPerform ? 'Помочь с мечтой' : 'Отменить помощь'}
-          </ActionSheetItem>
+        <ActionSheetItem
+          before={<Icon28MagicWandOutline />}
+          onClick={() => {
+            console.log(item);
+            if (!item.isSetPerform) {
+              dispatch(set({ key: "help", value: item }));
+              router.toModal("helped");
+            } else {
+              Object.item.isSetPerform = false;
+            }
+          }}
+          autoclose
+        >
+          {!item.isSetPerform ? "Помочь с мечтой" : "Отменить помощь"}
+        </ActionSheetItem>
         <ActionSheetItem
           mode="destructive"
           before={<Icon28ReportOutline />}
@@ -189,14 +191,15 @@ function HomePanel({ router }) {
       id: item.id,
     });
 
-    if(data.length >= 0) {
-
+    if (data.length >= 0) {
       setInfo(data);
       console.log(selected);
       reverseList(selected);
-      dispatch(set({key: "home", value: data}));
+      dispatch(set({ key: "home", value: data }));
     } else {
-      router.toPopout(<Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>);
+      router.toPopout(
+        <Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>
+      );
     }
   }
 
@@ -302,25 +305,42 @@ function HomePanel({ router }) {
               >
                 <Icon28ShareOutline />
               </Tappable>
-              {item.isPerform && (
+              {item.isPerform ? (
                 <Tappable
-                  onClick={ async () => {
-                    const {data} = await axios.post("getHelper", {
-                      id: item.id
+                  onClick={async () => {
+                    const { data } = await axios.post("getHelper", {
+                      id: item.id,
                     });
-                    if(data.status) {
-
-                      dispatch(set({key: 'helper', value: data[0]}));
-                      router.toModal("helper");
-                    } else {
-                      router.toPopout(<Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>)
-                    }
+                    dispatch(set({ key: "helper", value: data[0] }));
+                    router.toModal("helper");
                   }}
                   className={style.buttonReviewRight}
                 >
                   <Icon28StarsOutline />
                   {platform === VKCOM && (
                     <div className={style.textButtonHelped}>Мечта сбылась</div>
+                  )}
+                </Tappable>
+              ) : (
+                <Tappable
+                  onClick={() => {
+                    console.log(item);
+                    if (!item.isSetPerform) {
+                      dispatch(set({ key: "help", value: item }));
+                      router.toModal("helped");
+                    } else {
+                      Object.item.isSetPerform = false;
+                    }
+                  }}
+                  className={style.buttonReviewRight}
+                >
+                  <Icon28MagicWandOutline />
+                  {platform === VKCOM && (
+                    <div className={style.textButtonHelped}>
+                      {!item.isSetPerform
+                        ? "Помочь с мечтой"
+                        : "Отменить помощь"}
+                    </div>
                   )}
                 </Tappable>
               )}

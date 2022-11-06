@@ -68,13 +68,15 @@ function ProfilePanel({ router }) {
   async function getInfo() {
     router.toPopout(<ScreenSpinner />);
     const { data } = await axios.get("profile");
-    if(data.id >= 0) {
+    if (data.id >= 0) {
       setInfo(data.dreams);
       setIsAdmin(data.admin);
-      dispatch(set({key: "profile", value: data.dreams}));
-      dispatch(set({key: "isAdmin", value: data.admin}));
+      dispatch(set({ key: "profile", value: data.dreams }));
+      dispatch(set({ key: "isAdmin", value: data.admin }));
     } else {
-      router.toPopout(<Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>);
+      router.toPopout(
+        <Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>
+      );
     }
   }
 
@@ -92,18 +94,18 @@ function ProfilePanel({ router }) {
   async function deleteDream(id) {
     const { data } = await axios.post("delete", { id: id });
 
-    if(data.length >= 0) {
+    if (data.length >= 0) {
       let copy_home = [...mainStorage.home];
 
       setInfo(data);
       mainStorage.home.find((item) => {
         if (item.id === id) {
           copy_home.splice(copy_home.indexOf(item), 1);
-          dispatch(set({key: "home", value: copy_home}));
+          dispatch(set({ key: "home", value: copy_home }));
         }
       });
 
-      dispatch(set({key: "profile", value: data}));
+      dispatch(set({ key: "profile", value: data }));
       setTimeout(
         () =>
           router.toPopout(
@@ -116,7 +118,7 @@ function ProfilePanel({ router }) {
                     background: "var(--field_valid_border)",
                   }}
                 >
-                  <Icon28DoneOutline fill="#fff" width={20} height={20}/>
+                  <Icon28DoneOutline fill="#fff" width={20} height={20} />
                 </Avatar>
               }
             >
@@ -126,11 +128,13 @@ function ProfilePanel({ router }) {
         1000
       );
     } else {
-      router.toPopout(<Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>);
+      router.toPopout(
+        <Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>
+      );
     }
   }
 
-  async function openMore(e, id) {
+  async function openMore(e, id, item) {
     router.toPopout(
       <ActionSheet
         onClose={() => router.toBack()}
@@ -141,13 +145,16 @@ function ProfilePanel({ router }) {
         }
         toggleRef={e.currentTarget}
       >
-          <ActionSheetItem
-            autoclose
-            onClick={() => router.toModal("comeTrue")}
-            before={<Icon28StarsOutline />}
-          >
-            Мечта сбылась
-          </ActionSheetItem>
+        <ActionSheetItem
+          autoclose
+          onClick={() => {
+            dispatch(set({ key: "helperInfo", value: item }));
+            router.toModal("comeTrue");
+          }}
+          before={<Icon28StarsOutline />}
+        >
+          Мечта сбылась
+        </ActionSheetItem>
         <ActionSheetItem
           onClick={() => openAlertDeletion(id)}
           mode="destructive"
@@ -267,7 +274,7 @@ function ProfilePanel({ router }) {
               description={timeConverterDaily(item.timestamp)}
               className={style.simpleCellReviews}
               after={
-                <IconButton onClick={(e) => openMore(e, item.id)}>
+                <IconButton onClick={(e) => openMore(e, item.id, item)}>
                   <Icon28MoreHorizontal />
                 </IconButton>
               }
@@ -295,11 +302,11 @@ function ProfilePanel({ router }) {
                 <Icon28ShareOutline />
               </Tappable>
               <div className={style.buttonReviewRight}>
-                {item.performs.length !== 0 && (
+                {item.performs.length !== 0 ? (
                   <Tappable
                     className={style.buttonHelped}
                     onClick={() => {
-                      dispatch(set({ key: 'helpers', value: item.performs }));
+                      dispatch(set({ key: "helpers", value: item.performs }));
                       router.toModal("infoHelper");
                     }}
                   >
@@ -307,6 +314,21 @@ function ProfilePanel({ router }) {
                     {platform === VKCOM && (
                       <div className={style.textButtonHelped}>
                         Хотят помочь!
+                      </div>
+                    )}
+                  </Tappable>
+                ) : (
+                  <Tappable
+                    className={style.buttonHelped}
+                    onClick={() => {
+                      dispatch(set({ key: "helperInfo", value: item }));
+                      router.toModal("comeTrue");
+                    }}
+                  >
+                    <Icon28StarsOutline />
+                    {platform === VKCOM && (
+                      <div className={style.textButtonHelped}>
+                        Мечта сбылась
                       </div>
                     )}
                   </Tappable>
