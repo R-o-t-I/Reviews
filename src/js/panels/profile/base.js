@@ -297,10 +297,13 @@ function ProfilePanel({ router }) {
                 <Icon28ShareOutline />
               </Tappable>
               <div className={style.buttonReviewRight}>
-                {mainStorage.isAdmin === 1 && (
+                {item.performs.length !== 0 && (
                   <Tappable
                     className={style.buttonHelped}
-                    onClick={() => router.toModal("infoHelper")}
+                    onClick={() => {
+                      dispatch(set({ key: 'helpers', value: item.performs }));
+                      router.toModal("infoHelper");
+                    }}
                   >
                     <Icon28MagicWandOutline />
                     {platform === VKCOM && (

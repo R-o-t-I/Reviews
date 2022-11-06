@@ -14,7 +14,8 @@ export const mainReducer = createSlice({
     isAdmin: false,
     report_id: 0,
     helper: {},
-    help: {}
+    help: {},
+    helpers: []
   },
   reducers: {
     set: (state, action) => {

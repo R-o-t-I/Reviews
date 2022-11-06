@@ -130,12 +130,17 @@ function HomePanel({ router }) {
           <ActionSheetItem
             before={<Icon28MagicWandOutline />}
             onClick={() => {
-              router.toModal("helped");
-              dispatch(set({ key: 'help', value: item }));
+              console.log(item);
+              if(!item.isSetPerform) {
+                dispatch(set({ key: 'help', value: item }));
+                router.toModal("helped");
+              } else {
+                Object.item.isSetPerform = false;
+              }
             }}
             autoclose
           >
-            Помочь с мечтой
+            {!item.isSetPerform ? 'Помочь с мечтой' : 'Отменить помощь'}
           </ActionSheetItem>
         <ActionSheetItem
           mode="destructive"

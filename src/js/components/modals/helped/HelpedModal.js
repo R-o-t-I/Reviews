@@ -79,9 +79,9 @@ function HelpedModal({ nav, router }) {
       </>
         ) :
         (
-          <FormItem top="Ваш комментарий">
+          <FormItem top="Вы действительно хотите удалить помощь?">
             <Button size="m" stretched onClick={() => send()}>
-              Удалить запрос помощи (Тут нужно написать нормальный текст)
+              Удалить помощь
             </Button>
           </FormItem>
         )
