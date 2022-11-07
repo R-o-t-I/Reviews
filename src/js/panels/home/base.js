@@ -52,19 +52,21 @@ function HomePanel({ router }) {
   const [info2, setInfo2] = useState([]);
 
   useEffect(() => {
+    console.log('useEffect');
+    console.log(mainStorage.home[mainStorage.help]);
     if (mainStorage.home.length === 0) {
       getList("new");
     } else {
-      setInfo(mainStorage.home);
-      setInfo2(mainStorage.home);
+      setInfo(mainStorage.home)
+      setInfo2(mainStorage.home)
     }
   });
 
   function getList(type) {
     axios.get("getList?type=" + type).then((res) => {
       if (res.data.length >= 0) {
-        setInfo(res.data);
-        setInfo2(res.data);
+        setInfo([...res.data]);
+        setInfo2([...res.data]);
         dispatch(set({ key: "home", value: res.data }));
       } else {
         router.toPopout(
@@ -110,7 +112,7 @@ function HomePanel({ router }) {
     link.click();
   }
 
-  async function openMore(e, item) {
+  async function openMore(e, item, index) {
     router.toPopout(
       <ActionSheet
         onClose={() => router.toBack()}
@@ -129,21 +131,28 @@ function HomePanel({ router }) {
             Открыть профиль ВКонтакте
           </ActionSheetItem>
         )}
+        {/*
         <ActionSheetItem
           before={<Icon28MagicWandOutline />}
           onClick={() => {
-            console.log(item);
+            console.log(item.isSetPerform);
             if (!item.isSetPerform) {
               dispatch(set({ key: "help", value: item }));
               router.toModal("helped");
             } else {
-              Object.item.isSetPerform = false;
+              let newArray = []
+              info.forEach( (inf, index) => {
+                newArray[index] = {...inf}
+              });
+              newArray[index].isSetPerform = false;
+              setInfo(newArray)
             }
           }}
           autoclose
         >
           {!item.isSetPerform ? "Помочь с мечтой" : "Отменить помощь"}
         </ActionSheetItem>
+        */}
         <ActionSheetItem
           mode="destructive"
           before={<Icon28ReportOutline />}
@@ -171,18 +180,30 @@ function HomePanel({ router }) {
 
   function reverseList(type) {
     let new_info = [...info];
+    let info_sort = [];
+
     if (type === "likes") {
       setInfo(new_info.sort((a, b) => b.likes - a.likes));
       setInfo2(new_info.sort((a, b) => b.likes - a.likes));
       dispatch(
         set({ key: "home", value: new_info.sort((a, b) => b.likes - a.likes) })
       );
-    } else {
+    } else if (type === "new") {
       setInfo(new_info.sort((a, b) => b.id - a.id));
       setInfo2(new_info.sort((a, b) => b.id - a.id));
       dispatch(
         set({ key: "home", value: new_info.sort((a, b) => b.id - a.id) })
       );
+    } else {
+      console.log(123123123213213123);
+      new_info.forEach((item) => {
+        if (item.isSetPerform) {
+          info_sort.push(item);
+        }
+      });
+      setInfo(info_sort);
+      setInfo2(info_sort);
+      dispatch(set({ key: "home", value: info_sort }));
     }
   }
 
@@ -231,18 +252,17 @@ function HomePanel({ router }) {
             >
               Популярные
             </TabsItem>
-            {mainStorage.isAdmin === 1 && (
               <TabsItem
                 selected={mainStorage.home_tab === "comeTrue"}
                 onClick={() => {
                   dispatch(set({ key: "home_tab", value: "comeTrue" }));
                   reverseList("comeTrue");
+                  setSelected("comeTrue");
                 }}
                 before={<Icon28StarsOutline width={20} height={20} />}
               >
                 Сбывшиеся
               </TabsItem>
-            )}
           </HorizontalScroll>
         </Tabs>
       </div>
@@ -267,7 +287,7 @@ function HomePanel({ router }) {
               disabled
               className={style.simpleCellReview}
               after={
-                <IconButton onClick={(e) => openMore(e, item)}>
+                <IconButton onClick={(e) => openMore(e, item, index)}>
                   <Icon28MoreHorizontal />
                 </IconButton>
               }
@@ -323,13 +343,23 @@ function HomePanel({ router }) {
                 </Tappable>
               ) : (
                 <Tappable
-                  onClick={() => {
+                  onClick={ async () => {
                     console.log(item);
                     if (!item.isSetPerform) {
-                      dispatch(set({ key: "help", value: item }));
+                      dispatch(set({ key: "help", value: index }));
                       router.toModal("helped");
                     } else {
-                      Object.item.isSetPerform = false;
+                      let newArray = []
+                      info.forEach( (inf, index) => {
+                        newArray[index] = {...inf}
+                      });
+                      newArray[index].isSetPerform = false;
+                      dispatch(set({ key: 'home', value: newArray }));
+                      setInfo(newArray);
+                      const {data} = await axios.post("perform", {
+                        id: item.id
+                      });
+                      router.toPopout(<Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>);
                     }
                   }}
                   className={style.buttonReviewRight}

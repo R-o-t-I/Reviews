@@ -1,5 +1,5 @@
 import React, { Fragment, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import {
   ModalPage,
@@ -19,21 +19,36 @@ import { Icon24DismissDark } from "@vkontakte/icons";
 import axios from "axios";
 
 import style from "./helpedModal.module.scss";
+import {set} from "../../../reducers/mainReducer";
 
 function HelpedModal({ nav, router }) {
   const platform = useSelector((state) => state.main.plarform);
   const mainStorage = useSelector((state) => state.main);
+  const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
   const [text, setText] = useState("");
 
   async function send() {
     const {data} = await axios.post("perform", {
-      id: mainStorage.help.id,
+      id: mainStorage.home[mainStorage.help].id,
       isPrivate: checked,
       text: text
     });
-    router.toPopout();
-    router.toBack();
+
+    if(data.status) {
+      console.log('DATA STATUS');
+      let newArray = []
+      mainStorage.home.forEach((inf, index) => {
+        newArray[index] = {...inf}
+      });
+      newArray[mainStorage.help].isSetPerform = true;
+      dispatch(set({ key: 'home', value: newArray }));
+
+    }
+
+      router.toPopout();
+      router.toBack();
+
     setTimeout(() => router.toPopout(<Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>), 100);
   }
 
@@ -64,7 +79,7 @@ function HelpedModal({ nav, router }) {
       onClose={() => router.toBack()}
       settlingHeight={100}
     >
-      {!mainStorage.help.isSetPerform ? (
+      {!mainStorage.home[mainStorage.help].isSetPerform && (
         <>
       {/*<FormItem top="Как с Вами можно связаться?">
         <Textarea placeholder="Введите ссылку на ВКонтакте или почту" />
@@ -77,13 +92,6 @@ function HelpedModal({ nav, router }) {
         </Button>
       </FormItem>
       </>
-        ) :
-        (
-          <FormItem top="Вы действительно хотите удалить помощь?">
-            <Button size="m" stretched onClick={() => send()}>
-              Удалить помощь
-            </Button>
-          </FormItem>
         )
       }
     </ModalPage>

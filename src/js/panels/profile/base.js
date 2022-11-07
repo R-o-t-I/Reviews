@@ -320,10 +320,7 @@ function ProfilePanel({ router }) {
                 ) : (
                   <Tappable
                     className={style.buttonHelped}
-                    onClick={() => {
-                      dispatch(set({ key: "helperInfo", value: item }));
-                      router.toModal("comeTrue");
-                    }}
+                    disabled
                   >
                     <Icon28StarsOutline />
                     {platform === VKCOM && (
