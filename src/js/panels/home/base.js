@@ -195,12 +195,12 @@ function HomePanel({ router }) {
         set({ key: "home", value: new_info.sort((a, b) => b.id - a.id) })
       );
     } else {
-      console.log(123123123213213123);
       new_info.forEach((item) => {
         if (item.isSetPerform) {
           info_sort.push(item);
         }
       });
+
       setInfo(info_sort);
       setInfo2(info_sort);
       dispatch(set({ key: "home", value: info_sort }));

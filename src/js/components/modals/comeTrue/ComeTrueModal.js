@@ -42,12 +42,22 @@ function ComeTrueModal({ nav, router }) {
 
   async function setPerform() {
     const {data} = await axios.post('setPerform', {
-      id: mainStorage.helperInfo.id,
+      id: mainStorage.profile[mainStorage.helpersID].id,
       dream_id: mainStorage.helperInfo.dream_id,
       user_id: info.vk_id,
       text: text,
       isPrivate: isPrivate
     });
+
+    let newArray = [];
+    mainStorage.profile.forEach((inf, index) => {
+      newArray[index] = {...inf}
+    });
+
+    newArray[mainStorage.helpersID].performs = [];
+    newArray[mainStorage.helpersID].isPerform = true;
+
+    dispatch(set({ key: 'profile', value: newArray }));
     dispatch(set({ key: 'helperInfo', value: {} }));
     router.toPopout();
     router.toBack();

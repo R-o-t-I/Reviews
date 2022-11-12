@@ -41,7 +41,7 @@ function AddPanel({ router }) {
             //---------------------------\\
             let profile_copy = [...mainStorage.profile];
 
-            profile_copy.push(res.data.object);
+            profile_copy.unshift(res.data.object);
 
             dispatch(set({key: "profile", value: profile_copy}));
 

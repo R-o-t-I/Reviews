@@ -63,7 +63,7 @@ function ProfilePanel({ router }) {
     } else {
       setInfo(mainStorage.profile);
     }
-  }, []);
+  });
 
   async function getInfo() {
     router.toPopout(<ScreenSpinner />);
@@ -134,7 +134,7 @@ function ProfilePanel({ router }) {
     }
   }
 
-  async function openMore(e, id, item) {
+  async function openMore(e, id, item, index) {
     router.toPopout(
       <ActionSheet
         onClose={() => router.toBack()}
@@ -145,16 +145,19 @@ function ProfilePanel({ router }) {
         }
         toggleRef={e.currentTarget}
       >
-        <ActionSheetItem
-          autoclose
-          onClick={() => {
-            dispatch(set({ key: "helperInfo", value: item }));
-            router.toModal("comeTrue");
-          }}
-          before={<Icon28StarsOutline />}
-        >
-          Мечта сбылась
-        </ActionSheetItem>
+        {/*!item.isPerform &&
+          <ActionSheetItem
+            autoclose
+            onClick={() => {
+              dispatch(set({key: "helperInfo", value: {}}));
+              dispatch(set({ key: "helpersID", value: index}));
+              router.toModal("comeTrue");
+            }}
+            before={<Icon28StarsOutline/>}
+          >
+            Мечта сбылась
+          </ActionSheetItem>
+        */}
         <ActionSheetItem
           onClick={() => openAlertDeletion(id)}
           mode="destructive"
@@ -274,7 +277,7 @@ function ProfilePanel({ router }) {
               description={timeConverterDaily(item.timestamp)}
               className={style.simpleCellReviews}
               after={
-                <IconButton onClick={(e) => openMore(e, item.id, item)}>
+                <IconButton onClick={(e) => openMore(e, item.id, item, index)}>
                   <Icon28MoreHorizontal />
                 </IconButton>
               }
@@ -307,6 +310,7 @@ function ProfilePanel({ router }) {
                     className={style.buttonHelped}
                     onClick={() => {
                       dispatch(set({ key: "helpers", value: item.performs }));
+                      dispatch(set({ key: "helpersID", value: index}));
                       router.toModal("infoHelper");
                     }}
                   >
@@ -317,19 +321,22 @@ function ProfilePanel({ router }) {
                       </div>
                     )}
                   </Tappable>
-                ) : (
-                  <Tappable
-                    className={style.buttonHelped}
-                    disabled
-                  >
-                    <Icon28StarsOutline />
-                    {platform === VKCOM && (
-                      <div className={style.textButtonHelped}>
-                        Мечта сбылась
-                      </div>
-                    )}
-                  </Tappable>
-                )}
+                ) : <>
+                  {item.isPerform &&
+                      <Tappable
+                        className={style.buttonHelped}
+                        disabled
+                      >
+                        <Icon28StarsOutline/>
+                        {platform === VKCOM && (
+                          <div className={style.textButtonHelped}>
+                            Мечта сбылась
+                          </div>
+                        )}
+                      </Tappable>
+                  }
+                  </>
+                }
                 {item.status === -1 && (
                   <Dropdown
                     action="hover"

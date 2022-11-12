@@ -36,7 +36,6 @@ function HelpedModal({ nav, router }) {
     });
 
     if(data.status) {
-      console.log('DATA STATUS');
       let newArray = []
       mainStorage.home.forEach((inf, index) => {
         newArray[index] = {...inf}
