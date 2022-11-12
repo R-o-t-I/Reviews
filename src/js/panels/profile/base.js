@@ -310,7 +310,7 @@ function ProfilePanel({ router }) {
                     className={style.buttonHelped}
                     onClick={() => {
                       dispatch(set({ key: "helpers", value: item.performs }));
-                      dispatch(set({ key: "helpersID", value: index}));
+                      dispatch(set({ key: "helpersID", value: index }));
                       router.toModal("infoHelper");
                     }}
                   >
@@ -321,22 +321,20 @@ function ProfilePanel({ router }) {
                       </div>
                     )}
                   </Tappable>
-                ) : <>
-                  {item.isPerform &&
-                      <Tappable
-                        className={style.buttonHelped}
-                        disabled
-                      >
-                        <Icon28StarsOutline/>
+                ) : (
+                  <>
+                    {item.isPerform && (
+                      <Tappable className={style.buttonHelped} disabled>
+                        <Icon28StarsOutline />
                         {platform === VKCOM && (
                           <div className={style.textButtonHelped}>
                             Мечта сбылась
                           </div>
                         )}
                       </Tappable>
-                  }
+                    )}
                   </>
-                }
+                )}
                 {item.status === -1 && (
                   <Dropdown
                     action="hover"
