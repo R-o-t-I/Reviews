@@ -14,8 +14,9 @@
 }
 
 .simpleCellReview {
-  margin-left: -16px !important;
-  margin-right: -6px !important;
+  margin-left: -0px !important; // -16px
+  padding-left: 0px !important;
+  margin-right: -0px !important; // -6px
 }
 
 .textReview {
@@ -69,4 +70,24 @@
 
 .textButtonHelped {
   margin-left: 8px;
+}
+
+.topUpCard {
+  display: block;
+  animation: topUpCard 1s infinite alternate;
+  background: var(--background_content);
+  box-shadow: 5px 5px 5px var(--shadow_content_block);
+  margin: 6px 6px 18px 6px;
+  padding: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+@keyframes topUpCard {
+  from {
+    box-shadow: 0 0 5px 1px rgba(215, 240, 255, 0.8);
+  }
+  to {
+    box-shadow: 0 0 9px 2px rgba(215, 240, 255, 0.8);
+  }
 }

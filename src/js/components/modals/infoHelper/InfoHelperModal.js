@@ -17,6 +17,7 @@ import {
   IconButton,
   Div,
   Snackbar,
+  Placeholder,
 } from "@vkontakte/vkui";
 
 import { Icon24DismissDark, Icon28CopyOutline } from "@vkontakte/icons";
@@ -137,7 +138,13 @@ function InfoHelperModal({ nav, router }) {
           <div style={{ position: "relative" }}>
             <div className={style.headerCard}>Комментарий помощника:</div>
             <Card mode="outline" className={style.cardTextComment}>
-              <div>{item.text}</div>
+              {item.text === "" ? (
+                <div style={{ color: "var(--text_secondary)" }}>
+                  Помощник не оставил комментарий
+                </div>
+              ) : (
+                <div>{item.text}</div>
+              )}
             </Card>
           </div>
           <div style={{ position: "relative", paddingBottom: 30 }}>

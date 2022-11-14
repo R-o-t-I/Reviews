@@ -86,3 +86,17 @@ body[scheme="space_gray"] {
 .vkuiTappable--ios.vkuiTappable--active-background {
   border-radius: 8px !important;
 }
+
+.vkuiCalendarTime__button {
+  display: none;
+}
+
+.vkuiCalendarTime {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.vkuiCalendar {
+  width: 100%;
+}

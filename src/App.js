@@ -30,6 +30,7 @@ import ComeTrueModal from "./js/components/modals/comeTrue/ComeTrueModal";
 import HelpedModal from "./js/components/modals/helped/HelpedModal";
 import HelperModal from "./js/components/modals/helper/HelperModal";
 import InfoHelperModal from "./js/components/modals/infoHelper/InfoHelperModal";
+import TopUpModal from "./js/components/modals/top/topUpModal";
 
 const HomePanel = lazy(() => import("./js/panels/home/base"));
 const AddPanel = lazy(() => import("./js/panels/add/base"));
@@ -90,6 +91,7 @@ const App = withAdaptivity(
         <HelpedModal nav="helped" />
         <HelperModal nav="helper" />
         <InfoHelperModal nav="infoHelper" />
+        <TopUpModal nav="topUpModal" />
       </ModalRoot>
     );
 

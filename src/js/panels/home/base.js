@@ -285,7 +285,6 @@ function HomePanel({ router }) {
                 />
               }
               className={style.simpleCellReview}
-              disabled
               after={
                 <IconButton onClick={(e) => openMore(e, item, index)}>
                   <Icon28MoreHorizontal />

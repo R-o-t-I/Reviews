@@ -29,6 +29,7 @@ import {
 import { Dropdown } from "@vkontakte/vkui/dist/unstable";
 
 import {
+  Icon28ArrowUpRectangleOutline,
   Icon28CancelOutline,
   Icon28ClockOutline,
   Icon28DeleteOutline,
@@ -158,6 +159,15 @@ function ProfilePanel({ router }) {
             Мечта сбылась
           </ActionSheetItem>
         */}
+        {mainStorage.isAdmin === 1 && (
+          <ActionSheetItem
+            onClick={() => router.toModal("topUpModal")}
+            before={<Icon28ArrowUpRectangleOutline />}
+            autoclose
+          >
+            Поднять в топ
+          </ActionSheetItem>
+        )}
         <ActionSheetItem
           onClick={() => openAlertDeletion(id)}
           mode="destructive"
@@ -272,7 +282,6 @@ function ProfilePanel({ router }) {
           <div className={style.blockReview}>
             <SimpleCell
               multiline
-              disabled
               before={<Avatar src={item.photo_url} size={48} />}
               description={timeConverterDaily(item.timestamp)}
               className={style.simpleCellReviews}
