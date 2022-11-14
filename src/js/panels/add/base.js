@@ -12,10 +12,16 @@ import {
   Alert,
   Snackbar,
   Avatar,
+  HorizontalScroll,
+  HorizontalCell,
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
-import { Icon28InfoOutline } from "@vkontakte/icons";
+import {
+  Icon28DonateCircleFillYellow,
+  Icon28DonateOutline,
+  Icon28InfoOutline,
+} from "@vkontakte/icons";
 
 import axios from "axios";
 import { set } from "../../reducers/mainReducer";
@@ -24,6 +30,7 @@ import { useDispatch, useSelector } from "react-redux";
 function AddPanel({ router }) {
   const dispatch = useDispatch();
   const mainStorage = useSelector((state) => state.main);
+  const platform = useSelector((state) => state.main.platform);
   const [text, setText] = useState("");
   const [checked, setChecked] = useState(false);
   const [snackbar, setSnackbar] = useState(null);
@@ -37,13 +44,13 @@ function AddPanel({ router }) {
           isAnon: checked,
         })
         .then((res) => {
-          if(res.data.status) {
+          if (res.data.status) {
             //---------------------------\\
             let profile_copy = [...mainStorage.profile];
 
             profile_copy.unshift(res.data.object);
 
-            dispatch(set({key: "profile", value: profile_copy}));
+            dispatch(set({ key: "profile", value: profile_copy }));
 
             //---------------------------\\
             setText("");
@@ -55,9 +62,9 @@ function AddPanel({ router }) {
                   before={
                     <Avatar
                       size={35}
-                      style={{background: "var(--field_valid_border)"}}
+                      style={{ background: "var(--field_valid_border)" }}
                     >
-                      <Icon28InfoOutline fill="#fff" width={20} height={20}/>
+                      <Icon28InfoOutline fill="#fff" width={20} height={20} />
                     </Avatar>
                   }
                   action="Хорошо"
@@ -67,7 +74,11 @@ function AddPanel({ router }) {
               )
             );
           } else {
-            router.toPopout(<Snackbar onClose={() => router.toPopout()}>{res.data.info}</Snackbar>);
+            router.toPopout(
+              <Snackbar onClose={() => router.toPopout()}>
+                {res.data.info}
+              </Snackbar>
+            );
           }
         });
     } else {
@@ -113,6 +124,90 @@ function AddPanel({ router }) {
             maxLength="1000"
           />
         </FormItem>
+        {mainStorage.isAdmin === 1 && (
+          <HorizontalScroll
+            showArrows
+            getScrollToLeft={(i) => i - 120}
+            getScrollToRight={(i) => i + 120}
+          >
+            <div style={{ display: "flex", marginTop: 12 }}>
+              <HorizontalCell disabled size="m">
+                <Avatar
+                  size={88}
+                  mode="app"
+                  style={{
+                    backgroundColor: "var(--background_content)",
+                    border: "3px solid var(--accent)",
+                  }}
+                />
+              </HorizontalCell>
+              <HorizontalCell disabled size="m">
+                <Avatar
+                  size={88}
+                  mode="app"
+                  src="https://w7.pngwing.com/pngs/129/100/png-transparent-violet-blue-sky-purple-blue-background-sky-skyline.png"
+                  badge={<Icon28DonateCircleFillYellow />}
+                />
+              </HorizontalCell>
+              <HorizontalCell disabled size="m">
+                <Avatar
+                  size={88}
+                  mode="app"
+                  src="https://img.freepik.com/free-photo/vivid-blurred-colorful-background_58702-2655.jpg?size=626&ext=jpg"
+                  badge={<Icon28DonateCircleFillYellow />}
+                />
+              </HorizontalCell>
+              <HorizontalCell disabled size="m">
+                <Avatar
+                  size={88}
+                  mode="app"
+                  src="https://oir.mobi/uploads/posts/2021-03/1616538453_5-p-odnotonnii-fon-dlya-teksta-7.jpg"
+                  badge={<Icon28DonateCircleFillYellow />}
+                />
+              </HorizontalCell>
+              <HorizontalCell disabled size="m">
+                <Avatar
+                  size={88}
+                  mode="app"
+                  src="https://img1.goodfon.ru/wallpaper/nbig/0/69/tekstura-svetlyy-fon-zheltyy.jpg"
+                  badge={<Icon28DonateCircleFillYellow />}
+                />
+              </HorizontalCell>
+              <HorizontalCell disabled size="m">
+                <Avatar
+                  size={88}
+                  mode="app"
+                  src="https://img.freepik.com/free-vector/white-abstract-background_23-2148810113.jpg?size=626&ext=jpg&ga=GA1.2.2011711811.1640476800"
+                  badge={<Icon28DonateCircleFillYellow />}
+                />
+              </HorizontalCell>
+              <HorizontalCell disabled size="m">
+                <Avatar
+                  size={88}
+                  mode="app"
+                  src="https://www.publicdomainpictures.net/pictures/40000/velka/background-1366644919rfW.jpg"
+                  badge={<Icon28DonateCircleFillYellow />}
+                />
+              </HorizontalCell>
+              <HorizontalCell disabled size="m">
+                <Avatar
+                  size={88}
+                  mode="app"
+                  src="https://oir.mobi/uploads/posts/2021-03/1616600208_17-p-tekhnicheskii-fon-18.jpg"
+                  badge={<Icon28DonateCircleFillYellow />}
+                />
+              </HorizontalCell>
+              <HorizontalCell disabled size="m">
+                <Avatar
+                  size={88}
+                  mode="app"
+                  src="https://oir.mobi/uploads/posts/2021-03/1616524585_55-p-nezhno-rozovii-fon-56.jpg"
+                  badge={<Icon28DonateCircleFillYellow />}
+                />
+              </HorizontalCell>
+            </div>
+          </HorizontalScroll>
+        )}
         <Checkbox checked={checked} onClick={() => setChecked(!checked)}>
           Оставить анонимно
         </Checkbox>

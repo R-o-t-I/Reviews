@@ -82,3 +82,7 @@ body[scheme="space_gray"] {
 .vkuiActionSheetItem--sizeY-compact {
   min-height: 48px;
 }
+
+.vkuiTappable--ios.vkuiTappable--active-background {
+  border-radius: 8px !important;
+}

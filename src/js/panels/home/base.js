@@ -52,13 +52,13 @@ function HomePanel({ router }) {
   const [info2, setInfo2] = useState([]);
 
   useEffect(() => {
-    console.log('useEffect');
+    console.log("useEffect");
     console.log(mainStorage.home[mainStorage.help]);
     if (mainStorage.home.length === 0) {
       getList("new");
     } else {
-      setInfo(mainStorage.home)
-      setInfo2(mainStorage.home)
+      setInfo(mainStorage.home);
+      setInfo2(mainStorage.home);
     }
   });
 
@@ -252,17 +252,17 @@ function HomePanel({ router }) {
             >
               Популярные
             </TabsItem>
-              <TabsItem
-                selected={mainStorage.home_tab === "comeTrue"}
-                onClick={() => {
-                  dispatch(set({ key: "home_tab", value: "comeTrue" }));
-                  reverseList("comeTrue");
-                  setSelected("comeTrue");
-                }}
-                before={<Icon28StarsOutline width={20} height={20} />}
-              >
-                Сбывшиеся
-              </TabsItem>
+            <TabsItem
+              selected={mainStorage.home_tab === "comeTrue"}
+              onClick={() => {
+                dispatch(set({ key: "home_tab", value: "comeTrue" }));
+                reverseList("comeTrue");
+                setSelected("comeTrue");
+              }}
+              before={<Icon28StarsOutline width={20} height={20} />}
+            >
+              Сбывшиеся
+            </TabsItem>
           </HorizontalScroll>
         </Tabs>
       </div>
@@ -284,8 +284,8 @@ function HomePanel({ router }) {
                   src={item.photo_url}
                 />
               }
-              disabled
               className={style.simpleCellReview}
+              disabled
               after={
                 <IconButton onClick={(e) => openMore(e, item, index)}>
                   <Icon28MoreHorizontal />
@@ -343,23 +343,27 @@ function HomePanel({ router }) {
                 </Tappable>
               ) : (
                 <Tappable
-                  onClick={ async () => {
+                  onClick={async () => {
                     console.log(item);
                     if (!item.isSetPerform) {
                       dispatch(set({ key: "help", value: index }));
                       router.toModal("helped");
                     } else {
-                      let newArray = []
-                      info.forEach( (inf, index) => {
-                        newArray[index] = {...inf}
+                      let newArray = [];
+                      info.forEach((inf, index) => {
+                        newArray[index] = { ...inf };
                       });
                       newArray[index].isSetPerform = false;
-                      dispatch(set({ key: 'home', value: newArray }));
+                      dispatch(set({ key: "home", value: newArray }));
                       setInfo(newArray);
-                      const {data} = await axios.post("perform", {
-                        id: item.id
+                      const { data } = await axios.post("perform", {
+                        id: item.id,
                       });
-                      router.toPopout(<Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>);
+                      router.toPopout(
+                        <Snackbar onClose={() => router.toPopout()}>
+                          {data.info}
+                        </Snackbar>
+                      );
                     }
                   }}
                   className={style.buttonReviewRight}

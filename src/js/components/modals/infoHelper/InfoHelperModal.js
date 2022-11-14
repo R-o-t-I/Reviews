@@ -152,7 +152,8 @@ function InfoHelperModal({ nav, router }) {
             <Div>
               <Button
                 stretched
-                size="m"
+                size="l"
+                style={{ margin: "12px 6px" }}
                 onClick={() => {
                   dispatch(set({ key: "helperInfo", value: item }));
                   router.toModal("comeTrue");

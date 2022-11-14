@@ -1,4 +1,4 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import {
@@ -26,9 +26,9 @@ import {
 
 import { Icon24DismissDark } from "@vkontakte/icons";
 
-import axios from 'axios';
+import axios from "axios";
 
-import {set} from '../../../reducers/mainReducer';
+import { set } from "../../../reducers/mainReducer";
 
 import style from "./comeTrueModal.module.scss";
 
@@ -41,30 +41,30 @@ function ComeTrueModal({ nav, router }) {
   const [isPrivate, setIsPrivate] = useState(false);
 
   async function setPerform() {
-    const {data} = await axios.post('setPerform', {
+    const { data } = await axios.post("setPerform", {
       id: mainStorage.profile[mainStorage.helpersID].id,
       dream_id: mainStorage.helperInfo.dream_id,
       user_id: info.vk_id,
       text: text,
-      isPrivate: isPrivate
+      isPrivate: isPrivate,
     });
 
     let newArray = [];
     mainStorage.profile.forEach((inf, index) => {
-      newArray[index] = {...inf}
+      newArray[index] = { ...inf };
     });
 
     newArray[mainStorage.helpersID].performs = [];
     newArray[mainStorage.helpersID].isPerform = true;
 
-    dispatch(set({ key: 'profile', value: newArray }));
-    dispatch(set({ key: 'helperInfo', value: {} }));
+    dispatch(set({ key: "profile", value: newArray }));
+    dispatch(set({ key: "helperInfo", value: {} }));
     router.toPopout();
     router.toBack();
   }
 
   useEffect(() => {
-    if(mainStorage.helperInfo.id !== undefined) {
+    if (mainStorage.helperInfo.id !== undefined) {
       setInfo(mainStorage.helperInfo);
     }
   }, []);
@@ -78,18 +78,22 @@ function ComeTrueModal({ nav, router }) {
           right={
             <Fragment>
               {platform === ANDROID && (
-                <PanelHeaderButton onClick={() => {
-                  dispatch(set({ key: 'helperInfo', value: {} }));
-                  router.toBack();
-                }}>
+                <PanelHeaderButton
+                  onClick={() => {
+                    dispatch(set({ key: "helperInfo", value: {} }));
+                    router.toBack();
+                  }}
+                >
                   <Icon24DismissDark />
                 </PanelHeaderButton>
               )}
               {platform === IOS && (
-                <PanelHeaderButton onClick={() => {
-                  dispatch(set({ key: 'helperInfo', value: {} }));
-                  router.toBack();
-                }}>
+                <PanelHeaderButton
+                  onClick={() => {
+                    dispatch(set({ key: "helperInfo", value: {} }));
+                    router.toBack();
+                  }}
+                >
                   <Icon24DismissDark />
                 </PanelHeaderButton>
               )}
@@ -100,7 +104,7 @@ function ComeTrueModal({ nav, router }) {
         </ModalPageHeader>
       }
       onClose={() => {
-        dispatch(set({ key: 'helperInfo', value: {} }));
+        dispatch(set({ key: "helperInfo", value: {} }));
         router.toBack();
       }}
       settlingHeight={100}
@@ -114,8 +118,8 @@ function ComeTrueModal({ nav, router }) {
             placeholder="Введите ID или короткий адрес"
             value={info.vk_id}
             onChange={(e) => {
-              let copy_info = {...info};
-              copy_info.vk_id = e.target.value
+              let copy_info = { ...info };
+              copy_info.vk_id = e.target.value;
               setInfo(copy_info);
             }}
           />
@@ -138,12 +142,21 @@ function ComeTrueModal({ nav, router }) {
       */}
       <FormLayout>
         <FormItem top="Как это было?">
-          <Textarea placeholder="Опишите, в чем заключалась помощь" value={text} onChange={(e) => setText(e.target.value)}/>
+          <Textarea
+            placeholder="Опишите, в чем заключалась помощь"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
           <Checkbox>Показывать комментарий всем</Checkbox>
         </FormItem>
       </FormLayout>
       <Div>
-        <Button stretched size="m" onClick={() => setPerform()}>
+        <Button
+          stretched
+          size="l"
+          style={{ margin: "12px 6px" }}
+          onClick={() => setPerform()}
+        >
           Готово
         </Button>
       </Div>

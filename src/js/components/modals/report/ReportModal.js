@@ -74,7 +74,12 @@ function ReportModal({ nav, router }) {
       header={<ModalPageHeader>Жалоба</ModalPageHeader>}
       onClose={() => router.toBack()}
       actions={
-        <Button size="l" mode="primary" onClick={() => report()}>
+        <Button
+          size="l"
+          style={{ margin: "12px 6px" }}
+          mode="primary"
+          onClick={() => report()}
+        >
           Отправить жалобу
         </Button>
       }
