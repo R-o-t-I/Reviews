@@ -182,10 +182,10 @@ function HomePanel({ router }) {
   }
 
   function reverseList(type, array) {
-    let new_info = [...array];
+    let new_info;
 
-    /*if (type === 'comeTrue') new_info = [...info];
-    else new_info = [...mainStorage.home2];*/
+    if (type === 'comeTrue') new_info = [...info];
+    else new_info = [...mainStorage.home2];
 
     if (type === "likes") {
       setInfo(new_info.sort((a, b) => b.likes - a.likes));
@@ -229,11 +229,25 @@ function HomePanel({ router }) {
       array[index].isLike = false;
     }
 
-    reverseList(selected, array);
-    setInfo(array);
-    setInfo2(array);
-    dispatch(set({key: "home", value: array}));
-    //dispatch(set({ key: "home2", value: array }));
+    if (selected === "comeTrue") {
+      let info_sort = [];
+      for (let item of array) {
+        if (item.isPerform) {
+          info_sort.push(item)
+        }
+      }
+      setInfo(info_sort);
+      setInfo2(info_sort);
+      dispatch(set({key: "home", value: info_sort}));
+      dispatch(set({key: "home2", value: array }));
+    } else {
+
+      if (selected !== "comeTrue") reverseList(selected, array);
+      setInfo(array);
+      setInfo2(array);
+      dispatch(set({key: "home", value: array}));
+      dispatch(set({ key: "home2", value: array }));
+    }
 
 
     router.toPopout(
