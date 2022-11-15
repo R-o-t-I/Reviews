@@ -97,18 +97,33 @@ function ProfilePanel({ router }) {
   async function deleteDream(id) {
     const { data } = await axios.post("delete", { id: id });
 
-    if (data.length >= 0) {
-      let copy_home = [...mainStorage.home];
+    if (data.status) {
+      let copy_home = [];
+      let copy_profile = [];
+      mainStorage.home.forEach((inf, index) => {
+        copy_home[index] = {...inf};
+      });
+      mainStorage.profile.forEach((inf, index) => {
+        copy_profile[index] = {...inf};
+      });
 
-      setInfo(data);
       mainStorage.home.find((item) => {
-        if (item.id === id) {
+        if (Number(item.id) === Number(id)) {
           copy_home.splice(copy_home.indexOf(item), 1);
           dispatch(set({ key: "home", value: copy_home }));
         }
+        console.log(copy_home);
       });
 
-      dispatch(set({ key: "profile", value: data }));
+      mainStorage.profile.find((item) => {
+        if (Number(item.id) === Number(id)) {
+          copy_profile.splice(info.indexOf(item), 1);
+          setInfo(copy_profile);
+          dispatch(set({key: "profile", value: info}));
+        }
+      });
+
+      dispatch(set({ key: "profile", value: copy_profile }));
       setTimeout(
         () =>
           router.toPopout(

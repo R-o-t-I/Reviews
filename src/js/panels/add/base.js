@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 
 import {
@@ -35,6 +35,10 @@ function AddPanel({ router }) {
   const [checked, setChecked] = useState(false);
   const [snackbar, setSnackbar] = useState(null);
 
+  useEffect(() => {
+    setText(mainStorage.add);
+  }, []);
+
   function create() {
     if (text.length > 0) {
       router.toPopout(<ScreenSpinner />);
@@ -49,11 +53,11 @@ function AddPanel({ router }) {
             let profile_copy = [...mainStorage.profile];
 
             profile_copy.unshift(res.data.object);
-
             dispatch(set({ key: "profile", value: profile_copy }));
 
             //---------------------------\\
             setText("");
+            dispatch(set({ key: "add", value: "" }));
             setChecked(false);
             router.toPopout(
               setSnackbar(
@@ -120,7 +124,10 @@ function AddPanel({ router }) {
           <Textarea
             placeholder="Я мечтаю стать известным"
             value={text}
-            onChange={(e) => setText(e.target.value)}
+            onChange={(e) => {
+              setText(e.target.value);
+              dispatch(set({ key: "add", value: e.target.value }));
+            }}
             maxLength="1000"
           />
         </FormItem>

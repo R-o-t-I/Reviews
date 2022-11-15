@@ -20,6 +20,8 @@ import {
   Placeholder,
 } from "@vkontakte/vkui";
 
+import bridge from "@vkontakte/vk-bridge";
+
 import { Icon24DismissDark, Icon28CopyOutline } from "@vkontakte/icons";
 
 import { set } from "../../../reducers/mainReducer";
@@ -104,7 +106,10 @@ function InfoHelperModal({ nav, router }) {
                 <div>https://vk.com/id{item.vk_id}</div>
                 <IconButton
                   className={style.iconButtonContact}
-                  onClick={() =>
+                  onClick={() => {
+                    bridge.send('VKWebAppCopyText', {
+                      text: `https://vk.com/id${item.vk_id}`
+                    });
                     router.toPopout(
                       setSnackbar(
                         <Snackbar
@@ -128,6 +133,7 @@ function InfoHelperModal({ nav, router }) {
                         </Snackbar>
                       )
                     )
+                  }
                   }
                 >
                   <Icon28CopyOutline />
