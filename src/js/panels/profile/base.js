@@ -56,11 +56,13 @@ function ProfilePanel({ router }) {
   const [info, setInfo] = React.useState([]);
   const [isAdmin, setIsAdmin] = React.useState(false);
   const [snackbar, setSnackbar] = useState(null);
+  const [status, setStatus] = useState(false);
 
   useEffect(() => {
-    if (!isInfoUser) {
+    if (!isInfoUser && !status) {
       getInfoUser();
       getInfo();
+      setStatus(true);
     } else {
       setInfo(mainStorage.profile);
     }
@@ -314,7 +316,7 @@ function ProfilePanel({ router }) {
                 <Icon28ShareOutline />
               </Tappable>
               <div className={style.buttonReviewRight}>
-                {item.performs.length !== 0 ? (
+                {item.performs !== undefined && item.performs.length !== 0 ? (
                   <Tappable
                     className={style.buttonHelped}
                     onClick={() => {

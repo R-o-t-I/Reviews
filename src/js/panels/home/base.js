@@ -50,15 +50,17 @@ function HomePanel({ router }) {
   const [snackbar, setSnackbar] = useState(null);
   const [info, setInfo] = useState([]);
   const [info2, setInfo2] = useState([]);
+  const [status, setStatus] = useState(false);
 
   useEffect(() => {
-    console.log("useEffect");
-    console.log(mainStorage.home[mainStorage.help]);
-    if (mainStorage.home.length === 0) {
+    if (!status && mainStorage.home.length === 0) {
       getList("new");
+      setStatus(true);
     } else {
       setInfo(mainStorage.home);
-      setInfo2(mainStorage.home);
+      //reverseList();
+      setInfo2(mainStorage.home2);
+      setStatus(true);
     }
   });
 
@@ -67,7 +69,8 @@ function HomePanel({ router }) {
       if (res.data.length >= 0) {
         setInfo([...res.data]);
         setInfo2([...res.data]);
-        dispatch(set({ key: "home", value: res.data }));
+        dispatch(set({key: "home", value: res.data}));
+        dispatch(set({key: "home2", value: res.data}));
       } else {
         router.toPopout(
           <Snackbar onClose={() => router.toPopout()}>{res.data.info}</Snackbar>
@@ -101,7 +104,7 @@ function HomePanel({ router }) {
 
   function report(item) {
     //axios.post("report", { id: item.id });
-    dispatch(set({ key: "report_id", value: item.id }));
+    dispatch(set({key: "report_id", value: item.id}));
     router.toModal("report");
   }
 
@@ -125,7 +128,7 @@ function HomePanel({ router }) {
       >
         {item.vk_id !== 0 && (
           <ActionSheetItem
-            before={<Icon28Profile />}
+            before={<Icon28Profile/>}
             onClick={() => openProfile(item.vk_id)}
           >
             Открыть профиль ВКонтакте
@@ -155,7 +158,7 @@ function HomePanel({ router }) {
         */}
         <ActionSheetItem
           mode="destructive"
-          before={<Icon28ReportOutline />}
+          before={<Icon28ReportOutline/>}
           onClick={() => report(item)}
           autoclose
         >
@@ -178,50 +181,64 @@ function HomePanel({ router }) {
     });
   }
 
-  function reverseList(type) {
-    let new_info = [...info];
-    let info_sort = [];
+  function reverseList(type, array) {
+    let new_info = [...array];
+
+    /*if (type === 'comeTrue') new_info = [...info];
+    else new_info = [...mainStorage.home2];*/
 
     if (type === "likes") {
       setInfo(new_info.sort((a, b) => b.likes - a.likes));
-      setInfo2(new_info.sort((a, b) => b.likes - a.likes));
+      //setInfo2(new_info.sort((a, b) => b.likes - a.likes));
       dispatch(
-        set({ key: "home", value: new_info.sort((a, b) => b.likes - a.likes) })
+        set({key: "home", value: new_info.sort((a, b) => b.likes - a.likes)})
       );
     } else if (type === "new") {
       setInfo(new_info.sort((a, b) => b.id - a.id));
-      setInfo2(new_info.sort((a, b) => b.id - a.id));
+      //setInfo2(new_info.sort((a, b) => b.id - a.id));
       dispatch(
-        set({ key: "home", value: new_info.sort((a, b) => b.id - a.id) })
+        set({key: "home", value: new_info.sort((a, b) => b.id - a.id)})
       );
     } else {
-      new_info.forEach((item) => {
-        if (item.isSetPerform) {
-          info_sort.push(item);
+      let info_sort = [];
+      for (let item of new_info) {
+        if (item.isPerform) {
+          info_sort.push(item)
         }
-      });
-
+      }
       setInfo(info_sort);
-      setInfo2(info_sort);
-      dispatch(set({ key: "home", value: info_sort }));
+      dispatch(set({key: "home", value: info_sort}));
     }
   }
 
-  async function setLike(item, type) {
-    const { data } = await axios.post("like?type=" + type, {
+  async function setLike(item, type, index) {
+    const {data} = await axios.post("like?type=" + type, {
       id: item.id,
     });
 
-    if (data.length >= 0) {
-      setInfo(data);
-      console.log(selected);
-      reverseList(selected);
-      dispatch(set({ key: "home", value: data }));
+    let array = [];
+    mainStorage.home2.forEach((inf, index) => {
+      array[index] = {...inf};
+    });
+
+    if (data.info === 'Вы поставили лайк!') {
+      array[index].likes = data.count;
+      array[index].isLike = true;
     } else {
-      router.toPopout(
-        <Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>
-      );
+      array[index].likes = data.count;
+      array[index].isLike = false;
     }
+
+    reverseList(selected, array);
+    setInfo(array);
+    setInfo2(array);
+    dispatch(set({key: "home", value: array}));
+    //dispatch(set({ key: "home2", value: array }));
+
+
+    router.toPopout(
+      <Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>
+    );
   }
 
   return (
@@ -269,7 +286,7 @@ function HomePanel({ router }) {
       <div className={style.allBlockReviews}>
         {info.length === 0 && (
           <div className={style.blockReviews}>
-            <Placeholder>Загружаем мечты...</Placeholder>
+            <Placeholder>Мечт нет...</Placeholder>
           </div>
         )}
         {info.map((item, index) => (
@@ -301,7 +318,7 @@ function HomePanel({ router }) {
             <div className={style.blockButtonReview}>
               <Tappable
                 className={style.buttonReview}
-                onClick={() => setLike(item, selected)}
+                onClick={() => setLike(item, selected, index)}
               >
                 {item.isLike ? (
                   <Icon28FireOutline fill="#FF0000" />
@@ -372,7 +389,13 @@ function HomePanel({ router }) {
                     <div className={style.textButtonHelped}>
                       {!item.isSetPerform
                         ? "Помочь с мечтой"
-                        : "Отменить помощь"}
+                        :
+                        <>
+                          {!item.isPerform &&
+                            "Отменить помощь"
+                          }
+                        </>
+                      }
                     </div>
                   )}
                 </Tappable>

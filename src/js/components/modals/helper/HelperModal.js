@@ -93,7 +93,12 @@ function HelperModal({ nav, router }) {
         <div className={style.headerCard}>Комментарий мечтателя:</div>
         <Card mode="outline" className={style.cardTextComment}>
           <div>
-            {mainStorage.helper.text}
+            {mainStorage.helper.text === "" ?
+              "Мечтатель не оставил комментарий" :
+              <>
+              {mainStorage.helper.text}
+              </>
+            }
           </div>
         </Card>
       </div>

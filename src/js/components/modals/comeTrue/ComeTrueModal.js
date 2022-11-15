@@ -44,7 +44,7 @@ function ComeTrueModal({ nav, router }) {
     const { data } = await axios.post("setPerform", {
       id: mainStorage.profile[mainStorage.helpersID].id,
       dream_id: mainStorage.helperInfo.dream_id,
-      user_id: info.vk_id,
+      user_id: Number(info.vk_id),
       text: text,
       isPrivate: isPrivate,
     });
