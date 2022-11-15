@@ -15,7 +15,7 @@ import "./css/main.css";
 import "@vkontakte/vkui/dist/unstable.css";
 import { AdaptivityProvider } from "@vkontakte/vkui";
 import bridge from "@vkontakte/vk-bridge";
-import axios from 'axios';
+import axios from "axios";
 
 axios.defaults.baseURL = "https://dreams-api.evgrg.xyz/";
 axios.defaults.headers.common["xvk"] = window.location.search.replace("?", "");
@@ -33,4 +33,4 @@ ReactDOM.render(
   document.getElementById("root")
 );
 
-import("./eruda.js").then(({ default: eruda }) => {});
+//import("./eruda.js").then(({ default: eruda }) => {});

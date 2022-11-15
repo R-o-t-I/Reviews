@@ -20,8 +20,6 @@ import { Icon24DismissDark } from "@vkontakte/icons";
 
 import style from "./helperModal.module.scss";
 
-
-
 function HelperModal({ nav, router }) {
   const platform = useSelector((state) => state.main.platform);
   const mainStorage = useSelector((state) => state.main);
@@ -83,22 +81,33 @@ function HelperModal({ nav, router }) {
             multiline
             disabled
             subtitle={timeConverterDaily(mainStorage.helper.timestamp)}
-            before={<Avatar size={48} src={mainStorage.helper.photo_url}/>}
+            before={<Avatar size={48} src={mainStorage.helper.photo_url} />}
           >
             {mainStorage.helper.first_name} {mainStorage.helper.last_name}
           </SimpleCell>
+        </Card>
+      </div>
+      <div style={{ position: "relative" }}>
+        <div className={style.headerCard}>Комментарий помощника:</div>
+        <Card mode="outline" className={style.cardTextComment}>
+          <div>
+            {mainStorage.helper.text === "" ? (
+              "Помощник не оставил комментарий"
+            ) : (
+              <>{mainStorage.helper.text}</>
+            )}
+          </div>
         </Card>
       </div>
       <div style={{ position: "relative", paddingBottom: 30 }}>
         <div className={style.headerCard}>Комментарий мечтателя:</div>
         <Card mode="outline" className={style.cardTextComment}>
           <div>
-            {mainStorage.helper.text === "" ?
-              "Мечтатель не оставил комментарий" :
-              <>
-              {mainStorage.helper.text}
-              </>
-            }
+            {mainStorage.helper.text_dreamer === "" ? (
+              "Мечтатель не оставил комментарий"
+            ) : (
+              <>{mainStorage.helper.text_dreamer}</>
+            )}
           </div>
         </Card>
       </div>
