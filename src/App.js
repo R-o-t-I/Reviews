@@ -92,15 +92,16 @@ const App = withAdaptivity(
         prevPanel = router.activePanel;
       setInterval(() => {
         if (!navigator.onLine) {
-          if (!isPanelConnection) {
             isPanelConnection = true;
             router.toPanel("connection");
             console.log("INTERNET");
-          }
+          
         } else {
-          isPanelConnection = false;
-          console.log("INTERNET TRUE");
-          router.toPanel(prevPanel);
+          if(isPanelConnection) {
+            isPanelConnection = false;
+            console.log("INTERNET TRUE");
+            router.toPanel(prevPanel);
+          }
         }
       }, 1000);
     }
