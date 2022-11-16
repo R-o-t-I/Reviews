@@ -76,7 +76,7 @@ const App = withAdaptivity(
               theme = "light";
               break;
           }
-          dispatch(set({key: "theme", value: theme}));
+          dispatch(set({ key: "theme", value: theme }));
           bridge.send("VKWebAppSetViewSettings", {
             status_bar_style: theme_bar,
             action_bar_color: color,
@@ -85,7 +85,6 @@ const App = withAdaptivity(
       });
 
       checkConnection();
-
     }, []);
 
     function checkConnection() {
@@ -96,14 +95,14 @@ const App = withAdaptivity(
           if (!isPanelConnection) {
             isPanelConnection = true;
             router.toPanel("connection");
-            console.log('INTERNET');
+            console.log("INTERNET");
           }
         } else {
           isPanelConnection = false;
-          console.log('INTERNET TRUE');
+          console.log("INTERNET TRUE");
           router.toPanel(prevPanel);
         }
-    }, 1000);
+      }, 1000);
     }
 
     const modals = (
