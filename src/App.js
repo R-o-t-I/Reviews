@@ -88,17 +88,19 @@ const App = withAdaptivity(
     }, []);
 
     function checkConnection() {
+      var isPanelConnection = false,
+        prevPanel = router.activePanel;
       setInterval(() => {
         if (!navigator.onLine) {
-          if (!mainStorage.isPanelConnection) {
-            dispatch(set({key: "isPanelConnection", value: "true"}));
-            console.log(mainStorage.isPanelConnection);
-            dispatch(set({key: "prevPanel", value: router.activePanel}));
-            //router.toPanel("connection");
+          if (!isPanelConnection) {
+            isPanelConnection = true;
+            router.toPanel("connection");
             console.log('INTERNET');
           }
         } else {
-          dispatch(set({key: "isPanelConnection", value: false}));
+          isPanelConnection = false;
+          console.log('INTERNET TRUE');
+          router.toPanel(prevPanel);
         }
     }, 1000);
     }
