@@ -75,7 +75,7 @@ function ComeTrueModal({ nav, router }) {
       nav={nav}
       header={
         <ModalPageHeader
-          right={
+          before={
             <Fragment>
               {platform === ANDROID && (
                 <PanelHeaderButton

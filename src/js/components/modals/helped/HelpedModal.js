@@ -62,7 +62,7 @@ function HelpedModal({ nav, router }) {
       nav={nav}
       header={
         <ModalPageHeader
-          right={
+          after={
             <Fragment>
               {platform === ANDROID && (
                 <PanelHeaderButton onClick={() => router.toBack()}>
@@ -96,7 +96,7 @@ function HelpedModal({ nav, router }) {
             />
             <div className={style.checkboxStyle}>
               <Checkbox onClick={() => setChecked(!checked)} checked={checked}>
-                Попросить не оставлять комментарий
+                Скрыть комментарий от других мечтателей
               </Checkbox>
             </div>
             <Button

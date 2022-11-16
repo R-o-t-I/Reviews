@@ -59,7 +59,7 @@ function InfoHelperModal({ nav, router }) {
       nav={nav}
       header={
         <ModalPageHeader
-          right={
+          before={
             <Fragment>
               {platform === ANDROID && (
                 <PanelHeaderButton onClick={() => router.toBack()}>
