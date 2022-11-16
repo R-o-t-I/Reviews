@@ -76,7 +76,9 @@ function ProfilePanel({ router }) {
       setIsAdmin(data.admin);
       dispatch(set({ key: "profile", value: data.dreams }));
       dispatch(set({ key: "isAdmin", value: data.admin }));
+      router.toPopout();
     } else {
+      router.toPopout();
       router.toPopout(
         <Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>
       );

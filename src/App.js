@@ -95,7 +95,7 @@ const App = withAdaptivity(
             isPanelConnection = true;
             router.toPanel("connection");
             console.log("INTERNET");
-          
+
         } else {
           if(isPanelConnection) {
             isPanelConnection = false;
