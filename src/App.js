@@ -91,7 +91,7 @@ const App = withAdaptivity(
       setInterval(() => {
         if (!navigator.onLine && !mainStorage.isPanelConnection) {
           dispatch(set({key: "isPanelConnection", value: true}));
-          //router.toPanel("connection");
+          router.toPanel("connection");
           console.log('INTERNET');
         } else {
           dispatch(set({key: "isPanelConnection", value: false}));
