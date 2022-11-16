@@ -75,14 +75,29 @@ const App = withAdaptivity(
               theme = "light";
               break;
           }
-          dispatch(set({ key: "theme", value: theme }));
+          dispatch(set({key: "theme", value: theme}));
           bridge.send("VKWebAppSetViewSettings", {
             status_bar_style: theme_bar,
             action_bar_color: color,
           });
         }
       });
+
+      checkConnection();
+
     }, []);
+
+    function checkConnection() {
+      setInterval(() => {
+        if (!navigator.onLine && !mainStorage.isPanelConnection) {
+          dispatch(set({key: "isPanelConnection", value: true}));
+          //router.toPanel("connection");
+          console.log('INTERNET');
+        } else {
+          dispatch(set({key: "isPanelConnection", value: false}));
+        }
+    }, 1000);
+    }
 
     const modals = (
       <ModalRoot activeModal={router.modal} onClose={() => router.toBack()}>

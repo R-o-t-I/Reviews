@@ -19,7 +19,8 @@ export const mainReducer = createSlice({
     helpers: [],
     heplerInfo: {},
     helpersID: 0,
-    add: ""
+    add: "",
+    isPanelConnection: false
   },
   reducers: {
     set: (state, action) => {
