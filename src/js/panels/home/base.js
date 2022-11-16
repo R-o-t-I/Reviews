@@ -236,6 +236,17 @@ function HomePanel({ router }) {
           info_sort.push(item);
         }
       }
+
+      for(let obj of info_sort) {
+        if (Number(obj.id) === Number(item.id)) {
+          console.log('1221321123132123123');
+          obj.likes = array[index].likes;
+          obj.isLike = array[index].isLike;
+        }
+      }
+
+      console.log(info_sort[0].likes);
+
       setInfo(info_sort);
       setInfo2(info_sort);
       dispatch(set({ key: "home", value: info_sort }));
