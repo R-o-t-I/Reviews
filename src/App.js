@@ -151,6 +151,11 @@ const App = withAdaptivity(
                       <HomePanel />
                     </Suspense>
                   </Panel>
+                  <Panel id="connection">
+                    <Suspense fallback={<ScreenSpinner />}>
+                      <ConnectionPanel />
+                    </Suspense>
+                  </Panel>
                 </View>
 
                 <View
@@ -166,6 +171,11 @@ const App = withAdaptivity(
                   <Panel id="base">
                     <Suspense fallback={<ScreenSpinner />}>
                       <AddPanel />
+                    </Suspense>
+                  </Panel>
+                  <Panel id="connection">
+                    <Suspense fallback={<ScreenSpinner />}>
+                      <ConnectionPanel />
                     </Suspense>
                   </Panel>
                 </View>
@@ -190,18 +200,6 @@ const App = withAdaptivity(
                       <AdminPanel />
                     </Suspense>
                   </Panel>
-                </View>
-
-                <View
-                  id="error"
-                  activePanel={
-                    router.activePanel === "route_modal"
-                      ? "connection"
-                      : router.activePanel
-                  }
-                  popout={router.popout}
-                  modal={modals}
-                >
                   <Panel id="connection">
                     <Suspense fallback={<ScreenSpinner />}>
                       <ConnectionPanel />

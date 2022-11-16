@@ -1,21 +1,15 @@
 const structure = [
   {
-    id: "error",
-    hash: "error",
-    panels: [
-      {
-        id: "connection",
-        hash: "/connection",
-      },
-    ],
-  },
-  {
     id: "home",
     hash: "home",
     panels: [
       {
         id: "base",
         hash: "/base",
+      },
+      {
+        id: "connection",
+        hash: "/connection",
       },
     ],
   },
@@ -26,6 +20,10 @@ const structure = [
       {
         id: "base",
         hash: "/base",
+      },
+      {
+        id: "connection",
+        hash: "/connection",
       },
     ],
   },
@@ -40,6 +38,10 @@ const structure = [
       {
         id: "admin",
         hash: "/admin",
+      },
+      {
+        id: "connection",
+        hash: "/connection",
       },
     ],
   },
