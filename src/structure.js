@@ -1,15 +1,5 @@
 const structure = [
   {
-    id: "error",
-    hash: "error",
-    panels: [
-      {
-        id: "connection",
-        hash: "/connection",
-      },
-    ],
-  },
-  {
     id: "home",
     hash: "home",
     panels: [
@@ -43,6 +33,16 @@ const structure = [
       },
     ],
   },
+  {
+    id: "error",
+    hash: "error",
+    panels: [
+      {
+        id: "connection",
+        hash: "/connection",
+      },
+    ],
+  }
 ];
 
 export default structure;

@@ -95,13 +95,11 @@ const App = withAdaptivity(
         if (!navigator.onLine) {
           if (!isPanelConnection) {
             isPanelConnection = true;
-            router.toPanel("connection");
-            console.log('INTERNET');
+            router.toView("error");
           }
         } else {
           isPanelConnection = false;
-          console.log('INTERNET TRUE');
-          router.toPanel(prevPanel);
+          if(router.activeView === 'error') window.location.reload();
         }
     }, 1000);
     }
