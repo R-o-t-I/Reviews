@@ -94,9 +94,11 @@ function HelpedModal({ nav, router }) {
               value={text}
               onChange={(e) => setText(e.target.value)}
             />
-            <Checkbox onClick={() => setChecked(!checked)} checked={checked}>
-              Попросить не оставлять комментарий
-            </Checkbox>
+            <div className={style.checkboxStyle}>
+              <Checkbox onClick={() => setChecked(!checked)} checked={checked}>
+                Попросить не оставлять комментарий
+              </Checkbox>
+            </div>
             <Button
               size="l"
               style={{ margin: "12px 6px" }}

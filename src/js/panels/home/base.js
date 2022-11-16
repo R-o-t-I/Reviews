@@ -69,8 +69,8 @@ function HomePanel({ router }) {
       if (res.data.length >= 0) {
         setInfo([...res.data]);
         setInfo2([...res.data]);
-        dispatch(set({key: "home", value: res.data}));
-        dispatch(set({key: "home2", value: res.data}));
+        dispatch(set({ key: "home", value: res.data }));
+        dispatch(set({ key: "home2", value: res.data }));
       } else {
         router.toPopout(
           <Snackbar onClose={() => router.toPopout()}>{res.data.info}</Snackbar>
@@ -104,7 +104,7 @@ function HomePanel({ router }) {
 
   function report(item) {
     //axios.post("report", { id: item.id });
-    dispatch(set({key: "report_id", value: item.id}));
+    dispatch(set({ key: "report_id", value: item.id }));
     router.toModal("report");
   }
 
@@ -128,7 +128,7 @@ function HomePanel({ router }) {
       >
         {item.vk_id !== 0 && (
           <ActionSheetItem
-            before={<Icon28Profile/>}
+            before={<Icon28Profile />}
             onClick={() => openProfile(item.vk_id)}
           >
             Открыть профиль ВКонтакте
@@ -158,7 +158,7 @@ function HomePanel({ router }) {
         */}
         <ActionSheetItem
           mode="destructive"
-          before={<Icon28ReportOutline/>}
+          before={<Icon28ReportOutline />}
           onClick={() => report(item)}
           autoclose
         >
@@ -184,44 +184,44 @@ function HomePanel({ router }) {
   function reverseList(type, array) {
     let new_info;
 
-    if (type === 'comeTrue') new_info = [...info];
+    if (type === "comeTrue") new_info = [...info];
     else new_info = [...mainStorage.home2];
 
     if (type === "likes") {
       setInfo(new_info.sort((a, b) => b.likes - a.likes));
       //setInfo2(new_info.sort((a, b) => b.likes - a.likes));
       dispatch(
-        set({key: "home", value: new_info.sort((a, b) => b.likes - a.likes)})
+        set({ key: "home", value: new_info.sort((a, b) => b.likes - a.likes) })
       );
     } else if (type === "new") {
       setInfo(new_info.sort((a, b) => b.id - a.id));
       //setInfo2(new_info.sort((a, b) => b.id - a.id));
       dispatch(
-        set({key: "home", value: new_info.sort((a, b) => b.id - a.id)})
+        set({ key: "home", value: new_info.sort((a, b) => b.id - a.id) })
       );
     } else {
       let info_sort = [];
       for (let item of new_info) {
         if (item.isPerform) {
-          info_sort.push(item)
+          info_sort.push(item);
         }
       }
       setInfo(info_sort);
-      dispatch(set({key: "home", value: info_sort}));
+      dispatch(set({ key: "home", value: info_sort }));
     }
   }
 
   async function setLike(item, type, index) {
-    const {data} = await axios.post("like?type=" + type, {
+    const { data } = await axios.post("like?type=" + type, {
       id: item.id,
     });
 
     let array = [];
     mainStorage.home2.forEach((inf, index) => {
-      array[index] = {...inf};
+      array[index] = { ...inf };
     });
 
-    if (data.info === 'Вы поставили лайк!') {
+    if (data.info === "Вы поставили лайк!") {
       array[index].likes = data.count;
       array[index].isLike = true;
     } else {
@@ -233,22 +233,20 @@ function HomePanel({ router }) {
       let info_sort = [];
       for (let item of array) {
         if (item.isPerform) {
-          info_sort.push(item)
+          info_sort.push(item);
         }
       }
       setInfo(info_sort);
       setInfo2(info_sort);
-      dispatch(set({key: "home", value: info_sort}));
-      dispatch(set({key: "home2", value: array }));
+      dispatch(set({ key: "home", value: info_sort }));
+      dispatch(set({ key: "home2", value: array }));
     } else {
-
       if (selected !== "comeTrue") reverseList(selected, array);
       setInfo(array);
       setInfo2(array);
-      dispatch(set({key: "home", value: array}));
+      dispatch(set({ key: "home", value: array }));
       dispatch(set({ key: "home2", value: array }));
     }
-
 
     router.toPopout(
       <Snackbar onClose={() => router.toPopout()}>{data.info}</Snackbar>
@@ -257,7 +255,7 @@ function HomePanel({ router }) {
 
   return (
     <>
-      <PanelHeader separator={false}>Главная</PanelHeader>
+      <PanelHeader separator={false}>Мечты</PanelHeader>
       <div className={style.tabs}>
         <Tabs mode="accent">
           <HorizontalScroll arrowSize="m">
@@ -300,7 +298,7 @@ function HomePanel({ router }) {
       <div className={style.allBlockReviews}>
         {info.length === 0 && (
           <div className={style.blockReviews}>
-            <Placeholder>Мечт нет...</Placeholder>
+            <Placeholder>Мечты загружаются...</Placeholder>
           </div>
         )}
         {info.map((item, index) => (
@@ -401,15 +399,11 @@ function HomePanel({ router }) {
                   <Icon28MagicWandOutline />
                   {platform === VKCOM && (
                     <div className={style.textButtonHelped}>
-                      {!item.isSetPerform
-                        ? "Помочь с мечтой"
-                        :
-                        <>
-                          {!item.isPerform &&
-                            "Отменить помощь"
-                          }
-                        </>
-                      }
+                      {!item.isSetPerform ? (
+                        "Помочь с мечтой"
+                      ) : (
+                        <>{!item.isPerform && "Отменить помощь"}</>
+                      )}
                     </div>
                   )}
                 </Tappable>

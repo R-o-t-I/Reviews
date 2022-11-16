@@ -147,7 +147,9 @@ function ComeTrueModal({ nav, router }) {
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
-          <Checkbox>Показывать комментарий всем</Checkbox>
+          <div className={style.checkboxStyle}>
+            <Checkbox>Показывать комментарий всем</Checkbox>
+          </div>
         </FormItem>
       </FormLayout>
       <Div>

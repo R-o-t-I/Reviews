@@ -23,7 +23,7 @@ function MobailNavigation({ router }) {
       <TabbarItem
         selected={router.activeView === "home"}
         onClick={() => openView("home")}
-        text="Список"
+        text="Мечты"
       >
         <Icon28ArticleOutline />
       </TabbarItem>

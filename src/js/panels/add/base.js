@@ -215,9 +215,11 @@ function AddPanel({ router }) {
             </div>
           </HorizontalScroll>
         )}
-        <Checkbox checked={checked} onClick={() => setChecked(!checked)}>
-          Оставить анонимно
-        </Checkbox>
+        <div className={style.checkboxStyle}>
+          <Checkbox checked={checked} onClick={() => setChecked(!checked)}>
+            Оставить анонимно
+          </Checkbox>
+        </div>
         <FormItem>
           <Button size="l" stretched onClick={() => create()}>
             Отправить

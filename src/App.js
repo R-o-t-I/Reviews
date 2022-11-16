@@ -36,6 +36,7 @@ const HomePanel = lazy(() => import("./js/panels/home/base"));
 const AddPanel = lazy(() => import("./js/panels/add/base"));
 const ProfilePanel = lazy(() => import("./js/panels/profile/base"));
 const AdminPanel = lazy(() => import("./js/panels/profile/admin"));
+const ConnectionPanel = lazy(() => import("./js/panels/error/connection"));
 
 const App = withAdaptivity(
   ({ viewWidth, router }) => {
@@ -167,6 +168,23 @@ const App = withAdaptivity(
                   <Panel id="admin">
                     <Suspense fallback={<ScreenSpinner />}>
                       <AdminPanel />
+                    </Suspense>
+                  </Panel>
+                </View>
+
+                <View
+                  id="error"
+                  activePanel={
+                    router.activePanel === "route_modal"
+                      ? "connection"
+                      : router.activePanel
+                  }
+                  popout={router.popout}
+                  modal={modals}
+                >
+                  <Panel id="connection">
+                    <Suspense fallback={<ScreenSpinner />}>
+                      <ConnectionPanel />
                     </Suspense>
                   </Panel>
                 </View>

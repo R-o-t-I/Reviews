@@ -37,7 +37,7 @@ function DesktopNavigation({ router }) {
                 router.activeView === "home" ? style.activeViewCell : ""
               }
             >
-              Список
+              Мечты
             </Cell>
 
             <Cell

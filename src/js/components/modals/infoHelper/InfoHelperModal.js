@@ -7,9 +7,6 @@ import {
   PanelHeaderButton,
   IOS,
   ANDROID,
-  FormItem,
-  Textarea,
-  Checkbox,
   Button,
   SimpleCell,
   Avatar,
@@ -17,7 +14,6 @@ import {
   IconButton,
   Div,
   Snackbar,
-  Placeholder,
 } from "@vkontakte/vkui";
 
 import bridge from "@vkontakte/vk-bridge";
@@ -107,8 +103,8 @@ function InfoHelperModal({ nav, router }) {
                 <IconButton
                   className={style.iconButtonContact}
                   onClick={() => {
-                    bridge.send('VKWebAppCopyText', {
-                      text: `https://vk.com/id${item.vk_id}`
+                    bridge.send("VKWebAppCopyText", {
+                      text: `https://vk.com/id${item.vk_id}`,
                     });
                     router.toPopout(
                       setSnackbar(
@@ -132,9 +128,8 @@ function InfoHelperModal({ nav, router }) {
                           Ссылка скопирована
                         </Snackbar>
                       )
-                    )
-                  }
-                  }
+                    );
+                  }}
                 >
                   <Icon28CopyOutline />
                 </IconButton>
