@@ -31,6 +31,7 @@ import HelpedModal from "./js/components/modals/helped/HelpedModal";
 import HelperModal from "./js/components/modals/helper/HelperModal";
 import InfoHelperModal from "./js/components/modals/infoHelper/InfoHelperModal";
 import TopUpModal from "./js/components/modals/top/topUpModal";
+import useConnectionStatus from "check-connection";
 
 const HomePanel = lazy(() => import("./js/panels/home/base"));
 const AddPanel = lazy(() => import("./js/panels/add/base"));
@@ -88,22 +89,24 @@ const App = withAdaptivity(
     }, []);
 
     function checkConnection() {
+      const {checkNetworkStatus} = require('check-network-status');
       var isPanelConnection = false,
         prevPanel = router.activePanel;
-      setInterval(() => {
-        if (!navigator.onLine) {
-            isPanelConnection = true;
-            router.toPanel("connection");
-            console.log("INTERNET");
 
-        } else {
-          if(isPanelConnection) {
-            isPanelConnection = false;
-            console.log("INTERNET TRUE");
-            router.toPanel(prevPanel);
-          }
-        }
-      }, 1000);
+      setInterval(() => {
+        checkNetworkStatus()
+          .then((result) => {
+            if (!result) {
+              isPanelConnection = true;
+              router.toPanel("connection");
+            } else {
+              if(isPanelConnection) {
+                window.location.reload();
+                isPanelConnection = false;
+              }
+            }
+          });
+      }, 1500);
     }
 
     const modals = (

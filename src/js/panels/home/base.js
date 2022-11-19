@@ -57,9 +57,14 @@ function HomePanel({ router }) {
       getList("new");
       setStatus(true);
     } else {
-      setInfo(mainStorage.home);
-      //reverseList();
-      setInfo2(mainStorage.home2);
+      //setInfo(mainStorage.home);
+      //reverseList()
+
+      if (selected !== "likes") {
+        setInfo2(mainStorage.home2);
+      } else {
+        setInfo2(mainStorage.home_sort);
+      }
       setStatus(true);
     }
   });
@@ -71,6 +76,7 @@ function HomePanel({ router }) {
         setInfo2([...res.data]);
         dispatch(set({ key: "home", value: res.data }));
         dispatch(set({ key: "home2", value: res.data }));
+        dispatch(set({ key: "home_sort", value: res.data }));
       } else {
         router.toPopout(
           <Snackbar onClose={() => router.toPopout()}>{res.data.info}</Snackbar>
@@ -185,7 +191,8 @@ function HomePanel({ router }) {
     let new_info;
 
     if (type === "comeTrue") new_info = [...info];
-    else new_info = [...mainStorage.home2];
+    else if (type === "likes") new_info = [...mainStorage.home_sort];
+      else new_info = [...mainStorage.home2];
 
     if (type === "likes") {
       setInfo(new_info.sort((a, b) => b.likes - a.likes));
@@ -229,6 +236,8 @@ function HomePanel({ router }) {
       array[index].isLike = false;
     }
 
+    console.log(array[index].likes);
+
     if (selected === "comeTrue") {
       let info_sort = [];
       for (let item of array) {
@@ -237,26 +246,25 @@ function HomePanel({ router }) {
         }
       }
 
-      for(let obj of info_sort) {
+      for (let obj of info_sort) {
         if (Number(obj.id) === Number(item.id)) {
-          console.log('1221321123132123123');
           obj.likes = array[index].likes;
           obj.isLike = array[index].isLike;
         }
       }
 
-      console.log(info_sort[0].likes);
-
       setInfo(info_sort);
       setInfo2(info_sort);
-      dispatch(set({ key: "home", value: info_sort }));
-      dispatch(set({ key: "home2", value: array }));
+      dispatch(set({key: "home", value: info_sort}));
+      dispatch(set({key: "home2", value: array}));
     } else {
-      if (selected !== "comeTrue") reverseList(selected, array);
-      setInfo(array);
-      setInfo2(array);
-      dispatch(set({ key: "home", value: array }));
-      dispatch(set({ key: "home2", value: array }));
+        setInfo(array);
+        setInfo2(array);
+        dispatch(set({key: "home", value: array}));
+        dispatch(set({key: "home2", value: array}));
+        dispatch(set({key: "home_sort", value: array.sort((a, b) => b.likes - a.likes)}));
+
+        //if (type === "likes") reverseList("likes", mainStorage.home2);
     }
 
     router.toPopout(
