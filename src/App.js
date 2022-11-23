@@ -89,23 +89,22 @@ const App = withAdaptivity(
     }, []);
 
     function checkConnection() {
-      const {checkNetworkStatus} = require('check-network-status');
+      const { checkNetworkStatus } = require("check-network-status");
       var isPanelConnection = false,
         prevPanel = router.activePanel;
 
       setInterval(() => {
-        checkNetworkStatus()
-          .then((result) => {
-            if (!result) {
-              isPanelConnection = true;
-              router.toPanel("connection");
-            } else {
-              if(isPanelConnection) {
-                window.location.reload();
-                isPanelConnection = false;
-              }
+        checkNetworkStatus().then((result) => {
+          if (!result) {
+            isPanelConnection = true;
+            router.toPanel("connection");
+          } else {
+            if (isPanelConnection) {
+              window.location.reload();
+              isPanelConnection = false;
             }
-          });
+          }
+        });
       }, 1500);
     }
 
