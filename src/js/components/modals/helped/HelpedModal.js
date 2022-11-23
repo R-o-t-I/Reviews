@@ -64,12 +64,7 @@ function HelpedModal({ nav, router }) {
         <ModalPageHeader
           after={
             <Fragment>
-              {platform === ANDROID && (
-                <PanelHeaderButton onClick={() => router.toBack()}>
-                  <Icon24DismissDark />
-                </PanelHeaderButton>
-              )}
-              {platform === IOS && (
+              {(platform === IOS || platform === ANDROID) && (
                 <PanelHeaderButton onClick={() => router.toBack()}>
                   <Icon24DismissDark />
                 </PanelHeaderButton>
