@@ -85,17 +85,16 @@ const App = withAdaptivity(
         }
       });
 
-      checkConnection();
+      //checkConnection();
     }, []);
 
-    function checkConnection() {
-      //const {checkNetworkStatus} = require('check-network-status');
+    /*function checkConnection() {
+      const {checkNetworkStatus} = require('check-network-status');
       var isPanelConnection = false,
         prevPanel = router.activePanel;
 
       setInterval(() => {
-        axios.get('httos://google.com')
-          .then((result) => {
+      isOnline().then((result) => {
             if (!result) {
               isPanelConnection = true;
               router.toPanel("connection");
@@ -107,7 +106,7 @@ const App = withAdaptivity(
             }
           });
       }, 1500);
-    }
+    }*/
 
     const modals = (
       <ModalRoot activeModal={router.modal} onClose={() => router.toBack()}>
