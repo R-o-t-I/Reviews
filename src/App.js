@@ -89,12 +89,12 @@ const App = withAdaptivity(
     }, []);
 
     function checkConnection() {
-      const {checkNetworkStatus} = require('check-network-status');
+      //const {checkNetworkStatus} = require('check-network-status');
       var isPanelConnection = false,
         prevPanel = router.activePanel;
 
       setInterval(() => {
-        checkNetworkStatus()
+        axios.get('httos://google.com')
           .then((result) => {
             if (!result) {
               isPanelConnection = true;

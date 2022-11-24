@@ -57,14 +57,8 @@ function HomePanel({ router }) {
       getList("new");
       setStatus(true);
     } else {
-      //setInfo(mainStorage.home);
-      //reverseList()
-
-      if (selected !== "likes") {
-        setInfo2(mainStorage.home2);
-      } else {
-        setInfo2(mainStorage.home_sort);
-      }
+      setInfo(mainStorage.home);
+      setInfo2(mainStorage.home2);
       setStatus(true);
     }
   });
@@ -200,6 +194,7 @@ function HomePanel({ router }) {
       dispatch(
         set({ key: "home", value: new_info.sort((a, b) => b.likes - a.likes) })
       );
+      console.log(info[0].first_name);
     } else if (type === "new") {
       setInfo(new_info.sort((a, b) => b.id - a.id));
       //setInfo2(new_info.sort((a, b) => b.id - a.id));
@@ -218,15 +213,19 @@ function HomePanel({ router }) {
     }
   }
 
-  async function setLike(item, type, index) {
+  async function setLike(item, type, index, info) {
     const { data } = await axios.post("like?type=" + type, {
       id: item.id,
     });
 
     let array = [];
     mainStorage.home2.forEach((inf, index) => {
-      array[index] = { ...inf };
+      array[index] = {...inf};
     });
+
+    if (type === "likes") {
+      array = array.sort((a, b) => b.likes - a.likes);
+    }
 
     if (data.info === "Вы поставили лайк!") {
       array[index].likes = data.count;
@@ -235,8 +234,6 @@ function HomePanel({ router }) {
       array[index].likes = data.count;
       array[index].isLike = false;
     }
-
-    console.log(array[index].likes);
 
     if (selected === "comeTrue") {
       let info_sort = [];
@@ -258,13 +255,12 @@ function HomePanel({ router }) {
       dispatch(set({key: "home", value: info_sort}));
       dispatch(set({key: "home2", value: array}));
     } else {
-        setInfo(array);
-        setInfo2(array);
+      setInfo(array);
+      setInfo2(array);
         dispatch(set({key: "home", value: array}));
         dispatch(set({key: "home2", value: array}));
-        dispatch(set({key: "home_sort", value: array.sort((a, b) => b.likes - a.likes)}));
-
-        //if (type === "likes") reverseList("likes", mainStorage.home2);
+        // dispatch(set({key: "home_sort", value: array.sort((a, b) => b.likes - a.likes)}));
+      // if (type === "likes") reverseList("likes", mainStorage.home2);
     }
 
     router.toPopout(
@@ -349,7 +345,7 @@ function HomePanel({ router }) {
             <div className={style.blockButtonReview}>
               <Tappable
                 className={style.buttonReview}
-                onClick={() => setLike(item, selected, index)}
+                onClick={() => setLike(item, selected, index, info)}
               >
                 {item.isLike ? (
                   <Icon28FireOutline fill="#FF0000" />
