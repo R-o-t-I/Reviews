@@ -22,7 +22,7 @@ import style from "./helpedModal.module.scss";
 import { set } from "../../../reducers/mainReducer";
 
 function HelpedModal({ nav, router }) {
-  const platform = useSelector((state) => state.main.plarform);
+  const platform = useSelector((state) => state.main.platform);
   const mainStorage = useSelector((state) => state.main);
   const dispatch = useDispatch();
   const [checked, setChecked] = useState(false);
@@ -64,12 +64,7 @@ function HelpedModal({ nav, router }) {
         <ModalPageHeader
           after={
             <Fragment>
-              {platform === ANDROID && (
-                <PanelHeaderButton onClick={() => router.toBack()}>
-                  <Icon24DismissDark />
-                </PanelHeaderButton>
-              )}
-              {platform === IOS && (
+              {(platform === IOS || platform === ANDROID) && (
                 <PanelHeaderButton onClick={() => router.toBack()}>
                   <Icon24DismissDark />
                 </PanelHeaderButton>
