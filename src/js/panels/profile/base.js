@@ -103,10 +103,10 @@ function ProfilePanel({ router }) {
       let copy_home = [];
       let copy_profile = [];
       mainStorage.home.forEach((inf, index) => {
-        copy_home[index] = {...inf};
+        copy_home[index] = { ...inf };
       });
       mainStorage.profile.forEach((inf, index) => {
-        copy_profile[index] = {...inf};
+        copy_profile[index] = { ...inf };
       });
 
       mainStorage.home.find((item) => {
@@ -121,7 +121,7 @@ function ProfilePanel({ router }) {
         if (Number(item.id) === Number(id)) {
           copy_profile.splice(info.indexOf(item), 1);
           setInfo(copy_profile);
-          dispatch(set({key: "profile", value: info}));
+          dispatch(set({ key: "profile", value: info }));
         }
       });
 
@@ -309,6 +309,7 @@ function ProfilePanel({ router }) {
                   <Icon28MoreHorizontal />
                 </IconButton>
               }
+              disabled
             >
               {item.first_name} {item.last_name}
             </SimpleCell>

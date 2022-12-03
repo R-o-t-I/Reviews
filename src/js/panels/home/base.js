@@ -186,7 +186,7 @@ function HomePanel({ router }) {
 
     if (type === "comeTrue") new_info = [...info];
     else if (type === "likes") new_info = [...mainStorage.home_sort];
-      else new_info = [...mainStorage.home2];
+    else new_info = [...mainStorage.home2];
 
     if (type === "likes") {
       setInfo(new_info.sort((a, b) => b.likes - a.likes));
@@ -220,7 +220,7 @@ function HomePanel({ router }) {
 
     let array = [];
     mainStorage.home2.forEach((inf, index) => {
-      array[index] = {...inf};
+      array[index] = { ...inf };
     });
 
     if (type === "likes") {
@@ -252,14 +252,14 @@ function HomePanel({ router }) {
 
       setInfo(info_sort);
       setInfo2(info_sort);
-      dispatch(set({key: "home", value: info_sort}));
-      dispatch(set({key: "home2", value: array}));
+      dispatch(set({ key: "home", value: info_sort }));
+      dispatch(set({ key: "home2", value: array }));
     } else {
       setInfo(array);
       setInfo2(array);
-        dispatch(set({key: "home", value: array}));
-        dispatch(set({key: "home2", value: array}));
-        // dispatch(set({key: "home_sort", value: array.sort((a, b) => b.likes - a.likes)}));
+      dispatch(set({ key: "home", value: array }));
+      dispatch(set({ key: "home2", value: array }));
+      // dispatch(set({key: "home_sort", value: array.sort((a, b) => b.likes - a.likes)}));
       // if (type === "likes") reverseList("likes", mainStorage.home2);
     }
 
@@ -334,6 +334,7 @@ function HomePanel({ router }) {
                   <Icon28MoreHorizontal />
                 </IconButton>
               }
+              disabled
             >
               {item.first_name} {item.last_name}
             </SimpleCell>

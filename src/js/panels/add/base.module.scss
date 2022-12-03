@@ -26,3 +26,24 @@
 .checkboxStyle {
   margin: 0px 12px;
 }
+
+.decorButtonContainer {
+  display: flex;
+  margin: 0px 16px;
+}
+
+.decorButton {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  margin-right: 16px;
+}
+
+.titleDecorButton {
+  color: var(--text_secondary);
+}
+
+.iconDecorButton {
+  color: var(--icon_secondary);
+  margin-left: 2px;
+}

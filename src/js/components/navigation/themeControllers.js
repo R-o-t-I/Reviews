@@ -36,6 +36,7 @@ function ThemeControllers() {
             <Spinner size="regular" />
           )
         }
+        disabled
       >
         Тёмная тема
       </Cell>
