@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import bridge from "@vkontakte/vk-bridge";
@@ -19,14 +19,12 @@ import {
   Placeholder,
   VKCOM,
   Snackbar,
+  Link
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 import {
-  Icon16Fire,
-  Icon16Like,
   Icon28CalendarOutline,
   Icon28FireOutline,
   Icon28LogoVkColor,
@@ -52,6 +50,17 @@ function HomePanel({ router }) {
   const [info, setInfo] = useState([]);
   const [info2, setInfo2] = useState([]);
   const [status, setStatus] = useState(false);
+  const [scroll, setScroll] = useState(0);
+
+  window.onscroll = function() {
+    let scrolled = window.pageYOffset;
+    console.log( 'Позиция скрола: '+scrolled);
+    if (Number(scrolled) - Number(scroll) > 7000) {
+      console.log('>>>>>>>>>');
+      setScroll(scrolled);
+      getList(selected);
+    }
+  };
 
   useEffect(() => {
     if (!status && mainStorage.home.length === 0) {
@@ -69,17 +78,32 @@ function HomePanel({ router }) {
     if (info.length !== 0) url = "getList?type=" + type + "&offset=" + info.length;
     axios.get(url).then((res) => {
       if (res.data.length >= 0) {
-        setInfo([...res.data]);
-        setInfo2([...res.data]);
-        dispatch(set({ key: "home", value: res.data }));
-        dispatch(set({ key: "home2", value: res.data }));
-        dispatch(set({ key: "home_sort", value: res.data }));
+        let copy = [...info];
+        res.data.forEach((item) => {
+          copy.push(item);
+        });
+        setInfo(copy);
+        setInfo2(copy);
+        dispatch(set({key: "home", value: copy}));
+        dispatch(set({key: "home2", value: copy}));
+        dispatch(set({key: "home_sort", value: copy}));
       } else {
         router.toPopout(
           <Snackbar onClose={() => router.toPopout()}>{res.data.info}</Snackbar>
         );
       }
-    });
+    })
+      .catch((err) => {
+        console.log(err);
+        router.toPopout(
+          <Snackbar
+            before={<Link href="https://vk.com/skyreglis" target="_blank">Написать</Link>}
+            onClose={() => router.toPopout()}
+          >
+            Что-то сломалось. Напишите нам об этом
+          </Snackbar>
+        );
+      });
   }
 
   function timeConverterDaily(UNIX_timestamp) {
@@ -429,7 +453,7 @@ function HomePanel({ router }) {
               )}
             </div>
           </div>
-        ))}
+          ))}
       </div>
       {snackbar}
     </>
