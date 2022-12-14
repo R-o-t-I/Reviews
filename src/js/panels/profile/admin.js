@@ -49,6 +49,7 @@ function AdminPanel({ router }) {
 
   async function getModerationList() {
     const { data } = await axios.get("getModerationList");
+    setInfo([]);
     setInfo(data);
   }
 

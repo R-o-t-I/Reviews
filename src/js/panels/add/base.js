@@ -27,6 +27,7 @@ import {
 import axios from "axios";
 import { set } from "../../reducers/mainReducer";
 import { useDispatch, useSelector } from "react-redux";
+import bridge from "@vkontakte/vk-bridge";
 
 function AddPanel({ router }) {
   const dispatch = useDispatch();
@@ -41,8 +42,10 @@ function AddPanel({ router }) {
   }, []);
 
   function create() {
+
     if (text.length > 0) {
       router.toPopout(<ScreenSpinner />);
+      bridge.send('VKWebAppCheckNativeAds', { ad_format: 'interstitial' });
       axios
         .post("create", {
           text: text,
@@ -50,6 +53,7 @@ function AddPanel({ router }) {
         })
         .then((res) => {
           if (res.data.status) {
+
             //---------------------------\\
             let profile_copy = [...mainStorage.profile];
 
