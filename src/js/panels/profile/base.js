@@ -24,15 +24,19 @@ import {
   Div,
   VKCOM,
   Snackbar,
+  CellButton,
 } from "@vkontakte/vkui";
 
 import { Dropdown } from "@vkontakte/vkui/dist/unstable";
 
 import {
   Icon28ArrowUpRectangleOutline,
+  Icon28BugOutline,
   Icon28CancelOutline,
+  Icon28ChatsOutline,
   Icon28ClockOutline,
   Icon28DeleteOutline,
+  Icon28DonateOutline,
   Icon28DoneOutline,
   Icon28FireOutline,
   Icon28MagicWandOutline,
@@ -41,6 +45,8 @@ import {
   Icon28ShareOutline,
   Icon28StarsOutline,
   Icon28StoryOutline,
+  Icon28Users3Outline,
+  Icon28UsersOutline,
   Icon56Stars3Outline,
 } from "@vkontakte/icons";
 
@@ -278,6 +284,48 @@ function ProfilePanel({ router }) {
             ]
           }
         </Text>
+      </div>
+      <div className={style.infoBlock}>
+        <SimpleCell
+          multiline
+          subtitle="Узнавайте новости наших проектов"
+          before={<Icon28Users3Outline />}
+          className={style.infoItem}
+          href="https://vk.com/skyreglis"
+          target="_blank"
+        >
+          Наше сообщество
+        </SimpleCell>
+        <SimpleCell
+          before={<Icon28ChatsOutline />}
+          multiline
+          subtitle="Общайтесь с другими мечтателями"
+          className={style.infoItem}
+          href="https://vk.me/join/m7/Q310/T5p4bI4hrSydrGkU_FrkMogkjyo="
+          target="_blank"
+        >
+          Наша беседа
+        </SimpleCell>
+        <SimpleCell
+          before={<Icon28BugOutline />}
+          multiline
+          subtitle="Поделитесь идеей или ошибкой"
+          className={style.infoItem}
+          href="https://vk.me/skyreglis"
+          target="_blank"
+        >
+          Написать разработчикам
+        </SimpleCell>
+        <SimpleCell
+          before={<Icon28DonateOutline />}
+          multiline
+          subtitle="Поддержите нас, оформив подписку VK Donut"
+          className={style.infoItem}
+          href="https://vk.com/donut/skyreglis"
+          target="_blank"
+        >
+          Поддержать нас
+        </SimpleCell>
       </div>
       <div className={style.headerList}>Ваши мечты:</div>
       {!info.length && (
