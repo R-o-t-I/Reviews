@@ -44,6 +44,7 @@ import {
   Icon28PincodeLockOutline,
   Icon28ShareOutline,
   Icon28StarsOutline,
+  Icon28StatisticsOutline,
   Icon28StoryOutline,
   Icon28Users3Outline,
   Icon28UsersOutline,
@@ -266,6 +267,9 @@ function ProfilePanel({ router }) {
             <IconButton onClick={() => router.toPanel("admin")}>
               <Icon28PincodeLockOutline />
             </IconButton>
+            <IconButton>
+              <Icon28StatisticsOutline />
+            </IconButton>
           </div>
         )}
         <Avatar size={96} src={mainStorage.infoUser.photo_200} />
@@ -285,12 +289,18 @@ function ProfilePanel({ router }) {
           }
         </Text>
       </div>
-      <div className={style.infoBlock}>
+      <div
+        className={
+          platform === VKCOM ? `${style.infoBlock}` : `${style.infoBlockMobile}`
+        }
+      >
         <SimpleCell
           multiline
           subtitle="Узнавайте новости наших проектов"
           before={<Icon28Users3Outline />}
-          className={style.infoItem}
+          className={
+            platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
+          }
           href="https://vk.com/skyreglis"
           target="_blank"
         >
@@ -300,7 +310,9 @@ function ProfilePanel({ router }) {
           before={<Icon28ChatsOutline />}
           multiline
           subtitle="Общайтесь с другими мечтателями"
-          className={style.infoItem}
+          className={
+            platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
+          }
           href="https://vk.me/join/m7/Q310/T5p4bI4hrSydrGkU_FrkMogkjyo="
           target="_blank"
         >
@@ -310,7 +322,9 @@ function ProfilePanel({ router }) {
           before={<Icon28BugOutline />}
           multiline
           subtitle="Поделитесь идеей или ошибкой"
-          className={style.infoItem}
+          className={
+            platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
+          }
           href="https://vk.me/skyreglis"
           target="_blank"
         >
@@ -320,7 +334,9 @@ function ProfilePanel({ router }) {
           before={<Icon28DonateOutline />}
           multiline
           subtitle="Поддержите нас, оформив подписку VK Donut"
-          className={style.infoItem}
+          className={
+            platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
+          }
           href="https://vk.com/donut/skyreglis"
           target="_blank"
         >
