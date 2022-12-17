@@ -218,7 +218,7 @@ function HomePanel({ router }) {
     else new_info = [...mainStorage.home2];
 
     if (type === "likes") {
-      setInfo(new_info.sort((a, b) => b.likes - a.likes));
+      setInfo(new_info);
       //setInfo2(new_info.sort((a, b) => b.likes - a.likes));
       dispatch(
         set({ key: "home", value: new_info.sort((a, b) => b.likes - a.likes) })
@@ -340,11 +340,18 @@ function HomePanel({ router }) {
         </Tabs>
       </div>
       <div className={style.allBlockReviews}>
-        {info.length === 0 && (
+        {info.length === 0 && info2.length === 0 && (
           <div className={style.blockReviews}>
             <Placeholder>Мечты загружаются...</Placeholder>
           </div>
         )}
+
+        {info.length === 0 && mainStorage.home2.length !== 0 && (
+          <div className={style.blockReviews}>
+            <Placeholder>Ничего не найдено</Placeholder>
+          </div>
+        )}
+
         {info.map((item, index) => (
           <div className={style.blockReviews}>
             <SimpleCell
