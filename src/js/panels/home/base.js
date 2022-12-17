@@ -79,7 +79,7 @@ function HomePanel({ router }) {
     axios.get(url).then((res) => {
       if (res.data.length >= 0) {
         let copy = [...info];
-        res.data.sort((a, b) => b.id - a.id);
+        res.data.sort((a, b) => a.id - b.id);
         res.data.forEach((item) => {
           copy.push(item);
         });
