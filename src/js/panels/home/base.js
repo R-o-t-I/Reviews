@@ -35,6 +35,7 @@ import {
   Icon28ShareOutline,
   Icon28StarsOutline,
   Icon28StoryOutline,
+  Icon28LogoInstagram
 } from "@vkontakte/icons";
 
 import { set } from "../../reducers/mainReducer";
@@ -79,7 +80,7 @@ function HomePanel({ router }) {
     axios.get(url).then((res) => {
       if (res.data.length >= 0) {
         let copy = [...info];
-        res.data.sort((a, b) => a.id - b.id);
+        res.data.sort((a, b) => b.id - a.id);
         res.data.forEach((item) => {
           copy.push(item);
         });
@@ -351,7 +352,7 @@ function HomePanel({ router }) {
               description={timeConverterDaily(item.timestamp)}
               before={
                 <Avatar
-                  badge={<Icon28LogoVkColor width={20} height={20} />}
+                  badge={item.vk_client === 'vk' ? <Icon28LogoVkColor width={20} height={20} /> : <Icon28LogoInstagram width={20} height={20} />}
                   size={48}
                   src={item.photo_url}
                 />

@@ -25,6 +25,7 @@ import {
   VKCOM,
   Snackbar,
   CellButton,
+  Footer
 } from "@vkontakte/vkui";
 
 import { Dropdown } from "@vkontakte/vkui/dist/unstable";
@@ -477,6 +478,7 @@ function ProfilePanel({ router }) {
             </div>
           </div>
         ))}
+        <Footer>version 1c54x</Footer>
       </div>
       {snackbar}
     </>
