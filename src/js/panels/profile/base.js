@@ -344,20 +344,22 @@ function ProfilePanel({ router }) {
         >
           Написать разработчикам
         </SimpleCell>
-        <SimpleCell
-          before={<Icon28DonateOutline />}
-          multiline
-          subtitle="Поддержите нас, оформив подписку VK Donut"
-          className={
-            platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
-          }
-          href={
-            mainStorage.client === "vk" ? "https://vk.com/donut/skyreglis" : ""
-          }
-          target="_blank"
-        >
-          Поддержать нас
-        </SimpleCell>
+        {mainStorage.client === "vk" && (
+          <SimpleCell
+            before={<Icon28DonateOutline />}
+            multiline
+            subtitle="Поддержите нас, оформив подписку VK Donut"
+            className={
+              platform === VKCOM
+                ? `${style.infoItem}`
+                : `${style.infoItemMobile}`
+            }
+            href="https://vk.com/donut/skyreglis"
+            target="_blank"
+          >
+            Поддержать нас
+          </SimpleCell>
+        )}
       </div>
       <div className={style.headerList}>Ваши мечты:</div>
       {!info.length && (
