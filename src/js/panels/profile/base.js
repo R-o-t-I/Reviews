@@ -25,7 +25,7 @@ import {
   VKCOM,
   Snackbar,
   CellButton,
-  Footer
+  Footer,
 } from "@vkontakte/vkui";
 
 import { Dropdown } from "@vkontakte/vkui/dist/unstable";
@@ -302,7 +302,11 @@ function ProfilePanel({ router }) {
           className={
             platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
           }
-          href="https://vk.com/skyreglis"
+          href={
+            mainStorage.client === "vk"
+              ? "https://vk.com/skyreglis"
+              : "https://ok.ru/skyreglis"
+          }
           target="_blank"
         >
           Наше сообщество
@@ -314,7 +318,11 @@ function ProfilePanel({ router }) {
           className={
             platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
           }
-          href="https://vk.me/join/m7/Q310/T5p4bI4hrSydrGkU_FrkMogkjyo="
+          href={
+            mainStorage.client === "vk"
+              ? "https://vk.me/join/m7/Q310/T5p4bI4hrSydrGkU_FrkMogkjyo="
+              : "https://ok.ru/messages/join/C4HMuv1Oxxmk9_7gsqp67DHv4LHpPgAOPqOAz05SpWc"
+          }
           target="_blank"
         >
           Наша беседа
@@ -326,7 +334,11 @@ function ProfilePanel({ router }) {
           className={
             platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
           }
-          href="https://vk.me/skyreglis"
+          href={
+            mainStorage.client === "vk"
+              ? "https://vk.me/skyreglis"
+              : "https://ok.ru/group/58564673077471/messages"
+          }
           target="_blank"
         >
           Написать разработчикам
@@ -338,7 +350,9 @@ function ProfilePanel({ router }) {
           className={
             platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
           }
-          href="https://vk.com/donut/skyreglis"
+          href={
+            mainStorage.client === "vk" ? "https://vk.com/donut/skyreglis" : ""
+          }
           target="_blank"
         >
           Поддержать нас

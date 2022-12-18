@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback} from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { withRouter } from "@reyzitwo/react-router-vkminiapps";
 import bridge from "@vkontakte/vk-bridge";
@@ -19,7 +19,7 @@ import {
   Placeholder,
   VKCOM,
   Snackbar,
-  Link
+  Link,
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
@@ -35,7 +35,9 @@ import {
   Icon28ShareOutline,
   Icon28StarsOutline,
   Icon28StoryOutline,
-  Icon28LogoInstagram
+  Icon28LogoInstagram,
+  Icon20FireCircleFillRed,
+  Icon16Fire,
 } from "@vkontakte/icons";
 
 import { set } from "../../reducers/mainReducer";
@@ -53,11 +55,11 @@ function HomePanel({ router }) {
   const [status, setStatus] = useState(false);
   const [scroll, setScroll] = useState(0);
 
-  window.onscroll = function() {
+  window.onscroll = function () {
     let scrolled = window.pageYOffset;
-    console.log( 'Позиция скрола: '+scrolled);
+    console.log("Позиция скрола: " + scrolled);
     if (Number(scrolled) - Number(scroll) > 7000) {
-      console.log('>>>>>>>>>');
+      console.log(">>>>>>>>>");
       setScroll(scrolled);
       getList(selected);
     }
@@ -76,30 +78,39 @@ function HomePanel({ router }) {
 
   function getList(type) {
     let url = "getList?type=" + type + "&offset=0";
-    if (info.length !== 0) url = "getList?type=" + type + "&offset=" + info.length;
-    axios.get(url).then((res) => {
-      if (res.data.length >= 0) {
-        let copy = [...info];
-        res.data.sort((a, b) => b.id - a.id);
-        res.data.forEach((item) => {
-          copy.push(item);
-        });
-        setInfo(copy);
-        setInfo2(copy);
-        dispatch(set({key: "home", value: copy}));
-        dispatch(set({key: "home2", value: copy}));
-        dispatch(set({key: "home_sort", value: copy}));
-      } else {
-        router.toPopout(
-          <Snackbar onClose={() => router.toPopout()}>{res.data.info}</Snackbar>
-        );
-      }
-    })
+    if (info.length !== 0)
+      url = "getList?type=" + type + "&offset=" + info.length;
+    axios
+      .get(url)
+      .then((res) => {
+        if (res.data.length >= 0) {
+          let copy = [...info];
+          res.data.sort((a, b) => b.id - a.id);
+          res.data.forEach((item) => {
+            copy.push(item);
+          });
+          setInfo(copy);
+          setInfo2(copy);
+          dispatch(set({ key: "home", value: copy }));
+          dispatch(set({ key: "home2", value: copy }));
+          dispatch(set({ key: "home_sort", value: copy }));
+        } else {
+          router.toPopout(
+            <Snackbar onClose={() => router.toPopout()}>
+              {res.data.info}
+            </Snackbar>
+          );
+        }
+      })
       .catch((err) => {
         console.log(err);
         router.toPopout(
           <Snackbar
-            before={<Link href="https://vk.com/skyreglis" target="_blank">Написать</Link>}
+            before={
+              <Link href="https://vk.com/skyreglis" target="_blank">
+                Написать
+              </Link>
+            }
             onClose={() => router.toPopout()}
           >
             Что-то сломалось. Напишите нам об этом
@@ -359,7 +370,13 @@ function HomePanel({ router }) {
               description={timeConverterDaily(item.timestamp)}
               before={
                 <Avatar
-                  badge={item.vk_client === 'vk' ? <Icon28LogoVkColor width={20} height={20} /> : <Icon28LogoInstagram width={20} height={20} />}
+                  badge={
+                    item.vk_client === "vk" ? (
+                      <Icon28LogoVkColor width={20} height={20} />
+                    ) : (
+                      <Icon28LogoInstagram width={20} height={20} />
+                    )
+                  }
                   size={48}
                   src={item.photo_url}
                 />
@@ -385,7 +402,7 @@ function HomePanel({ router }) {
                 onClick={() => setLike(item, selected, index, info)}
               >
                 {item.isLike ? (
-                  <Icon28FireOutline fill="#FF0000" />
+                  <Icon16Fire width={28} height={28} fill="#FF0000" />
                 ) : (
                   <Icon28FireOutline />
                 )}
@@ -462,7 +479,7 @@ function HomePanel({ router }) {
               )}
             </div>
           </div>
-          ))}
+        ))}
       </div>
       {snackbar}
     </>

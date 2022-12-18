@@ -11,7 +11,7 @@ export const mainReducer = createSlice({
     home: [],
     home2: [],
     home_sort: [],
-    home_tab: 'new',
+    home_tab: "new",
     profile: [],
     isAdmin: false,
     report_id: 0,
@@ -22,7 +22,8 @@ export const mainReducer = createSlice({
     helpersID: 0,
     add: "",
     isPanelConnection: false,
-    prevPanel: ""
+    prevPanel: "",
+    client: "",
   },
   reducers: {
     set: (state, action) => {
