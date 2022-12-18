@@ -84,6 +84,7 @@ function ProfilePanel({ router }) {
       setIsAdmin(data.admin);
       dispatch(set({ key: "profile", value: data.dreams }));
       dispatch(set({ key: "isAdmin", value: data.admin }));
+      dispatch(set({ key: "client", value: data.client }));
       router.toPopout();
     } else {
       router.toPopout();
