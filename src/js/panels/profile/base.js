@@ -304,7 +304,7 @@ function ProfilePanel({ router }) {
             platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
           }
           href={
-            mainStorage.vk_client === "vk"
+            mainStorage.client === "vk"
               ? "https://vk.com/skyreglis"
               : "https://ok.ru/skyreglis"
           }
