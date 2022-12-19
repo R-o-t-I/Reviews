@@ -26,6 +26,7 @@ import {
   Snackbar,
   CellButton,
   Footer,
+  Link,
 } from "@vkontakte/vkui";
 
 import { Dropdown } from "@vkontakte/vkui/dist/unstable";
@@ -495,7 +496,15 @@ function ProfilePanel({ router }) {
             </div>
           </div>
         ))}
-        <Footer>version 1c54x</Footer>
+        <Footer className={style.footer}>
+          <div>Версия 1c60x</div>
+          <div>
+            Сделано с ❤️️ от{" "}
+            <Link href="https://vk.com/skyreglis" target="_blank">
+              SkyReglis Studio
+            </Link>
+          </div>
+        </Footer>
       </div>
       {snackbar}
     </>
