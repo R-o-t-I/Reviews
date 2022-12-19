@@ -35,10 +35,12 @@ import {
   Icon28ShareOutline,
   Icon28StarsOutline,
   Icon28StoryOutline,
-  Icon28LogoInstagram,
-  Icon20FireCircleFillRed,
   Icon16Fire,
 } from "@vkontakte/icons";
+
+import IconWrapper20 from "../../../img/iconWrapper/IconWrapper20";
+
+import Icon16OKLogoColor from "../../../img/icons/icon16/Icon16OKLogoColor";
 
 import { set } from "../../reducers/mainReducer";
 
@@ -155,6 +157,13 @@ function HomePanel({ router }) {
     link.click();
   }
 
+  function openProfileOK(id) {
+    const link = document.createElement("a");
+    link.href = "https://ok.ru/profile/" + id;
+    link.target = "_black";
+    link.click();
+  }
+
   async function openMore(e, item, index) {
     router.toPopout(
       <ActionSheet
@@ -169,9 +178,16 @@ function HomePanel({ router }) {
         {item.vk_id !== 0 && (
           <ActionSheetItem
             before={<Icon28Profile />}
-            onClick={() => openProfile(item.vk_id)}
+            onClick={
+              item.client === "vk"
+                ? () => openProfile(item.vk_id)
+                : () => openProfileOK(item.vk_id)
+            }
+            multiline
           >
-            Открыть профиль ВКонтакте
+            {item.client === "vk"
+              ? "Открыть профиль ВКонтакте"
+              : "Открыть профиль в Одноклассниках"}
           </ActionSheetItem>
         )}
         {/*
@@ -192,6 +208,7 @@ function HomePanel({ router }) {
             }
           }}
           autoclose
+          multiline
         >
           {!item.isSetPerform ? "Помочь с мечтой" : "Отменить помощь"}
         </ActionSheetItem>
@@ -201,6 +218,7 @@ function HomePanel({ router }) {
           before={<Icon28ReportOutline />}
           onClick={() => report(item)}
           autoclose
+          multiline
         >
           <div className={style.actionDestructive}>Пожаловаться</div>
         </ActionSheetItem>
@@ -371,11 +389,14 @@ function HomePanel({ router }) {
               before={
                 <Avatar
                   badge={
-                    item.vk_client === "vk" ? (
+                    item.vk_id !== 0 &&
+                    (item.client === "vk" ? (
                       <Icon28LogoVkColor width={20} height={20} />
                     ) : (
-                      <Icon28LogoInstagram width={20} height={20} />
-                    )
+                      <IconWrapper20>
+                        <Icon16OKLogoColor />
+                      </IconWrapper20>
+                    ))
                   }
                   size={48}
                   src={item.photo_url}

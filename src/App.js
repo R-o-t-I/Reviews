@@ -82,6 +82,30 @@ const App = withAdaptivity(
             status_bar_style: theme_bar,
             action_bar_color: color,
           });
+
+          const queryString = window.location.search;
+          const urlParams = new URLSearchParams(queryString);
+
+          const client = urlParams.get("vk_client");
+          console.log(client);
+          if (client === "ok") {
+            const vars = [
+              "--button_secondary_foreground",
+              "--accent",
+              "--tabbar_active_icon",
+              "--header_tint",
+              "--button_primary_background",
+              "--action_sheet_action_foreground",
+              "--counter_primary_background",
+            ];
+            const color = "#EE8208";
+
+            vars.forEach((name) =>
+              document
+                .getElementsByTagName("body")[0]
+                .style.setProperty(name, color, "important")
+            );
+          }
         }
       });
 
