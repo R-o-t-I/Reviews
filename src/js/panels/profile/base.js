@@ -27,6 +27,7 @@ import {
   CellButton,
   Footer,
   Link,
+  IOS,
 } from "@vkontakte/vkui";
 
 import { Dropdown } from "@vkontakte/vkui/dist/unstable";
@@ -345,21 +346,27 @@ function ProfilePanel({ router }) {
         >
           Написать разработчикам
         </SimpleCell>
-        {mainStorage.client === "vk" && (
-          <SimpleCell
-            before={<Icon28DonateOutline />}
-            multiline
-            subtitle="Поддержите нас, оформив подписку VK Donut"
-            className={
-              platform === VKCOM
-                ? `${style.infoItem}`
-                : `${style.infoItemMobile}`
-            }
-            href="https://vk.com/donut/skyreglis"
-            target="_blank"
-          >
-            Поддержать нас
-          </SimpleCell>
+        {platform === IOS ? (
+          ""
+        ) : (
+          <>
+            {mainStorage.client === "vk" && (
+              <SimpleCell
+                before={<Icon28DonateOutline />}
+                multiline
+                subtitle="Поддержите нас, оформив подписку VK Donut"
+                className={
+                  platform === VKCOM
+                    ? `${style.infoItem}`
+                    : `${style.infoItemMobile}`
+                }
+                href="https://vk.com/donut/skyreglis"
+                target="_blank"
+              >
+                Поддержать нас
+              </SimpleCell>
+            )}
+          </>
         )}
       </div>
       <div className={style.headerList}>Ваши мечты:</div>
