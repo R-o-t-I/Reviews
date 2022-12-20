@@ -20,6 +20,8 @@ import {
   VKCOM,
   Snackbar,
   Link,
+  Spinner,
+  Div
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
@@ -56,10 +58,13 @@ function HomePanel({ router }) {
   const [info2, setInfo2] = useState([]);
   const [status, setStatus] = useState(false);
   const [scroll, setScroll] = useState(0);
+  const [spinner, setSpinner] = useState(false);
 
   window.onscroll = function () {
-    let scrolled = window.pageYOffsetж
-    if (Number(scrolled) - Number(scroll) > 7000) {
+    let scrolled = window.pageYOffset;
+    console.log('Позиция скролла - ' + scrolled)
+    if (Number(scrolled) - Number(scroll) > 5000) {
+      setSpinner(true);
       console.log(">>>>>>>>>");
       setScroll(scrolled);
       getList(selected);
@@ -79,8 +84,7 @@ function HomePanel({ router }) {
 
   function getList(type) {
     let url = "getList?type=" + type + "&offset=0";
-    if (info.length !== 0)
-      url = "getList?type=" + type + "&offset=" + info.length;
+    if (info.length !== 0) url = "getList?type=" + type + "&offset=" + info.length;
     axios
       .get(url)
       .then((res) => {
@@ -102,6 +106,7 @@ function HomePanel({ router }) {
             </Snackbar>
           );
         }
+        setSpinner(false);
       })
       .catch((err) => {
         console.log(err);
@@ -117,6 +122,7 @@ function HomePanel({ router }) {
             Что-то сломалось. Напишите нам об этом
           </Snackbar>
         );
+        setSpinner(false);
       });
   }
 
@@ -502,6 +508,9 @@ function HomePanel({ router }) {
                 </Tappable>
               )}
             </div>
+            <Div>
+              {spinner && <Spinner size="small" />}
+            </Div>
           </div>
         ))}
       </div>
