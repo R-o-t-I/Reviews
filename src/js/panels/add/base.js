@@ -36,16 +36,29 @@ function AddPanel({ router }) {
   const [text, setText] = useState("");
   const [checked, setChecked] = useState(false);
   const [snackbar, setSnackbar] = useState(null);
+  const [add, setAdd] = useState(false);
 
   useEffect(() => {
     setText(mainStorage.add);
+    if (!add) {
+      bridge.send('VKWebAppCheckNativeAds', { ad_format: 'interstitial'});
+      setAdd(true);
+    }
   }, []);
 
   function create() {
-
     if (text.length > 0) {
       router.toPopout(<ScreenSpinner />);
-      bridge.send('VKWebAppCheckNativeAds', { ad_format: 'interstitial' });
+      bridge
+        .send("VKWebAppShowNativeAds", { ad_format: "interstitial" })
+        .then((data) => {
+          console.log('then')
+          console.log(data);
+        })
+        .catch((error) => {
+          console.log('catch');
+          console.log(error);
+        });
       axios
         .post("create", {
           text: text,

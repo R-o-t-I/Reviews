@@ -57,7 +57,7 @@ const App = withAdaptivity(
       let theme = "bright_light",
         theme_bar = "",
         color = "#f4f8fc";
-      bridge.subscribe(({ detail: { type, data } }) => {
+      bridge.subscribe(({detail: {type, data}}) => {
         if (type === "VKWebAppUpdateConfig") {
           switch (data.scheme) {
             case "bright_light":
@@ -77,7 +77,7 @@ const App = withAdaptivity(
               theme = "light";
               break;
           }
-          dispatch(set({ key: "theme", value: theme }));
+          dispatch(set({key: "theme", value: theme}));
           bridge.send("VKWebAppSetViewSettings", {
             status_bar_style: theme_bar,
             action_bar_color: color,
@@ -89,6 +89,7 @@ const App = withAdaptivity(
           const client = urlParams.get("vk_client");
           console.log(client);
           if (client === "ok") {
+            console.log('ТУТ СТАВИМ ДРУГИЕ ЦВЕТА, КОТОРЫЕ НЕ СТАВЯТСЯ')
             const vars = [
               "--button_secondary_foreground",
               "--accent",
@@ -110,7 +111,7 @@ const App = withAdaptivity(
       });
 
       //checkConnection();
-    }, []);
+    });
 
     /*function checkConnection() {
       const {checkNetworkStatus} = require('check-network-status');

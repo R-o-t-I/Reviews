@@ -58,8 +58,7 @@ function HomePanel({ router }) {
   const [scroll, setScroll] = useState(0);
 
   window.onscroll = function () {
-    let scrolled = window.pageYOffset;
-    console.log("Позиция скрола: " + scrolled);
+    let scrolled = window.pageYOffsetж
     if (Number(scrolled) - Number(scroll) > 7000) {
       console.log(">>>>>>>>>");
       setScroll(scrolled);
@@ -227,8 +226,12 @@ function HomePanel({ router }) {
   }
 
   function shareWallPost(item, index) {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const client = urlParams.get("vk_client");
+
     bridge.send("VKWebAppShowWallPostBox", {
-      message: `Пользователь ${item.first_name} ${item.last_name} оставил мечту: "${item.text}"\n\nБольше мечтаний в приложении: vk.com/app51456689`,
+      message: `Пользователь ${item.first_name} ${item.last_name} оставил мечту: "${item.text}"\n\nБольше мечтаний в приложении: ${client !== 'ok' ? 'https://vk.com/dreams' : 'https://ok.ru/app/vk_dreams'}`,
     });
   }
 
