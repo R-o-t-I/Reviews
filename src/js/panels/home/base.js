@@ -21,7 +21,8 @@ import {
   Snackbar,
   Link,
   Spinner,
-  Div
+  Div,
+  PromoBanner
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
@@ -48,6 +49,10 @@ import { set } from "../../reducers/mainReducer";
 
 import axios from "axios";
 
+const queryString = window.location.search;
+const urlParams = new URLSearchParams(queryString);
+const client = urlParams.get("vk_client");
+
 function HomePanel({ router }) {
   const dispatch = useDispatch();
   const mainStorage = useSelector((state) => state.main);
@@ -59,13 +64,28 @@ function HomePanel({ router }) {
   const [status, setStatus] = useState(false);
   const [scroll, setScroll] = useState(0);
   const [spinner, setSpinner] = useState(false);
+  const [isAdd, setisAdd] = useState(false);
+  const [ads, setAds] = useState({});
+
+  useEffect(() => {
+    console.log('PLATFORM');
+    console.log(platform);
+    if (!isAdd) {
+      bridge.send('VKWebAppGetAds')
+        .then((bannerInfo) => {
+          setAds(bannerInfo);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      setisAdd(true);
+    }
+  }, []);
 
   window.onscroll = function () {
     let scrolled = window.pageYOffset;
-    console.log('Позиция скролла - ' + scrolled)
     if (Number(scrolled) - Number(scroll) > 5000) {
       setSpinner(true);
-      console.log(">>>>>>>>>");
       setScroll(scrolled);
       getList(selected);
     }
@@ -232,10 +252,6 @@ function HomePanel({ router }) {
   }
 
   function shareWallPost(item, index) {
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const client = urlParams.get("vk_client");
-
     bridge.send("VKWebAppShowWallPostBox", {
       message: `Пользователь ${item.first_name} ${item.last_name} оставил мечту: "${item.text}"\n\nБольше мечтаний в приложении: ${client !== 'ok' ? 'https://vk.com/dreams' : 'https://ok.ru/app/vk_dreams'}`,
     });
@@ -392,6 +408,11 @@ function HomePanel({ router }) {
 
         {info.map((item, index) => (
           <div className={style.blockReviews}>
+            {index === 3 && client !== 'ok' && platform !== 'vkcom' && (
+              <Div>
+                <PromoBanner bannerData={ads}/>
+              </Div>
+              )}
             <SimpleCell
               multiline
               description={timeConverterDaily(item.timestamp)}
