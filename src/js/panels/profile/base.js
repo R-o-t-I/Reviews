@@ -350,7 +350,6 @@ function ProfilePanel({ router }) {
           ""
         ) : (
           <>
-            {mainStorage.client === "vk" && (
               <SimpleCell
                 before={<Icon28DonateOutline />}
                 multiline
@@ -365,7 +364,7 @@ function ProfilePanel({ router }) {
               >
                 Поддержать нас
               </SimpleCell>
-            )}
+            }
           </>
         )}
       </div>
@@ -504,7 +503,7 @@ function ProfilePanel({ router }) {
           </div>
         ))}
         <Footer className={style.footer}>
-          <div>Версия 1c60x</div>
+          <div>Версия kd91o</div>
           <div>
             Сделано с ❤️️ от{" "}
             <Link href="https://vk.com/skyreglis" target="_blank">
