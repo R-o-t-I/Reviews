@@ -22,7 +22,7 @@ import {
   Link,
   Spinner,
   Div,
-  PromoBanner
+  PromoBanner,
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
@@ -68,10 +68,11 @@ function HomePanel({ router }) {
   const [ads, setAds] = useState({});
 
   useEffect(() => {
-    console.log('PLATFORM');
+    console.log("PLATFORM");
     console.log(platform);
     if (!isAdd) {
-      bridge.send('VKWebAppGetAds')
+      bridge
+        .send("VKWebAppGetAds")
         .then((bannerInfo) => {
           setAds(bannerInfo);
         })
@@ -104,7 +105,8 @@ function HomePanel({ router }) {
 
   function getList(type) {
     let url = "getList?type=" + type + "&offset=0";
-    if (info.length !== 0) url = "getList?type=" + type + "&offset=" + info.length;
+    if (info.length !== 0)
+      url = "getList?type=" + type + "&offset=" + info.length;
     axios
       .get(url)
       .then((res) => {
@@ -253,7 +255,13 @@ function HomePanel({ router }) {
 
   function shareWallPost(item, index) {
     bridge.send("VKWebAppShowWallPostBox", {
-      message: `Пользователь ${item.first_name} ${item.last_name} оставил мечту: "${item.text}"\n\nБольше мечтаний в приложении: ${client !== 'ok' ? 'https://vk.com/dreams' : 'https://ok.ru/app/vk_dreams'}`,
+      message: `Пользователь ${item.first_name} ${
+        item.last_name
+      } оставил мечту: "${item.text}"\n\nБольше мечтаний в приложении: ${
+        client !== "ok"
+          ? "https://vk.com/dreams"
+          : "https://ok.ru/app/vk_dreams"
+      }`,
     });
   }
 
@@ -407,133 +415,135 @@ function HomePanel({ router }) {
         )}
 
         {info.map((item, index) => (
-          <div className={style.blockReviews}>
-            {index === 3 && client !== 'ok' && platform !== 'vkcom' && (
-              <Div>
-                <PromoBanner bannerData={ads}/>
-              </Div>
-              )}
-            <SimpleCell
-              multiline
-              description={timeConverterDaily(item.timestamp)}
-              before={
-                <Avatar
-                  badge={
-                    item.vk_id !== 0 &&
-                    (item.client === "vk" ? (
-                      <Icon28LogoVkColor width={20} height={20} />
-                    ) : (
-                      <IconWrapper20>
-                        <Icon16OKLogoColor />
-                      </IconWrapper20>
-                    ))
-                  }
-                  size={48}
-                  src={item.photo_url}
-                />
-              }
-              className={style.simpleCellReview}
-              after={
-                <IconButton onClick={(e) => openMore(e, item, index)}>
-                  <Icon28MoreHorizontal />
-                </IconButton>
-              }
-              disabled
-            >
-              {item.first_name} {item.last_name}
-            </SimpleCell>
-            <div className={style.textReview}>{item.text}</div>
-            <Spacing size={32}>
-              <Separator wide />
-            </Spacing>
-
-            <div className={style.blockButtonReview}>
-              <Tappable
-                className={style.buttonReview}
-                onClick={() => setLike(item, selected, index, info)}
-              >
-                {item.isLike ? (
-                  <Icon16Fire width={28} height={28} fill="#FF0000" />
-                ) : (
-                  <Icon28FireOutline />
-                )}
-                <div className={style.countButton}>{item.likes}</div>
-              </Tappable>
-              {mainStorage.isAdmin === 1 && (
-                <Tappable
-                  onClick={() => shareStory()}
-                  className={style.buttonReview}
-                >
-                  <Icon28StoryOutline />
-                </Tappable>
-              )}
-              <Tappable
-                onClick={() => shareWallPost(item)}
-                className={style.buttonReview}
-              >
-                <Icon28ShareOutline />
-              </Tappable>
-              {item.isPerform ? (
-                <Tappable
-                  onClick={async () => {
-                    const { data } = await axios.post("getHelper", {
-                      id: item.id,
-                    });
-                    dispatch(set({ key: "helper", value: data[0] }));
-                    router.toModal("helper");
-                  }}
-                  className={style.buttonReviewRight}
-                >
-                  <Icon28StarsOutline />
-                  {platform === VKCOM && (
-                    <div className={style.textButtonHelped}>Мечта сбылась</div>
-                  )}
-                </Tappable>
-              ) : (
-                <Tappable
-                  onClick={async () => {
-                    console.log(item);
-                    if (!item.isSetPerform) {
-                      dispatch(set({ key: "help", value: index }));
-                      router.toModal("helped");
-                    } else {
-                      let newArray = [];
-                      info.forEach((inf, index) => {
-                        newArray[index] = { ...inf };
-                      });
-                      newArray[index].isSetPerform = false;
-                      dispatch(set({ key: "home", value: newArray }));
-                      setInfo(newArray);
-                      const { data } = await axios.post("perform", {
-                        id: item.id,
-                      });
-                      router.toPopout(
-                        <Snackbar onClose={() => router.toPopout()}>
-                          {data.info}
-                        </Snackbar>
-                      );
-                    }
-                  }}
-                  className={style.buttonReviewRight}
-                >
-                  <Icon28MagicWandOutline />
-                  {platform === VKCOM && (
-                    <div className={style.textButtonHelped}>
-                      {!item.isSetPerform ? (
-                        "Помочь с мечтой"
-                      ) : (
-                        <>{!item.isPerform && "Отменить помощь"}</>
-                      )}
-                    </div>
-                  )}
-                </Tappable>
+          <>
+            <div className={style.promoBannerBackground}>
+              {index === 3 && client !== "ok" && platform !== "vkcom" && (
+                <PromoBanner bannerData={ads} />
               )}
             </div>
-            <Div>
-              {spinner && <Spinner size="small" />}
-            </Div>
-          </div>
+            <div className={style.blockReviews}>
+              <SimpleCell
+                multiline
+                description={timeConverterDaily(item.timestamp)}
+                before={
+                  <Avatar
+                    badge={
+                      item.vk_id !== 0 &&
+                      (item.client === "vk" ? (
+                        <Icon28LogoVkColor width={20} height={20} />
+                      ) : (
+                        <IconWrapper20>
+                          <Icon16OKLogoColor />
+                        </IconWrapper20>
+                      ))
+                    }
+                    size={48}
+                    src={item.photo_url}
+                  />
+                }
+                className={style.simpleCellReview}
+                after={
+                  <IconButton onClick={(e) => openMore(e, item, index)}>
+                    <Icon28MoreHorizontal />
+                  </IconButton>
+                }
+                disabled
+              >
+                {item.first_name} {item.last_name}
+              </SimpleCell>
+              <div className={style.textReview}>{item.text}</div>
+              <Spacing size={32}>
+                <Separator wide />
+              </Spacing>
+
+              <div className={style.blockButtonReview}>
+                <Tappable
+                  className={style.buttonReview}
+                  onClick={() => setLike(item, selected, index, info)}
+                >
+                  {item.isLike ? (
+                    <Icon16Fire width={28} height={28} fill="#FF0000" />
+                  ) : (
+                    <Icon28FireOutline />
+                  )}
+                  <div className={style.countButton}>{item.likes}</div>
+                </Tappable>
+                {mainStorage.isAdmin === 1 && (
+                  <Tappable
+                    onClick={() => shareStory()}
+                    className={style.buttonReview}
+                  >
+                    <Icon28StoryOutline />
+                  </Tappable>
+                )}
+                <Tappable
+                  onClick={() => shareWallPost(item)}
+                  className={style.buttonReview}
+                >
+                  <Icon28ShareOutline />
+                </Tappable>
+                {item.isPerform ? (
+                  <Tappable
+                    onClick={async () => {
+                      const { data } = await axios.post("getHelper", {
+                        id: item.id,
+                      });
+                      dispatch(set({ key: "helper", value: data[0] }));
+                      router.toModal("helper");
+                    }}
+                    className={style.buttonReviewRight}
+                  >
+                    <Icon28StarsOutline />
+                    {platform === VKCOM && (
+                      <div className={style.textButtonHelped}>
+                        Мечта сбылась
+                      </div>
+                    )}
+                  </Tappable>
+                ) : (
+                  <Tappable
+                    onClick={async () => {
+                      console.log(item);
+                      if (!item.isSetPerform) {
+                        dispatch(set({ key: "help", value: index }));
+                        router.toModal("helped");
+                      } else {
+                        let newArray = [];
+                        info.forEach((inf, index) => {
+                          newArray[index] = { ...inf };
+                        });
+                        newArray[index].isSetPerform = false;
+                        dispatch(set({ key: "home", value: newArray }));
+                        setInfo(newArray);
+                        const { data } = await axios.post("perform", {
+                          id: item.id,
+                        });
+                        router.toPopout(
+                          <Snackbar onClose={() => router.toPopout()}>
+                            {data.info}
+                          </Snackbar>
+                        );
+                      }
+                    }}
+                    className={style.buttonReviewRight}
+                  >
+                    <Icon28MagicWandOutline />
+                    {platform === VKCOM && (
+                      <div className={style.textButtonHelped}>
+                        {!item.isSetPerform ? (
+                          "Помочь с мечтой"
+                        ) : (
+                          <>{!item.isPerform && "Отменить помощь"}</>
+                        )}
+                      </div>
+                    )}
+                  </Tappable>
+                )}
+              </div>
+            </div>
+          </>
         ))}
+        <Div>{spinner && <Spinner size="small" />}</Div>
       </div>
       {snackbar}
     </>
