@@ -99,12 +99,21 @@ function InfoHelperModal({ nav, router }) {
             <div className={style.headerCard}>Связь с помощником:</div>
             <Card mode="outline" className={style.cardTextContact}>
               <div className={style.containerTextContact}>
-                <div>{item.client === 'vk' ? 'https://vk.com/id' : 'https://ok.ru/profile/'}{item.vk_id}</div>
+                <div>
+                  {item.client === "vk"
+                    ? "https://vk.com/id"
+                    : "https://ok.ru/profile/"}
+                  {item.vk_id}
+                </div>
                 <IconButton
                   className={style.iconButtonContact}
                   onClick={() => {
                     bridge.send("VKWebAppCopyText", {
-                      text: `${item.client === 'vk' ? 'https://vk.com/id' : 'https://ok.ru/profile/'}${item.vk_id}`,
+                      text: `${
+                        item.client === "vk"
+                          ? "https://vk.com/id"
+                          : "https://ok.ru/profile/"
+                      }${item.vk_id}`,
                     });
                     router.toPopout(
                       setSnackbar(

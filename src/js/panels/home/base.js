@@ -21,7 +21,7 @@ import {
   Snackbar,
   Link,
   Spinner,
-  Div
+  Div,
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
@@ -62,7 +62,7 @@ function HomePanel({ router }) {
 
   window.onscroll = function () {
     let scrolled = window.pageYOffset;
-    console.log('Позиция скролла - ' + scrolled)
+    console.log("Позиция скролла - " + scrolled);
     if (Number(scrolled) - Number(scroll) > 5000) {
       setSpinner(true);
       console.log(">>>>>>>>>");
@@ -84,7 +84,8 @@ function HomePanel({ router }) {
 
   function getList(type) {
     let url = "getList?type=" + type + "&offset=0";
-    if (info.length !== 0) url = "getList?type=" + type + "&offset=" + info.length;
+    if (info.length !== 0)
+      url = "getList?type=" + type + "&offset=" + info.length;
     axios
       .get(url)
       .then((res) => {
@@ -237,7 +238,13 @@ function HomePanel({ router }) {
     const client = urlParams.get("vk_client");
 
     bridge.send("VKWebAppShowWallPostBox", {
-      message: `Пользователь ${item.first_name} ${item.last_name} оставил мечту: "${item.text}"\n\nБольше мечтаний в приложении: ${client !== 'ok' ? 'https://vk.com/dreams' : 'https://ok.ru/app/vk_dreams'}`,
+      message: `Пользователь ${item.first_name} ${
+        item.last_name
+      } оставил мечту: "${item.text}"\n\nБольше мечтаний в приложении: ${
+        client !== "ok"
+          ? "https://vk.com/dreams"
+          : "https://ok.ru/app/vk_dreams"
+      }`,
     });
   }
 
@@ -508,11 +515,9 @@ function HomePanel({ router }) {
                 </Tappable>
               )}
             </div>
-            <Div>
-              {spinner && <Spinner size="small" />}
-            </Div>
           </div>
         ))}
+        <Div>{spinner && <Spinner size="small" />}</Div>
       </div>
       {snackbar}
     </>
