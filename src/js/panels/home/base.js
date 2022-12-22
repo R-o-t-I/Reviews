@@ -66,6 +66,7 @@ function HomePanel({ router }) {
   const [spinner, setSpinner] = useState(false);
   const [isAdd, setisAdd] = useState(false);
   const [ads, setAds] = useState({});
+  const [isPromo, setIsPromo] = useState(true);
 
   useEffect(() => {
     console.log("PLATFORM");
@@ -416,11 +417,13 @@ function HomePanel({ router }) {
 
         {info.map((item, index) => (
           <>
+            {isPromo && (
             <div className={style.promoBannerBackground}>
               {index === 3 && client !== "ok" && platform !== "vkcom" && (
-                <PromoBanner bannerData={ads} />
+                <PromoBanner bannerData={ads} onClose={() => setIsPromo(false)}/>
               )}
             </div>
+              )}
             <div className={style.blockReviews}>
               <SimpleCell
                 multiline
