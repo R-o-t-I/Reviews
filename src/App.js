@@ -21,6 +21,7 @@ import bridge from "@vkontakte/vk-bridge";
 import axios from "axios";
 
 import { set } from "./js/reducers/mainReducer";
+import useConnectionStatus from "check-connection";
 
 import DesktopNavigation from "./js/components/navigation/desktop";
 import MobailNavigation from "./js/components/navigation/mobail";
@@ -31,7 +32,7 @@ import HelpedModal from "./js/components/modals/helped/HelpedModal";
 import HelperModal from "./js/components/modals/helper/HelperModal";
 import InfoHelperModal from "./js/components/modals/infoHelper/InfoHelperModal";
 import TopUpModal from "./js/components/modals/top/topUpModal";
-import useConnectionStatus from "check-connection";
+import LvlDonutModal from "./js/components/modals/lvlDonut/lvlDonutModal";
 
 const HomePanel = lazy(() => import("./js/panels/home/base"));
 const AddPanel = lazy(() => import("./js/panels/add/base"));
@@ -57,7 +58,7 @@ const App = withAdaptivity(
       let theme = "bright_light",
         theme_bar = "",
         color = "#f4f8fc";
-      bridge.subscribe(({detail: {type, data}}) => {
+      bridge.subscribe(({ detail: { type, data } }) => {
         if (type === "VKWebAppUpdateConfig") {
           switch (data.scheme) {
             case "bright_light":
@@ -77,7 +78,7 @@ const App = withAdaptivity(
               theme = "light";
               break;
           }
-          dispatch(set({key: "theme", value: theme}));
+          dispatch(set({ key: "theme", value: theme }));
           bridge.send("VKWebAppSetViewSettings", {
             status_bar_style: theme_bar,
             action_bar_color: color,
@@ -89,7 +90,7 @@ const App = withAdaptivity(
           const client = urlParams.get("vk_client");
           console.log(client);
           if (client === "ok") {
-            console.log('ТУТ СТАВИМ ДРУГИЕ ЦВЕТА, КОТОРЫЕ НЕ СТАВЯТСЯ')
+            console.log("ТУТ СТАВИМ ДРУГИЕ ЦВЕТА, КОТОРЫЕ НЕ СТАВЯТСЯ");
             const vars = [
               "--button_secondary_foreground",
               "--accent",
@@ -141,6 +142,7 @@ const App = withAdaptivity(
         <HelperModal nav="helper" />
         <InfoHelperModal nav="infoHelper" />
         <TopUpModal nav="topUpModal" />
+        <LvlDonutModal nav="lvlDonutModal" />
       </ModalRoot>
     );
 

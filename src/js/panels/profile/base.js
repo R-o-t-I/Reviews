@@ -192,7 +192,7 @@ function ProfilePanel({ router }) {
         {mainStorage.isAdmin === 1 && (
           <ActionSheetItem
             onClick={() => {
-              dispatch(set({ key: 'upInfo', value: item }));
+              dispatch(set({ key: "upInfo", value: item }));
               router.toModal("topUpModal");
             }}
             before={<Icon28ArrowUpRectangleOutline />}
@@ -274,7 +274,7 @@ function ProfilePanel({ router }) {
             <IconButton onClick={() => router.toPanel("admin")}>
               <Icon28PincodeLockOutline />
             </IconButton>
-            <IconButton>
+            <IconButton onClick={() => router.toModal("lvlDonutModal")}>
               <Icon28StatisticsOutline />
             </IconButton>
           </div>

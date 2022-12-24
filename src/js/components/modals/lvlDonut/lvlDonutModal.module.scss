@@ -1,0 +1,34 @@
+.subHeaderText {
+  margin: 12px;
+  text-align: center;
+}
+
+.titleLvl {
+  display: flex;
+  font-weight: 600;
+}
+
+.titleCountLvl {
+  margin-right: auto;
+}
+
+.titlePriceLvl {
+  margin-left: auto;
+}
+
+.backgroundContainer {
+  background: var(--background_panel);
+  margin: 12px;
+  padding: 12px;
+  box-shadow: 5px 5px 5px var(--shadow_content_block);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.listCellLVL {
+  margin: 0px -16px;
+}
+
+.button {
+  margin: 12px;
+}
