@@ -144,7 +144,14 @@ function LvlDonutModal({ nav, router }) {
           mode={platform === VKCOM ? "horizontal" : "vertical"}
           stretched
         >
-          <Button appearance="positive" size="l" mode="primary" stretched>
+          <Button
+            appearance="positive"
+            size="l"
+            mode="primary"
+            href="https://vk.com/donut/skyreglis"
+            target="_blank"
+            stretched
+          >
             Поддержать нас
           </Button>
           <Button
