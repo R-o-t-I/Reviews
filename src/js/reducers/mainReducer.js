@@ -13,6 +13,8 @@ export const mainReducer = createSlice({
     home_sort: [],
     home_tab: "new",
     profile: [],
+    isSub: false,
+    user_id: 0,
     isAdmin: false,
     report_id: 0,
     helper: {},

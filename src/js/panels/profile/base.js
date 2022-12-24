@@ -87,6 +87,8 @@ function ProfilePanel({ router }) {
       dispatch(set({ key: "profile", value: data.dreams }));
       dispatch(set({ key: "isAdmin", value: data.admin }));
       dispatch(set({ key: "client", value: data.client }));
+      dispatch(set({ key: "isSub", value: data.isSub }));
+      dispatch(set({ key: "user_id", value: data.id }));
       router.toPopout();
     } else {
       router.toPopout();
@@ -189,11 +191,15 @@ function ProfilePanel({ router }) {
             Мечта сбылась
           </ActionSheetItem>
         */}
-        {mainStorage.isAdmin === 1 && (
+        {mainStorage.client === 'vk' && (
           <ActionSheetItem
             onClick={() => {
-              dispatch(set({ key: "upInfo", value: item }));
-              router.toModal("topUpModal");
+              if (!mainStorage.isSub) {
+                router.toModal("lvlDonutModal");
+              } else {
+                dispatch(set({key: "upInfo", value: item}));
+                router.toModal("topUpModal");
+              }
             }}
             before={<Icon28ArrowUpRectangleOutline />}
             autoclose
@@ -364,8 +370,7 @@ function ProfilePanel({ router }) {
                       ? `${style.infoItem}`
                       : `${style.infoItemMobile}`
                   }
-                  href="https://vk.com/donut/skyreglis"
-                  target="_blank"
+                  onClick={() => router.toModal("lvlDonutModal")}
                 >
                   Поддержать нас
                 </SimpleCell>

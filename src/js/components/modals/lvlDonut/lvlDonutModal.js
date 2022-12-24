@@ -16,6 +16,8 @@ import {
 
 import bridge from "@vkontakte/vk-bridge";
 
+import axios from 'axios';
+
 import {
   Icon24DismissDark,
   Icon24RectangleOutline,
@@ -28,8 +30,22 @@ import {
 
 import style from "./lvlDonutModal.module.scss";
 
+const { set } = require('../../../reducers/mainReducer');
+
 function LvlDonutModal({ nav, router }) {
+  const mainStorage = useSelector((state) => state.main);
   const platform = useSelector((state) => state.main.platform);
+  const dispatch = useDispatch();
+
+  function checkSub() {
+    const timer = setInterval(async () => {
+      const {data} = await axios.get('isSub');
+      if (data.isSub) {
+        clearInterval(timer);
+        dispatch(set({ isSub: true }));
+      }
+    }, 1000);
+  }
 
   return (
     <ModalPage
@@ -58,9 +74,12 @@ function LvlDonutModal({ nav, router }) {
       onClose={() => router.toBack()}
       settlingHeight={100}
     >
+
       <div className={style.subHeaderText}>
         Поддержите нас подпиской VK Donut и получите дополнительный функционал
       </div>
+      {!mainStorage.isSub ? (
+        <div>
       <div className={style.backgroundContainer}>
         <div className={style.titleLvl}>
           <div className={style.titleCountLvl}>1 уровень</div>
@@ -148,6 +167,7 @@ function LvlDonutModal({ nav, router }) {
             appearance="positive"
             size="l"
             mode="primary"
+            onClick={() => checkSub()}
             href="https://vk.com/donut/skyreglis"
             target="_blank"
             stretched
@@ -165,6 +185,15 @@ function LvlDonutModal({ nav, router }) {
           </Button>
         </ButtonGroup>
       </div>
+        </div>
+        )
+        :
+        <div className={style.backgroundContainer}>
+          <div className={style.titleLvl}>
+            <div className={style.titleCountLvl} style={{ display: 'center' }}>Вы уже оформили подписку, спасибо! Теперь вам доступны все функции</div>
+          </div>
+        </div>
+      }
     </ModalPage>
   );
 }
