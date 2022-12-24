@@ -191,7 +191,10 @@ function ProfilePanel({ router }) {
         */}
         {mainStorage.isAdmin === 1 && (
           <ActionSheetItem
-            onClick={() => router.toModal("topUpModal")}
+            onClick={() => {
+              dispatch(set({ key: 'upInfo', value: item }));
+              router.toModal("topUpModal");
+            }}
             before={<Icon28ArrowUpRectangleOutline />}
             autoclose
           >

@@ -17,6 +17,10 @@ import { Icon24DismissDark } from "@vkontakte/icons";
 
 import style from "./topUpModal.module.scss";
 
+import bridge from "@vkontakte/vk-bridge";
+
+const axios = require("axios");
+
 function TopUpModal({ nav, router }) {
   const platform = useSelector((state) => state.main.platform);
   const mainStorage = useSelector((state) => state.main);
@@ -30,6 +34,24 @@ function TopUpModal({ nav, router }) {
   const [size, setSize] = useState("m");
   const [listenDayChangesForUpdate, setListenDayChangesForUpdate] =
     useState(true);
+
+  async function up(timestamp) {
+
+    bridge.send("VKWebAppShowOrderBox", {type:"item", item:"item_id_123"})
+      .then((data) => {
+        console.log(data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+
+    /*const {data} = await axios.post('up', {
+      id: mainStorage.upInfo.id,
+      timestamp: timestamp
+    });*/
+
+
+  }
 
   return (
     <ModalPage
@@ -80,7 +102,7 @@ function TopUpModal({ nav, router }) {
       </div>
       <div className={style.buttonGroup}>
         <ButtonGroup mode="horizontal" stretched>
-          <Button size="l" appearance="accent" stretched>
+          <Button size="l" appearance="accent" onClick={() => up(new Date().getTime())} stretched>
             Поднять за 5 голосов
           </Button>
         </ButtonGroup>

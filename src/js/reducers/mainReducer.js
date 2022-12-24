@@ -24,6 +24,7 @@ export const mainReducer = createSlice({
     isPanelConnection: false,
     prevPanel: "",
     client: "",
+    upInfo: {}
   },
   reducers: {
     set: (state, action) => {
