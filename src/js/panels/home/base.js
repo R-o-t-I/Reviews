@@ -259,9 +259,7 @@ function HomePanel({ router }) {
       message: `Пользователь ${item.first_name} ${
         item.last_name
       } оставил мечту: "${item.text}"\n\nБольше мечтаний в приложении: ${
-        client !== "ok"
-          ? "https://vk.com/dreams"
-          : "https://ok.ru/app/vk_dreams"
+        client !== "ok" ? "https://vk.com/dreams" : "https://ok.ru/app/dreams"
       }`,
     });
   }
@@ -418,12 +416,15 @@ function HomePanel({ router }) {
         {info.map((item, index) => (
           <>
             {isPromo && (
-            <div className={style.promoBannerBackground}>
-              {index === 3 && client !== "ok" && platform !== "vkcom" && (
-                <PromoBanner bannerData={ads} onClose={() => setIsPromo(false)}/>
-              )}
-            </div>
-              )}
+              <div className={style.promoBannerBackground}>
+                {index === 3 && client !== "ok" && platform !== "vkcom" && (
+                  <PromoBanner
+                    bannerData={ads}
+                    onClose={() => setIsPromo(false)}
+                  />
+                )}
+              </div>
+            )}
             <div className={style.blockReviews}>
               <SimpleCell
                 multiline
