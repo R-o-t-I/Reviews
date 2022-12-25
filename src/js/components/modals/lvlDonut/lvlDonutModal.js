@@ -190,7 +190,7 @@ function LvlDonutModal({ nav, router }) {
         :
         <div className={style.backgroundContainer}>
           <div className={style.titleLvl}>
-            <div className={style.titleCountLvl} style={{ display: 'center' }}>Вы уже оформили подписку, спасибо! Теперь вам доступны все функции</div>
+            <div className={style.titleCountLvl} style={{ display: 'center' }}>Вы уже оформили подписку {mainStorage.donutLevel} уровня, спасибо! Теперь вам доступны все функции</div>
           </div>
         </div>
       }

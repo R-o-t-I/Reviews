@@ -88,6 +88,7 @@ function ProfilePanel({ router }) {
       dispatch(set({ key: "isAdmin", value: data.admin }));
       dispatch(set({ key: "client", value: data.client }));
       dispatch(set({ key: "isSub", value: data.isSub }));
+      dispatch(set({ key: "donutLevel", value: data.donutLevel }));
       dispatch(set({ key: "user_id", value: data.id }));
       router.toPopout();
     } else {
