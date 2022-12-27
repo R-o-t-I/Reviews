@@ -168,7 +168,7 @@ function HomePanel({ router }) {
       month = months[a.getMonth()],
       year = a.getFullYear(),
       date = a.getDate(),
-      time = date + " " + month + " 2022";
+      time = date + " " + month + " " + year;
     return time;
   }
 
