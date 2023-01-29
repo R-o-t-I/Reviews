@@ -17,7 +17,7 @@ import { AdaptivityProvider } from "@vkontakte/vkui";
 import bridge from "@vkontakte/vk-bridge";
 import axios from "axios";
 
-axios.defaults.baseURL = "https://dreams-api.evgrg.xyz/";
+axios.defaults.baseURL = "https://dreams-api.evgrg.tech/";
 axios.defaults.headers.common["xvk"] = window.location.search.replace("?", "");
 
 bridge.send("VKWebAppInit", {});
