@@ -371,7 +371,11 @@ function ProfilePanel({ router }) {
                       ? `${style.infoItem}`
                       : `${style.infoItemMobile}`
                   }
-                  onClick={() => router.toModal("lvlDonutModal")}
+                  onClick={() => {
+                    bridge.send("VKWebAppShowOrderBox", {type:"item",item:"itemTEST"})
+                      .then(data => console.log(data.status))
+                      .catch(error => console.log(error));
+                  }}
                 >
                   Поддержать нас
                 </SimpleCell>
