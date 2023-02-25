@@ -71,18 +71,24 @@ function HomePanel({ router }) {
   useEffect(() => {
     console.log("PLATFORM");
     console.log(platform);
-    if (!isAdd) {
-      bridge
-        .send("VKWebAppGetAds")
-        .then((bannerInfo) => {
-          setAds(bannerInfo);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-      setisAdd(true);
-    }
+    getAds();
   }, []);
+
+  function getAds() {
+    bridge.send('VKWebAppShowBannerAd', {
+      banner_location: 'bottom'
+    })
+      .then((data) => {
+        if (data.result) {
+          console.log(data);
+          console.log('Баннерная реклама отобразилась');
+        }
+      })
+      .catch((error) => {
+        // Ошибка
+        console.log(error);
+      });
+  }
 
   window.onscroll = function () {
     let scrolled = window.pageYOffset;
