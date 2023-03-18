@@ -14,6 +14,8 @@ import {
   Avatar,
   HorizontalScroll,
   HorizontalCell,
+  Switch,
+  SimpleCell
 } from "@vkontakte/vkui";
 
 import style from "./base.module.scss";
@@ -37,28 +39,29 @@ function AddPanel({ router }) {
   const [checked, setChecked] = useState(false);
   const [snackbar, setSnackbar] = useState(null);
   const [add, setAdd] = useState(false);
+  const [switchValue, setSwitchValue] = useState(mainStorage.infoUser.notifications);
 
   useEffect(() => {
     setText(mainStorage.add);
     if (!add) {
-      bridge.send('VKWebAppCheckNativeAds', { ad_format: 'interstitial'});
+      bridge.send('VKWebAppCheckNativeAds', {ad_format: 'interstitial'});
       setAdd(true);
     }
+    console.log(mainStorage.infoUser);
   }, []);
+
+  function changeSwitch() {
+    setSwitchValue(!switchValue);
+    bridge.send("VKWebAppAllowMessagesFromGroup", {"group_id": 193207379, "key": "1"})
+      .then(res => console.log(res.result))
+  }
 
   function create() {
     if (text.length > 0) {
       router.toPopout(<ScreenSpinner />);
+      axios.get('notifications/' + switchValue);
       bridge
-        .send("VKWebAppShowNativeAds", { ad_format: "interstitial" })
-        .then((data) => {
-          console.log('then')
-          console.log(data);
-        })
-        .catch((error) => {
-          console.log('catch');
-          console.log(error);
-        });
+        .send("VKWebAppShowNativeAds", { ad_format: "interstitial" });
       axios
         .post("create", {
           text: text,
@@ -260,6 +263,9 @@ function AddPanel({ router }) {
             Оставить анонимно
           </Checkbox>
         </div>
+        <SimpleCell Component="label" after={<Switch defaultChecked={switchValue} onClick={() => changeSwitch()}/>}>
+          Получать уведомления в личные сообщения
+        </SimpleCell>
         <FormItem>
           <Button size="l" stretched onClick={() => create()}>
             Отправить
