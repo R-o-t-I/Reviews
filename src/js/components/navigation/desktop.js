@@ -26,7 +26,7 @@ function DesktopNavigation({ router }) {
     <SplitCol fixed width="240px" maxWidth="240px" className={style.splitCol}>
       <Panel id="menuDesktop">
         {hasHeader && <PanelHeader />}
-        <Group>
+        <div>
           <div style={{ marginTop: 40 }} />
           <List className={style.menuDesktop}>
             <Cell
@@ -62,7 +62,7 @@ function DesktopNavigation({ router }) {
               Профиль
             </Cell>
           </List>
-        </Group>
+        </div>
 
         {mainStorage.isAdmin === 1 && <ThemeControllers />}
       </Panel>

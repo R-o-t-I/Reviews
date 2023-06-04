@@ -191,7 +191,7 @@ function ProfilePanel({ router }) {
           >
             Мечта сбылась
           </ActionSheetItem>
-        */}
+        
         {mainStorage.client === 'vk' && (
           <ActionSheetItem
             onClick={() => {
@@ -207,7 +207,7 @@ function ProfilePanel({ router }) {
           >
             Поднять в топ
           </ActionSheetItem>
-        )}
+        )}*/}
         <ActionSheetItem
           onClick={() => openAlertDeletion(id)}
           mode="destructive"
@@ -372,9 +372,13 @@ function ProfilePanel({ router }) {
                       : `${style.infoItemMobile}`
                   }
                   onClick={() => {
-                    bridge.send("VKWebAppShowOrderBox", {type:"item",item:"itemTEST"})
-                      .then(data => console.log(data.status))
-                      .catch(error => console.log(error));
+                    bridge
+                      .send("VKWebAppShowOrderBox", {
+                        type: "item",
+                        item: "itemTEST",
+                      })
+                      .then((data) => console.log(data.status))
+                      .catch((error) => console.log(error));
                   }}
                 >
                   Поддержать нас

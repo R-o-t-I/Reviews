@@ -75,13 +75,14 @@ function HomePanel({ router }) {
   }, []);
 
   function getAds() {
-    bridge.send('VKWebAppShowBannerAd', {
-      banner_location: 'bottom'
-    })
+    bridge
+      .send("VKWebAppShowBannerAd", {
+        banner_location: "bottom",
+      })
       .then((data) => {
         if (data.result) {
           console.log(data);
-          console.log('Баннерная реклама отобразилась');
+          console.log("Баннерная реклама отобразилась");
         }
       })
       .catch((error) => {
@@ -367,7 +368,7 @@ function HomePanel({ router }) {
   return (
     <>
       <PanelHeader separator={false}>Мечты</PanelHeader>
-      <div className={style.tabs}>
+      {/*<div className={style.tabs}>
         <Tabs mode="accent">
           <HorizontalScroll arrowSize="m">
             <TabsItem
@@ -405,7 +406,7 @@ function HomePanel({ router }) {
             </TabsItem>
           </HorizontalScroll>
         </Tabs>
-      </div>
+      </div>*/}
       <div className={style.allBlockReviews}>
         {info.length === 0 && info2.length === 0 && (
           <div className={style.blockReviews}>
@@ -492,6 +493,7 @@ function HomePanel({ router }) {
                 >
                   <Icon28ShareOutline />
                 </Tappable>
+                {/*
                 {item.isPerform ? (
                   <Tappable
                     onClick={async () => {
@@ -548,7 +550,7 @@ function HomePanel({ router }) {
                       </div>
                     )}
                   </Tappable>
-                )}
+                )}*/}
               </div>
             </div>
           </>
