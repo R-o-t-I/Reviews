@@ -35,6 +35,9 @@ import TopUpModal from "./js/components/modals/top/topUpModal";
 import LvlDonutModal from "./js/components/modals/lvlDonut/lvlDonutModal";
 
 const HomePanel = lazy(() => import("./js/panels/home/base"));
+const UserProfilePanel = lazy(() =>
+  import("./js/panels/home/userProfile/userProfile")
+);
 const AddPanel = lazy(() => import("./js/panels/add/base"));
 const ProfilePanel = lazy(() => import("./js/panels/profile/base"));
 const AdminPanel = lazy(() => import("./js/panels/profile/admin"));
@@ -179,6 +182,11 @@ const App = withAdaptivity(
                   <Panel id="base">
                     <Suspense fallback={<ScreenSpinner />}>
                       <HomePanel />
+                    </Suspense>
+                  </Panel>
+                  <Panel id="userProfile">
+                    <Suspense fallback={<ScreenSpinner />}>
+                      <UserProfilePanel />
                     </Suspense>
                   </Panel>
                   <Panel id="connection">

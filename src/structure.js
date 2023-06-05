@@ -11,6 +11,10 @@ const structure = [
         id: "connection",
         hash: "/connection",
       },
+      {
+        id: "userProfile",
+        hash: "/userProfile",
+      },
     ],
   },
   {

@@ -458,7 +458,7 @@ function HomePanel({ router }) {
                     <Icon28MoreHorizontal />
                   </IconButton>
                 }
-                disabled
+                onClick={() => router.toPanel("userProfile")}
               >
                 {item.first_name} {item.last_name}
               </SimpleCell>
