@@ -42,6 +42,7 @@ import {
   Icon28DonateOutline,
   Icon28DoneOutline,
   Icon28FireOutline,
+  Icon28InfoOutline,
   Icon28MagicWandOutline,
   Icon28MoreHorizontal,
   Icon28PincodeLockOutline,
@@ -272,6 +273,41 @@ function ProfilePanel({ router }) {
     });
   }
 
+  function openSlidesSheet() {
+    bridge
+      .send("VKWebAppShowSlidesSheet", {
+        slides: [
+          {
+            media: {
+              blob: "data:image/png;base64,[IMAGE_DATA]",
+              type: "image",
+            },
+            title: "Делитесь своими мечтами",
+            subtitle:
+              "О чем-то мечтаешь? Хочешь поделиться этим с кем-то, но боишься? Сделай это тут! Тут ты можешь анонимно высказать свою мечту и почитать чужие.",
+          },
+          {
+            media: {
+              blob: "data:image/png;base64,[IMAGE_DATA]",
+              type: "image",
+            },
+            title: "Читай мечты других",
+            subtitle:
+              "А если не хочешь делиться своими мечтами, можешь почитать о чем мечтают другие!",
+          },
+        ],
+      })
+      .then((data) => {
+        if (data.result) {
+          // Слайды показаны
+        }
+      })
+      .catch((error) => {
+        // Ошибка
+        console.log(error);
+      });
+  }
+
   return (
     <>
       <PanelHeader separator={false}>Профиль</PanelHeader>
@@ -355,6 +391,17 @@ function ProfilePanel({ router }) {
           target="_blank"
         >
           Написать разработчикам
+        </SimpleCell>
+        <SimpleCell
+          before={<Icon28InfoOutline />}
+          multiline
+          subtitle="Забыли о чем сервис? Посмотрите ещё раз информацию о нем"
+          className={
+            platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
+          }
+          onClick={() => openSlidesSheet()}
+        >
+          Информационные слайды
         </SimpleCell>
         {mainStorage.client === "vk" && (
           <>
