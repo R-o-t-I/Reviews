@@ -403,6 +403,7 @@ function ProfilePanel({ router }) {
         >
           Информационные слайды
         </SimpleCell>
+        
         {mainStorage.client === "vk" && (
           <>
             {platform === IOS ? (

@@ -67,6 +67,15 @@ function UserProfilePanel({ router }) {
   const [isAdmin, setIsAdmin] = React.useState(false);
   const [snackbar, setSnackbar] = useState(null);
 
+  React.useEffect(() => {
+    getUserData();
+  }, []);
+
+  async function getUserData() {
+    const {data} = await axios.get('getUserList/' + mainStorage.userCard.vk_id);
+    setInfo(data);
+  }
+
   async function openMore(e, id, item, index) {
     router.toPopout(
       <ActionSheet
@@ -134,12 +143,12 @@ function UserProfilePanel({ router }) {
         Профиль
       </PanelHeader>
       <div className={style.blockHeader}>
-        <Avatar size={96} src="" />
+        <Avatar size={96} src={mainStorage.userCard.photo_url} />
         <Title className={style.nameUser} level="2" weight="medium">
-          Имя Фамилия
+          {mainStorage.userCard.first_name} {mainStorage.userCard.last_name}
         </Title>
         <Text className={style.descriptionUser}>
-          У Имя {info.length}
+          У {mainStorage.userCard.first_name} {info.length}
           {
             [" мечта", " мечты", " мечт"][
               info.length % 100 > 4 && info.length % 100 < 20
@@ -236,19 +245,19 @@ function UserProfilePanel({ router }) {
           </>
         )}
       </div>
-      <div className={style.headerList}>Мечты Имя:</div>
+      <div className={style.headerList}>Мечты</div>
       {!info.length && (
         <div className={style.blockReview}>
           <Placeholder
             icon={<Icon56Stars3Outline />}
-            header="У Имя нет мечт"
+            header={`У ${mainStorage.userCard.first_name} нет мечт`}
             action={
               <Button size="m" onClick={() => router.toPanel("base")}>
                 Ко всем мечтам
               </Button>
             }
           >
-            Имя еще не оставлял свою мечту.
+            {mainStorage.userCard.first_name} еще не оставлял свою мечту.
           </Placeholder>
         </div>
       )}
@@ -260,11 +269,11 @@ function UserProfilePanel({ router }) {
               before={<Avatar src={item.photo_url} size={48} />}
               description={timeConverterDaily(item.timestamp)}
               className={style.simpleCellReviews}
-              after={
+              /*after={
                 <IconButton onClick={(e) => openMore(e, item.id, item, index)}>
                   <Icon28MoreHorizontal />
                 </IconButton>
-              }
+              }*/
               disabled
             >
               {item.first_name} {item.last_name}

@@ -434,6 +434,7 @@ function HomePanel({ router }) {
             )}
             <div className={style.blockReviews}>
               <SimpleCell
+                disabled={item.isAnon}
                 multiline
                 description={timeConverterDaily(item.timestamp)}
                 before={
@@ -458,7 +459,11 @@ function HomePanel({ router }) {
                     <Icon28MoreHorizontal />
                   </IconButton>
                 }
-                onClick={() => router.toPanel("userProfile")}
+                onClick={() => {
+                  console.log(item);
+                  dispatch(set({ key: 'userCard', value: item }));
+                    router.toPanel("userProfile");
+                }}
               >
                 {item.first_name} {item.last_name}
               </SimpleCell>
