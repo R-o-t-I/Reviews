@@ -153,7 +153,7 @@ function AddPanel({ router }) {
             maxLength="1000"
           />
         </FormItem>
-        {mainStorage.isAdmin === 1 && (
+        {mainStorage.isAdmin === 2 && (
           <>
             <div className={style.decorButtonContainer}>
               <div className={style.decorButton}>
@@ -264,10 +264,19 @@ function AddPanel({ router }) {
             Оставить анонимно
           </Checkbox>
         </div>
-        {/*
-        <SimpleCell Component="label" after={<Switch defaultChecked={switchValue} onClick={() => changeSwitch()}/>}>
-          Получать уведомления в личные сообщения
-        </SimpleCell>*/}
+        {mainStorage.isAdmin === 2 && (
+          <SimpleCell
+            Component="label"
+            after={
+              <Switch
+                defaultChecked={switchValue}
+                onClick={() => changeSwitch()}
+              />
+            }
+          >
+            Получать уведомления в личные сообщения
+          </SimpleCell>
+        )}
         <FormItem>
           <Button size="l" stretched onClick={() => create()}>
             Отправить

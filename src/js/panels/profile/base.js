@@ -308,6 +308,22 @@ function ProfilePanel({ router }) {
       });
   }
 
+  function addButtonToProfile() {
+    bridge
+      .send("VKWebAppAddToProfile", {
+        ttl: 0,
+      })
+      .then((data) => {
+        if (data.visibility) {
+          // Кнопка добавлена в профиль
+        }
+      })
+      .catch((error) => {
+        // Ошибка
+        console.log(error);
+      });
+  }
+
   return (
     <>
       <PanelHeader separator={false}>Профиль</PanelHeader>
@@ -392,18 +408,37 @@ function ProfilePanel({ router }) {
         >
           Написать разработчикам
         </SimpleCell>
-        <SimpleCell
-          before={<Icon28InfoOutline />}
-          multiline
-          subtitle="Забыли о чем сервис? Посмотрите ещё раз информацию о нем"
-          className={
-            platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
-          }
-          onClick={() => openSlidesSheet()}
-        >
-          Информационные слайды
-        </SimpleCell>
-        
+        {mainStorage.isAdmin === 2 && (
+          <>
+            <SimpleCell
+              before={<Icon28InfoOutline />}
+              multiline
+              subtitle="Забыли о чем сервис? Посмотрите ещё раз информацию о нем"
+              className={
+                platform === VKCOM
+                  ? `${style.infoItem}`
+                  : `${style.infoItemMobile}`
+              }
+              onClick={() => openSlidesSheet()}
+            >
+              Информационные слайды
+            </SimpleCell>
+            <SimpleCell
+              before={<Icon28InfoOutline />}
+              multiline
+              subtitle="Тут описание будет"
+              className={
+                platform === VKCOM
+                  ? `${style.infoItem}`
+                  : `${style.infoItemMobile}`
+              }
+              onClick={() => addButtonToProfile()}
+            >
+              Кнопка в профиле
+            </SimpleCell>
+          </>
+        )}
+
         {mainStorage.client === "vk" && (
           <>
             {platform === IOS ? (
@@ -479,7 +514,7 @@ function ProfilePanel({ router }) {
                 <Icon28FireOutline />
                 <div className={style.countButton}>{item.likes}</div>
               </Tappable>
-              {mainStorage.isAdmin === 1 && (
+              {mainStorage.isAdmin === 2 && (
                 <Tappable className={style.buttonReview} disabled>
                   <Icon28StoryOutline />
                 </Tappable>

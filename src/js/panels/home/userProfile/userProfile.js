@@ -72,7 +72,9 @@ function UserProfilePanel({ router }) {
   }, []);
 
   async function getUserData() {
-    const {data} = await axios.get('getUserList/' + mainStorage.userCard.vk_id);
+    const { data } = await axios.get(
+      "getUserList/" + mainStorage.userCard.vk_id
+    );
     setInfo(data);
   }
 
@@ -287,7 +289,7 @@ function UserProfilePanel({ router }) {
                 <Icon28FireOutline />
                 <div className={style.countButton}>{item.likes}</div>
               </Tappable>
-              {mainStorage.isAdmin === 1 && (
+              {mainStorage.isAdmin === 2 && (
                 <Tappable className={style.buttonReview} disabled>
                   <Icon28StoryOutline />
                 </Tappable>

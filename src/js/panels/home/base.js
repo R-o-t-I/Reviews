@@ -461,8 +461,8 @@ function HomePanel({ router }) {
                 }
                 onClick={() => {
                   console.log(item);
-                  dispatch(set({ key: 'userCard', value: item }));
-                    router.toPanel("userProfile");
+                  dispatch(set({ key: "userCard", value: item }));
+                  router.toPanel("userProfile");
                 }}
               >
                 {item.first_name} {item.last_name}
@@ -484,7 +484,7 @@ function HomePanel({ router }) {
                   )}
                   <div className={style.countButton}>{item.likes}</div>
                 </Tappable>
-                {mainStorage.isAdmin === 1 && (
+                {mainStorage.isAdmin === 2 && (
                   <Tappable
                     onClick={() => shareStory()}
                     className={style.buttonReview}
