@@ -308,14 +308,14 @@ function ProfilePanel({ router }) {
       });
   }
 
-  function addButtonToProfile() {
-    bridge
-      .send("VKWebAppAddToProfile", {
-        ttl: 0,
-      })
+  async function addButtonToProfile() {
+    console.log(123);
+    bridge.send('VKWebAppAddToProfile', {
+      ttl: 0
+    })
       .then((data) => {
         if (data.visibility) {
-          // Кнопка добавлена в профиль
+          console.log('success');
         }
       })
       .catch((error) => {
