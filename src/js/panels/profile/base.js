@@ -310,12 +310,13 @@ function ProfilePanel({ router }) {
 
   async function addButtonToProfile() {
     console.log(123);
-    bridge.send('VKWebAppAddToProfile', {
-      ttl: 0
-    })
+    bridge
+      .send("VKWebAppAddToProfile", {
+        ttl: 0,
+      })
       .then((data) => {
         if (data.visibility) {
-          console.log('success');
+          console.log("success");
         }
       })
       .catch((error) => {
@@ -454,15 +455,17 @@ function ProfilePanel({ router }) {
                       ? `${style.infoItem}`
                       : `${style.infoItemMobile}`
                   }
-                  onClick={() => {
-                    bridge
-                      .send("VKWebAppShowOrderBox", {
-                        type: "item",
-                        item: "itemTEST",
-                      })
-                      .then((data) => console.log(data.status))
-                      .catch((error) => console.log(error));
-                  }}
+                  href="https://vk.com/donut/skyreglis"
+                  target="_blank"
+                  //onClick={() => {
+                  //</>  bridge
+                  //    .send("VKWebAppShowOrderBox", {
+                  //      type: "item",
+                  //      item: "itemTEST",
+                  //    })
+                  //    .then((data) => console.log(data.status))
+                  //    .catch((error) => console.log(error));
+                  //}}
                 >
                   Поддержать нас
                 </SimpleCell>
