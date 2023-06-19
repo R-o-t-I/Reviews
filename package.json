@@ -13,11 +13,14 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
+    "@capacitor/cli": "^5.0.5",
     "@vkontakte/vk-miniapps-deploy": "0.0.25",
     "cross-env": "^5.2.1",
     "react-scripts": "^5.0.1"
   },
   "dependencies": {
+    "@capacitor/android": "5.0.5",
+    "@capacitor/core": "^5.0.5",
     "@reduxjs/toolkit": "^1.8.1",
     "@reyzitwo/react-router-vkminiapps": "^1.0.0",
     "@vkontakte/icons": "^2.40.0",

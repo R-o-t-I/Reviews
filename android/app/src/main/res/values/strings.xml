@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">dreams</string>
+    <string name="title_activity_main">dreams</string>
+    <string name="package_name">io.ionic.dreams</string>
+    <string name="custom_url_scheme">io.ionic.dreams</string>
+</resources>

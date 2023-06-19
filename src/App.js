@@ -58,6 +58,7 @@ const App = withAdaptivity(
     dispatch(set({ key: "hasHeader", value: mainStorage.isDesktop !== true }));
 
     useEffect(() => {
+      //console.log(window.location.href);
       let theme = "bright_light",
         theme_bar = "",
         color = "#f4f8fc";
