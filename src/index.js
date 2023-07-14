@@ -34,4 +34,4 @@ ReactDOM.render(
 );
 
 // {window.location.hash === '#eruda' && import("./eruda.js").then(({ default: eruda }) => {})};
-//{import("./eruda.js").then(({ default: eruda }) => {})};
+{import("./eruda.js").then(({ default: eruda }) => {})};

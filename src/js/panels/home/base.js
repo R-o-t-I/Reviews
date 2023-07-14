@@ -52,7 +52,7 @@ import axios from "axios";
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const client = urlParams.get("vk_client");
-//const qs = require('querystring');
+const qs = require('querystring');
 
 function HomePanel({ router }) {
   const dispatch = useDispatch();
@@ -70,24 +70,23 @@ function HomePanel({ router }) {
   const [isPromo, setIsPromo] = useState(true);
 
   useEffect(() => {
-    //checkRef();
+    checkRef();
     console.log("PLATFORM");
     console.log(platform);
     getAds();
   }, []);
 
-  {
-    /*async function checkRef() {
-    //const sign = qs.parse(window.location.href);
+
+    async function checkRef() {
+    const sign = qs.parse(window.location.href);
     let id = 0;
     console.log(sign);
     if (sign.vk_profile_id !== undefined) {
       if (Number(sign.vk_user_id) !== Number(sign.vk_profile_id)) {
         //const {data} = await axios.get('getUserList/' + +sign.vk_profile_id);
         const { data } = await axios.get("profile/" + +sign.vk_profile_id);
-
-        dispatch(set({ key: "userCard", value: item }));
-          router.toPanel("userProfile");
+        /*dispatch(set({ key: "userCard", value: item }));
+          router.toPanel("userProfile");*/
         console.log(data);
         dispatch(set({ key: "userCard", value: data }));
         router.toPanel("userProfile");
@@ -96,7 +95,6 @@ function HomePanel({ router }) {
       }
     }
     //if (+sign.vk_user_id === +sign.vk_profile_id)
-  */
   }
 
   function getAds() {

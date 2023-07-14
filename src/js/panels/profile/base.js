@@ -45,7 +45,7 @@ import {
   Icon28InfoOutline,
   Icon28MagicWandOutline,
   Icon28MoreHorizontal,
-  Icon28PincodeLockOutline,
+  Icon28PincodeLockOutline, Icon28Profile,
   Icon28ShareOutline,
   Icon28StarsOutline,
   Icon28StatisticsOutline,
@@ -409,9 +409,9 @@ function ProfilePanel({ router }) {
         >
           Написать разработчикам
         </SimpleCell>
-        {mainStorage.isAdmin === 2 && (
+        {mainStorage.isAdmin && (
           <>
-            <SimpleCell
+          <SimpleCell
               before={<Icon28InfoOutline />}
               multiline
               subtitle="Забыли о чем сервис? Посмотрите ещё раз информацию о нем"
@@ -425,9 +425,9 @@ function ProfilePanel({ router }) {
               Информационные слайды
             </SimpleCell>
             <SimpleCell
-              before={<Icon28InfoOutline />}
+              before={<Icon28StarsOutline />}
               multiline
-              subtitle="Тут описание будет"
+              subtitle="Добавьте свои мечты в профиль ВКонтакте"
               className={
                 platform === VKCOM
                   ? `${style.infoItem}`
@@ -609,7 +609,7 @@ function ProfilePanel({ router }) {
           </div>
         ))}
         <Footer className={style.footer}>
-          <div>Версия kd91o</div>
+          <div>Версия lfk9l</div>
           <div>
             Сделано с ❤️️ от{" "}
             <Link href="https://vk.com/skyreglis" target="_blank">
