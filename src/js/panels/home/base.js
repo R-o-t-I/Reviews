@@ -52,7 +52,7 @@ import axios from "axios";
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const client = urlParams.get("vk_client");
-const qs = require('querystring');
+const qs = require("querystring");
 
 function HomePanel({ router }) {
   const dispatch = useDispatch();
@@ -76,8 +76,7 @@ function HomePanel({ router }) {
     getAds();
   }, []);
 
-
-    async function checkRef() {
+  async function checkRef() {
     const sign = qs.parse(window.location.href);
     let id = 0;
     console.log(sign);
@@ -482,11 +481,7 @@ function HomePanel({ router }) {
                     <Icon28MoreHorizontal />
                   </IconButton>
                 }
-                onClick={() => {
-                  console.log(item);
-                  dispatch(set({ key: "userCard", value: item }));
-                  router.toPanel("userProfile");
-                }}
+                disabled
               >
                 {item.first_name} {item.last_name}
               </SimpleCell>
