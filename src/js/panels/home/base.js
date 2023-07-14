@@ -444,7 +444,7 @@ function HomePanel({ router }) {
 
         {info.map((item, index) => (
           <>
-            {isPromo && (
+            {/*isPromo && (
               <div className={style.promoBannerBackground}>
                 {index === 3 && client !== "ok" && platform !== "vkcom" && (
                   <PromoBanner
@@ -453,7 +453,7 @@ function HomePanel({ router }) {
                   />
                 )}
               </div>
-            )}
+            )*/}
             <div className={style.blockReviews}>
               <SimpleCell
                 disabled={item.isAnon}
@@ -481,7 +481,6 @@ function HomePanel({ router }) {
                     <Icon28MoreHorizontal />
                   </IconButton>
                 }
-                disabled
               >
                 {item.first_name} {item.last_name}
               </SimpleCell>
