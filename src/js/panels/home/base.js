@@ -52,7 +52,7 @@ import axios from "axios";
 const queryString = window.location.search;
 const urlParams = new URLSearchParams(queryString);
 const client = urlParams.get("vk_client");
-const qs = require('querystring');
+const qs = require("querystring");
 
 function HomePanel({ router }) {
   const dispatch = useDispatch();
@@ -78,8 +78,7 @@ function HomePanel({ router }) {
     getAds();
   }, []);
 
-
-    async function checkRef() {
+  async function checkRef() {
     const sign = qs.parse(window.location.href);
     let id = 0;
     console.log(sign);
@@ -448,7 +447,7 @@ function HomePanel({ router }) {
 
         {info.map((item, index) => (
           <>
-            {isPromo && (
+            {/*isPromo && (
               <div className={style.promoBannerBackground}>
                 {index === 3 && client !== "ok" && platform !== "vkcom" && (
                   <PromoBanner
@@ -457,7 +456,7 @@ function HomePanel({ router }) {
                   />
                 )}
               </div>
-            )}
+            )*/}
             <div className={style.blockReviews}>
               <SimpleCell
                 disabled={item.isAnon}
@@ -485,11 +484,6 @@ function HomePanel({ router }) {
                     <Icon28MoreHorizontal />
                   </IconButton>
                 }
-                onClick={() => {
-                  console.log(item);
-                  dispatch(set({ key: "userCard", value: item }));
-                  router.toPanel("userProfile");
-                }}
               >
                 {item.first_name} {item.last_name}
               </SimpleCell>
