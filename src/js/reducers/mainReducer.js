@@ -11,6 +11,7 @@ export const mainReducer = createSlice({
     home: [],
     home2: [],
     home_sort: [],
+    isCheckRef: false,
     home_tab: "new",
     profile: [],
     isSub: false,

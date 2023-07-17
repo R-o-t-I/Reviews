@@ -70,7 +70,9 @@ function HomePanel({ router }) {
   const [isPromo, setIsPromo] = useState(true);
 
   useEffect(() => {
-    checkRef();
+    if (!mainStorage.isCheckRef) {
+      checkRef();
+    }
     console.log("PLATFORM");
     console.log(platform);
     getAds();
@@ -93,6 +95,7 @@ function HomePanel({ router }) {
       } else {
         router.toView("profile");
       }
+      dispatch(set({ key: 'isCheckRef', value: true }));
     }
     //if (+sign.vk_user_id === +sign.vk_profile_id)
   }
