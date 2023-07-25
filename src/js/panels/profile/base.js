@@ -410,36 +410,28 @@ function ProfilePanel({ router }) {
         >
           Написать разработчикам
         </SimpleCell>
-        {mainStorage.isAdmin && (
-          <>
-            <SimpleCell
-              before={<Icon28InfoOutline />}
-              multiline
-              subtitle="Забыли о чем сервис? Посмотрите ещё раз информацию о нем"
-              className={
-                platform === VKCOM
-                  ? `${style.infoItem}`
-                  : `${style.infoItemMobile}`
-              }
-              onClick={() => openSlidesSheet()}
-            >
-              Информационные слайды
-            </SimpleCell>
-            <SimpleCell
-              before={<Icon28StarsOutline />}
-              multiline
-              subtitle="Добавьте свои мечты в профиль ВКонтакте"
-              className={
-                platform === VKCOM
-                  ? `${style.infoItem}`
-                  : `${style.infoItemMobile}`
-              }
-              onClick={() => addButtonToProfile()}
-            >
-              Кнопка в профиле
-            </SimpleCell>
-          </>
-        )}
+        <SimpleCell
+          before={<Icon28InfoOutline />}
+          multiline
+          subtitle="Забыли о чем сервис? Посмотрите ещё раз информацию о нем"
+          className={
+            platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
+          }
+          onClick={() => openSlidesSheet()}
+        >
+          Информационные слайды
+        </SimpleCell>
+        <SimpleCell
+          before={<Icon28StarsOutline />}
+          multiline
+          subtitle="Добавьте свои мечты в профиль ВКонтакте"
+          className={
+            platform === VKCOM ? `${style.infoItem}` : `${style.infoItemMobile}`
+          }
+          onClick={() => addButtonToProfile()}
+        >
+          Кнопка в профиле
+        </SimpleCell>
 
         {mainStorage.client === "vk" && (
           <>
